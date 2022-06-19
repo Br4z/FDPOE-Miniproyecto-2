@@ -1,12 +1,13 @@
 /*
+
                  *´¨) 
                 ¸.•´ ¸.•´¸.•*´¨) ¸.•*¨) 
                 (¸.•´ (¸.•` ¤ Brandon Calderón Prieto  
        .---.         
       /     \   calderon.brandon@correounivalle.edu.co     
-      \.@-@./               
-      /`\_/`\               202125974
-     //  _  \\        
+      \.@-@./                 202125974 
+      /`\_/`\   idrobo.sebastian@correounivalle.edu.co    
+     //  _  \\                202122637
     | \     )|_        Ingeniería de sistemas
    /`\_`>  <_/ \
    \__/'---'\__/

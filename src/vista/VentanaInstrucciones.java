@@ -15,21 +15,19 @@
 
 package vista;
 
-import java.awt.*;
-import java.awt.event.*;
-import java.io.File;
-import java.io.IOException;
-import javax.imageio.ImageIO;
 import javax.swing.*;
+import java.awt.*;
+import java.io.*;
+import javax.imageio.ImageIO;
 
 /**
- *  CLASE:     VentanaFinal
- *  INTENCION: Ser la ventana donde se presentan las estadistica del jugador en una "partida".
+ *  CLASE:     VentanaInstrucciones
+ *  INTENCION: Ser la ventana donde estan las intrucciones del juego.
  *  RELACION:  NINGUNA 
  */
 
-public class VentanaFinal extends JFrame {
-    public VentanaFinal() {
+public class VentanaInstrucciones extends JFrame {
+    public VentanaInstrucciones() {
         initializeComponents();        
         setSize(720, 480);
         setTitle("Ados2a - Inicio");
@@ -43,6 +41,7 @@ public class VentanaFinal extends JFrame {
         Toolkit myScreen = Toolkit.getDefaultToolkit(); 
         // Para establecer el icono en la aplicación
         Image icon = myScreen.getImage("src/Imagenes/icon.png");
-        setIconImage(icon);
-    }
+	setIconImage(icon);
+
+    }     
 }

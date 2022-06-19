@@ -1,6 +1,6 @@
 ---
 
-<img align = "left" alt = "Logo" src = "src/imagenes/Icon.png" height = "128"><br>
+<img align = "left" alt = "Logo" src = "src/imagenes/icon.png" height = "128"><br>
 
 # FDPOE-Miniproyecto-2
 
