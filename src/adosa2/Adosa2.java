@@ -14,6 +14,8 @@
 
 package adosa2;
 
+import vista.VentanaInicio;
+
 /**
  *  CLASE:     Adosa2 
  *  INTENCION: Inicializar el juego
@@ -22,6 +24,6 @@ package adosa2;
 
 public class Adosa2 {
     public static void main(String[] args) {
-        VentanaConfiguracion ventanaConfiguracion = new VentanaConfiguracion();
+        VentanaInicio ventanaInicio = new VentanaInicio();
     }    
 }

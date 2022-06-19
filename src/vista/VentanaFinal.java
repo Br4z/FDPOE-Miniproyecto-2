@@ -15,8 +15,8 @@
 package vista;
 
 /**
- *  CLASE:     
- *  INTENCION: 
+ *  CLASE:     VentanaFinal
+ *  INTENCION: Ser la ventana donde se presentan las estadistica del jugador en una "partida".
  *  RELACION:  NINGUNA 
  */
 

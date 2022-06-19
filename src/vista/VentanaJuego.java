@@ -15,8 +15,8 @@
 package vista;
 
 /**
- *  CLASE:     
- *  INTENCION: 
+ *  CLASE:     VentanaJuego
+ *  INTENCION: Ser la ventana donde trascurre el juego.
  *  RELACION:  NINGUNA 
  */
 

@@ -15,8 +15,8 @@
 package vista;
 
 /**
- *  CLASE:     
- *  INTENCION: 
+ *  CLASE:     VentanaUtilidad
+ *  INTENCION: Ser la ventana que explica la utilidad de este juego (beneficios para la mente).
  *  RELACION:  NINGUNA 
  */
 
