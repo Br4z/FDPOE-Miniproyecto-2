@@ -1,71 +1,68 @@
 /*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+
+                 *´¨) 
+                ¸.•´ ¸.•´¸.•*´¨) ¸.•*¨) 
+                (¸.•´ (¸.•` ¤ 
+       .---. 
+      /     \   calderon.brandon@correounivalle.edu.co     
+      \.@-@./                 202125974 
+      /`\_/`\   idrobo.sebastian@correounivalle.edu.co    
+     //  _  \\                202122637
+    | \     )|_        Ingeniería de sistemas
+   /`\_`>  <_/ \
+   \__/'---'\__/
  */
+
 package logica;
 
 /**
- *
- * @author Brandon Calderón <calderon.brandon@correounivalle.edu.co>
- * @author Sebastian Idrovo Avirama <idrobo.sebastian@correounivalle.edu.co>
- * @profesor Luis Yovany Romo Portilla
- * Clase que representa la ronda de juego respectiva
+ *  CLASE:     Ronda
+ *  INTENCION: Guardar la informacion que tiene un juego.
+ *  RELACION:  NINGUNA 
  */
 
 public class Ronda {
-    private int vidas;
-    private int puntaje;
-    private int aciertos;
-    private int velocidadActual;
-    private int cantidadBaldosas;
+    // Como todas las rondas empiezan de la misma forma, le damos los atributos con valores
+    private int vidas            = 3;
+    private int puntaje          = 0;
+    private int aciertos         = 0;
+    private int velocidadActual  = 1;
+    private int cantidadBaldosas = 3;
+    private int[][] tablero      = new int [4][3]; // Declare una matriz con 4 filas y 2 columnas
     
-    public Ronda(){
-        vidas = 3;
-        puntaje = 0;
-        aciertos = 0;
-        velocidadActual = 1; //?
-        cantidadBaldosas = 3;
+    public Ronda() {
+
     }
     
-    public void aumentarPuntaje(){
-        
-        if(this.cantidadBaldosas == 3){
-            this.puntaje += 5;
-            
-        } else if (this.cantidadBaldosas == 4){
-            this.puntaje += 10;
-            
-        } else if (this.cantidadBaldosas == 5){
-            this.puntaje += 20;
-            
-        } else if (this.cantidadBaldosas == 6){
-            this.puntaje += 40;
-            
-        } else if (this.cantidadBaldosas == 7){
-            this.puntaje += 75;
-            
-        } else if (this.cantidadBaldosas == 8){
-            this.puntaje += 100;
-            
-        }
-            
+    public void aumentarPuntaje() {        
+        if(cantidadBaldosas == 3) {
+            puntaje += 5;            
+        } else if (cantidadBaldosas == 4) {
+            puntaje += 10;           
+        } else if (cantidadBaldosas == 5) {
+            puntaje += 20;           
+        } else if (cantidadBaldosas == 6) {
+            puntaje += 40;            
+        } else if (cantidadBaldosas == 7) {
+            puntaje += 75;            
+        } else { // Corresponde al caso de 8 baldosas
+            puntaje += 100;            
+        }            
     }
     
     public void aumentarBaldosas(){
-        this.cantidadBaldosas += 1;
+        cantidadBaldosas += 1;
     }
     
     public void disminuirBaldosas(){
-        this.cantidadBaldosas -= 1;
+        cantidadBaldosas -= 1;
     }
     
     public void aumentarAciertos(){
-        this.aciertos += 1;
+        aciertos += 1;
     }
     
     public void disminuirVidas(){
-        this.vidas -= 1;
-    }
-    
-    
+        vidas -= 1;
+    }   
 }

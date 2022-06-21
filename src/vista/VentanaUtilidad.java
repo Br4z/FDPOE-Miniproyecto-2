@@ -2,8 +2,8 @@
 
                  *´¨) 
                 ¸.•´ ¸.•´¸.•*´¨) ¸.•*¨) 
-                (¸.•´ (¸.•` ¤ Brandon Calderón Prieto  
-       .---.         
+                (¸.•´ (¸.•` ¤ 
+       .---. 
       /     \   calderon.brandon@correounivalle.edu.co     
       \.@-@./                 202125974 
       /`\_/`\   idrobo.sebastian@correounivalle.edu.co    

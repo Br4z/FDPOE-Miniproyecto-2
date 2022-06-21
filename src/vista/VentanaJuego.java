@@ -2,8 +2,8 @@
 
                  *´¨) 
                 ¸.•´ ¸.•´¸.•*´¨) ¸.•*¨) 
-                (¸.•´ (¸.•` ¤ Brandon Calderón Prieto  
-       .---.         
+                (¸.•´ (¸.•` ¤ 
+       .---. 
       /     \   calderon.brandon@correounivalle.edu.co     
       \.@-@./                 202125974 
       /`\_/`\   idrobo.sebastian@correounivalle.edu.co    
@@ -19,6 +19,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.io.*;
 import javax.imageio.ImageIO;
+
+import logica.*;
         
 /**
  *  CLASE:     VentanaJuego
@@ -26,7 +28,9 @@ import javax.imageio.ImageIO;
  *  RELACION:  NINGUNA 
  */
 
-public class VentanaJuego extends JFrame{
+public class VentanaJuego extends JFrame {
+    Ronda ronda;
+    
     public VentanaJuego() {
         initializeComponents();        
         setSize(720, 480);
