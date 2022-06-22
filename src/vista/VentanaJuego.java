@@ -3,14 +3,14 @@
                  *´¨) 
                 ¸.•´ ¸.•´¸.•*´¨) ¸.•*¨) 
                 (¸.•´ (¸.•` ¤ 
-       .---. 
-      /     \   calderon.brandon@correounivalle.edu.co     
-      \.@-@./                 202125974 
-      /`\_/`\   idrobo.sebastian@correounivalle.edu.co    
-     //  _  \\                202122637
-    | \     )|_        Ingeniería de sistemas
-   /`\_`>  <_/ \
-   \__/'---'\__/
+       .---.     calderon.brandon@correounivalle.edu.co
+      /     \                 202125974
+      \.@-@./    idrobo.sebastian@correounivalle.edu.co             
+      /`\_/`\                 202122637
+     //  _  \\         Ingeniería de sistemas          
+    | \     )|_               Profesor
+   /`\_`>  <_/ \      Luis Yovany Romo Portilla         
+   \__/'---'\__/     
  */
 
 package vista;
