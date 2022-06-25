@@ -36,6 +36,32 @@ public class Ronda {
         }
     }
     
+    public boolean comprobarBaldosas(){
+        int contador = 0;
+        int baldosas[] = new int[cantidadBaldosas]; //Guardamos en esta colección las baldosas
+        
+        for (int[] columna: tablero){
+            for (int baldosa: columna){
+                baldosas[contador] = baldosa;
+            }
+        }
+        
+        contador = 0;
+        
+        //Aquí comprobaremos si existen dos baldosas "repetidas", y en caso de que lo sean, suma 1 al contador
+        for (int baldosaComprobar: baldosas){
+            for (int otrasBaldosas: baldosas){
+                if (baldosaComprobar == otrasBaldosas){
+                    contador++;
+                }
+            }
+            
+        }
+        
+        //Retorna por último si las baldosas se encuentran repetidas
+        return (contador >=2);
+    }
+    
     public void addBaldosa() {       
         int randomRow = (int) (Math.random() * 3 + 1);
         int Column = 1; // Esta es la columna de las baldosas "interiores", primero
@@ -55,7 +81,7 @@ public class Ronda {
         tablero[randomRow][Column] = (int) (Math.random() * 16 + 1);
     }
 
-    public void removeBaldosa(){
+    public void removerBaldosa(){
         int randomRow = (int) (Math.random() * 3 + 1);
         int Column = 0; // Esta es la columna de las baldosas "exteriores", primero
         // intentamos quitarla de ahi
