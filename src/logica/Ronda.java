@@ -23,8 +23,9 @@ package logica;
 
 public class Ronda {
     // Como todas las rondas empiezan de la misma forma, le damos los atributos con valores
+    private int changesNumber  = (int) (Math.random() * 9 + 1); // Numero de cambios para repetir una baldosa
     private int vidas            = 3;
-    private int puntaje          = 0;
+    private int score            = 0;
     private int aciertos         = 0;
     private int velocidadActual  = 1;
     private int cantidadBaldosas = 0;
@@ -61,9 +62,9 @@ public class Ronda {
         int counter = 0;
         int[] baldosas = new int[cantidadBaldosas]; // Guardamos en esta colección las baldosas
         
-        for (int[] fila: tablero) { // Recorremos filas
+        for (int[] row: tablero) { // Recorremos filas
             for (int j = 0; j < 1; j++) { // Recorremos columnas
-                int baldosa = fila[j];
+                int baldosa = row[j];
                 baldosas[counter] = baldosa; // Estamos pasando una matriz 2D a una 1D
                 counter++;
             }
@@ -94,7 +95,53 @@ public class Ronda {
         }                      
     }
     
-    public void cambiarBaldosa(int baldosa){
+    public void changeBaldosa() {
+        //Seleccionamos una sección y una columna aleatorias
+        int randomRow = (int) (Math.random() * 3);
+        int randomColumn = (int) (Math.random() * 1);
+        
+        // Este while es para asegurar encontrar una baldosa
+        while(tablero[randomRow][randomColumn] == 0) {
+            randomRow = (int) (Math.random() * 3);
+            randomColumn = (int) (Math.random() * 1);
+        }        
+
+        reduceChangesNumber();
+        
+        int[] baldosasEnTablero = { };
+      
+        for (int[] row: tablero) {
+            for (int baldosa: row) {                
+                if (baldosa != 0){
+                    baldosasEnTablero[baldosasEnTablero.length] = baldosa; // Usamos la misma longitud
+                    // del array como indices
+                } 
+            }
+        }
+        
+        if (changesNumber == 0) { // Cuando ponemos una repetida
+            int posicionAleatoria = (int) (Math.random() * (cantidadBaldosas - 1)); // Restamos 1, porque
+            // empezamos en una lista empezamos a contar desde el cero
+            int randomBaldosa = baldosasEnTablero[posicionAleatoria];
+            tablero[randomRow][randomColumn] = randomBaldosa;
+        } else { // Cuando no ponemos una repetida           
+            boolean repeticion = true;           
+            
+            while(repeticion) {
+                int randomBaldosa = (int) (Math.random() * 16 + 1);
+                
+                for (int baldosa: baldosasEnTablero) {
+                    if (randomBaldosa == baldosa){
+                        repeticion = true;
+                        break;
+                    }
+                    repeticion = false;
+                }
+            }            
+            tablero[randomRow][randomColumn] = randomBaldosa;
+        }
+        
+        /*
         // Seleccionamos una fila y columna aleatoria
         int randomRow = (int) (Math.random() * 3);
         int randomColumn = (int) (Math.random() * 1);
@@ -105,7 +152,8 @@ public class Ronda {
             randomRow = (int) (Math.random() * 3);
             randomColumn = (int) (Math.random() * 1);
         }      
-        tablero[randomRow][randomColumn] = baldosa;        
+        tablero[randomRow][randomColumn] = baldosa;
+       */
     }
     
     public void cambiarTodasBaldosas(){
@@ -150,13 +198,13 @@ public class Ronda {
     
     public void aumentarPuntaje() {        
         switch (cantidadBaldosas) {
-            case 3 -> puntaje += 5;
-            case 4 -> puntaje += 10;
-            case 5 -> puntaje += 20;
-            case 6 -> puntaje += 40;
-            case 7 -> puntaje += 75;
+            case 3 -> score += 5;
+            case 4 -> score += 10;
+            case 5 -> score += 20;
+            case 6 -> score += 40;
+            case 7 -> score += 75;
             default -> // Corresponde al caso de 8 baldosas
-                puntaje += 100;
+                score += 100;
         }       
         aumentarAciertos();
     }
@@ -184,4 +232,12 @@ public class Ronda {
     public int getVidas() {
         return vidas;
     }
+    
+    public void setChangesNumber(){
+       changesNumber = (int) (Math.random()* 9 + 1); 
+    }
+    
+    public void reduceChangesNumber(){
+        changesNumber -= 1;
+    }    
 }
