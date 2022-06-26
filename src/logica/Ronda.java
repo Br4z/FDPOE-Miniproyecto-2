@@ -152,17 +152,21 @@ public class Ronda {
             } // Solo salimos del while si a las coordenadas donde apuntamos no hay una baldosa, es decir,
             // sea igual a 0
             
-            //If encargado de asignar una baldosa única.
-            int numeroBaldosa = (int) (Math.random() * 15 + 0);            
+            //se selecciona una posición aleatoria de baldosas[]
+            int numeroBaldosa = (int) (Math.random() * 15 + 0); 
+            //Guarda el número de baldosa
             int baldosaAleatoria = baldosas[numeroBaldosa];
             
+            //Si la baldosa "Ya fue tomada", repite el proceso hasta tomar una que no se encuentre ocupada
             if (baldosaAleatoria == 0){
                 numeroBaldosa = (int) (Math.random() * 15 + 0);            
                 baldosaAleatoria = baldosas[numeroBaldosa];
             }
             
+            //Añade la respectiva baldosa al tablero
             tablero[randomRow][Column] = baldosaAleatoria;
             
+            //La posición tomada de baldosas[], se vuelve 0 para indicar que la posición ya ha sido tomada
             baldosas[numeroBaldosa] = 0;
             }  
         }
