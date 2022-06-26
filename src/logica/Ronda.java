@@ -23,6 +23,7 @@ package logica;
 
 public class Ronda {
     // Como todas las rondas empiezan de la misma forma, le damos los atributos con valores
+    private int contadorBaldosa  = (int) (Math.random()* 9 + 1);
     private int vidas            = 3;
     private int puntaje          = 0;
     private int aciertos         = 0;
@@ -98,7 +99,66 @@ public class Ronda {
         return (contador >=2);
     }
     
-    public void cambiarBaldosa(int baldosa){
+    public void cambiarBaldosa(){
+        //Seleccionamos una sección y una columna aleatorias
+        int randomRow = (int) (Math.random() * 3 + 0);
+        int randomColumn = (int) (Math.random() * 1 + 0);
+        
+        //En caso de que la sección y columna aleatorias no tengan ninguna baldosa,
+        //este proceso se repetirá hasta que obtenga una baldosa
+        while(tablero[randomRow][randomColumn] == 0){
+            randomRow = (int) (Math.random() * 3 + 0);
+            randomColumn = (int) (Math.random() * 1 + 0);
+        }
+        
+        disminuirContadorBaldosa();
+        int[] baldosasDisponibles = {};
+        int contadorBaldosasDisponibles = 0;
+        
+        for (int[] columna: tablero){
+            for (int baldosa: columna){
+                
+                if (baldosa != 0){
+                    baldosasDisponibles[contadorBaldosasDisponibles] = baldosa;
+                    contadorBaldosasDisponibles++;
+                } 
+            }
+        }
+
+        if (contadorBaldosa == 0){
+            int posicionAleatoria = (int) (Math.random() * (cantidadBaldosas-1) + 0);
+            int randomBaldosa = baldosasDisponibles[posicionAleatoria];
+            tablero[randomRow][randomColumn] = randomBaldosa;
+        } else {
+            
+            int randomBaldosa = (int) (Math.random() * (16) + 1);
+            boolean repeticion = false;
+            
+            for (int baldosa: baldosasDisponibles){
+                if (randomBaldosa == baldosa){
+                    repeticion = true;
+                    break;
+                }
+                repeticion = false;
+            }
+            
+            while(repeticion){
+                randomBaldosa = (int) (Math.random() * (16) + 1);
+                repeticion = false;
+                
+                for (int baldosa: baldosasDisponibles){
+                    if (randomBaldosa == baldosa){
+                        repeticion = true;
+                        break;
+                    }
+                    repeticion = false;
+                }
+            }
+            
+            tablero[randomRow][randomColumn] = randomBaldosa;
+        }
+        
+        /*
         //Seleccionamos una sección y una columna aleatorias
         int randomRow = (int) (Math.random() * 3 + 0);
         int randomColumn = (int) (Math.random() * 1 + 0);
@@ -111,11 +171,13 @@ public class Ronda {
         }
         
         tablero[randomRow][randomColumn] = baldosa;
-        
+        */
     }
     
     public void cambiarTodasBaldosas(){
-        int[] baldosas = {1, 2, 3, 4, 5, 6, 7, 8, 9 , 10, 11, 12, 13, 14, 15, 16};
+        establecerContadorBaldosa();
+        
+        int[] baldosas = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16};
         int randomRow = (int) (Math.random() * 3 + 0);
         int Column = 1; // Esta es la columna de las baldosas "interiores", primero
         // intentamos añadirla ahi
@@ -151,8 +213,6 @@ public class Ronda {
             }  
         }
 
-              
-        
         this.aumentarBaldosas();
         tablero[randomRow][Column] = (int) (Math.random() * 16 + 1);
     }
@@ -189,5 +249,13 @@ public class Ronda {
     
     public void disminuirVidas(){
         vidas -= 1;
-    }   
+    }
+    
+    public void establecerContadorBaldosa(){
+       contadorBaldosa = (int) (Math.random()* 9 + 1); 
+    }
+    
+    public void disminuirContadorBaldosa(){
+        contadorBaldosa -= 1;
+    }
 }
