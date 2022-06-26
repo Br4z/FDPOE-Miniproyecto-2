@@ -34,30 +34,9 @@ public class Ronda {
         for (int i = 0; i < 3; i++) { // Añadimos las tres baldosas con las que simpre comenzamos
             this.aumentarBaldosas();
         }
+        cambiarTodasBaldosas();
     }
-    
-/*    
-    public void addBaldosa() {
-        int randomRow = (int) (Math.random() * 3 + 0);
-        int Column = 1; // Esta es la columna de las baldosas "interiores", primero
-        // intentamos añadirla ahi
-
-        while(tablero[randomRow][Column] != 0) { // Si en la posicion interior ya se encuentra
-            // una baldosa, entonces intentamos con la posicion "exterior"
-            if (tablero[randomRow][0] == 0){
-                Column = 0;    
-            } else { // Si en la posicion "exterior" tambien se encuentra algo, entonces proponemos
-                // otra fila
-                randomRow = (int) (Math.random() * 3 + 0);          
-            } // Solo salimos del while si a las coordenadas donde apuntamos no hay una baldosa, es decir,
-            // sea igual a 0
-        }        
-        
-        this.aumentarBaldosas();
-        tablero[randomRow][Column] = (int) (Math.random() * 16 + 1);
-    }
-*/    
-
+       
     public void removerBaldosa(){
         int randomRow = (int) (Math.random() * 3 + 0);
         int Column = 0; // Esta es la columna de las baldosas "exteriores", primero
