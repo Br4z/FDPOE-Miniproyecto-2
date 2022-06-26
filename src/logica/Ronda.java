@@ -86,6 +86,7 @@ public class Ronda {
         //Si hay dos baldosas repetidas pero el botón no se encuentra presionado, retorna true y resta una vida
         } else if (contador >= 2 && !botonPresionado){
             disminuirVidas();
+            disminuirBaldosas();
             return true;
         
         //Si no hay baldosas repetidas, retorna false
@@ -171,7 +172,7 @@ public class Ronda {
             puntaje += 100;            
         }
         
-        aciertos += 1;
+        aumentarAciertos();
     }
     
     public void aumentarBaldosas(){
