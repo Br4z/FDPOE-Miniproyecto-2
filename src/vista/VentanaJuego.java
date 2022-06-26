@@ -29,7 +29,14 @@ import logica.*;
  */
 
 public class VentanaJuego extends JFrame {
+    //Ronda
     Ronda ronda;
+    
+    //Timer
+    private Timer TimerTiempo;
+    
+    //JLabel
+    private JLabel lblEncabezado;
     
     public VentanaJuego() {
         initializeComponents();        
