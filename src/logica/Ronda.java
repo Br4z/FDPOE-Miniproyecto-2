@@ -32,13 +32,13 @@ public class Ronda {
     
     public Ronda() {
         for (int i = 0; i < 3; i++) { // Añadimos las tres baldosas con las que simpre comenzamos
-            this.aumentarBaldosas();
+            aumentarBaldosas();
         }
         cambiarTodasBaldosas();
     }
        
-    public void removerBaldosa(){
-        int randomRow = (int) (Math.random() * 3 + 0);
+    public void removeABaldosa() { // Cuando perdemos removemos una baldosa
+        int randomRow = (int) (Math.random() * 3);
         int Column = 0; // Esta es la columna de las baldosas "exteriores", primero
         // intentamos quitarla de ahi
         
@@ -48,130 +48,116 @@ public class Ronda {
                 // interior
                 Column = 1;              
             } else {
-                randomRow = (int) (Math.random() * 3 + 0); // Proponemos otra fila, si esa fila no tiene
+                randomRow = (int) (Math.random() * 3); // Proponemos otra fila, si esa fila no tiene
                 // baldosas
             }
         }
-        this.disminuirBaldosas();
+        disminuirBaldosas();
         tablero[randomRow][Column] = 0;
     }
     
-    public boolean comprobarBaldosas(boolean botonPresionado){
-        int contador = 0;
-        int baldosas[] = new int[cantidadBaldosas]; //Guardamos en esta colección las baldosas
+    public boolean checkBaldosas(boolean botonPresionado){
+        int repeatedBaldosa = 0; // El 0 significara que no se encontro baldosa repetida
+        int counter = 0;
+        int[] baldosas = new int[cantidadBaldosas]; // Guardamos en esta colección las baldosas
         
-        for (int[] columna: tablero){
-            for (int baldosa: columna){
-                baldosas[contador] = baldosa;
+        for (int[] fila: tablero) { // Recorremos filas
+            for (int j = 0; j < 1; j++) { // Recorremos columnas
+                int baldosa = fila[j];
+                baldosas[counter] = baldosa; // Estamos pasando una matriz 2D a una 1D
+                counter++;
             }
-        }
-        
-        contador = 0;
-        
-        //Aquí comprobamos si existen dos baldosas "repetidas", y en caso de que lo sean, suma 1 al contador
-        for (int baldosaComprobar: baldosas){
-            for (int otrasBaldosas: baldosas){
-                if (baldosaComprobar == otrasBaldosas){
-                    contador++;
+        }        
+         
+        // Aquí comprobamos si existen dos baldosas "repetidas", y en caso de que lo sean, suma 1 al contador
+        for (int i = 0; i < baldosas.length; i++) {
+            for (int j = i + 1; j < baldosas.length; j++) {
+                if (baldosas[j] == baldosas[i]) {
+                    repeatedBaldosa = baldosas[j];
+                    break; // En nuestra logica solo es posible una baldosa repetida, porque se 
+                    // agregan de una en una
                 }
+            }           
+        }
+        // Comprobacion viable para VentanaJuego
+        // Aquí comprobamos si hay dos baldosas repetidas en el tablero
+        if (repeatedBaldosa != 0) {
+            if(botonPresionado) { // Si hay y presiono el boton
+                return true;
+            } else { // Si hay y no presiono el boton
+                disminuirVidas();
+                disminuirBaldosas();
+                return true;    
             }
-            
-        }
-        
-        //Aquí comprobamps si hay dos baldosas repetidas en el tablero o no
-        //Si hay dos baldosas repetidas y el botón se encuentra presionado, solo retorna true
-        if (contador >= 2 && botonPresionado){
-            return true;
-        
-        //Si hay dos baldosas repetidas pero el botón no se encuentra presionado, retorna true y resta una vida
-        } else if (contador >= 2 && !botonPresionado){
-            disminuirVidas();
-            disminuirBaldosas();
-            return true;
-        
-        //Si no hay baldosas repetidas, retorna false
-        } else if (contador < 2){
+        } else { // Si presiono el boton y no hay baldosas repetidas
             return false;
-            
-        }
-        
-        return (contador >=2);
+        }                      
     }
     
     public void cambiarBaldosa(int baldosa){
-        //Seleccionamos una sección y una columna aleatorias
-        int randomRow = (int) (Math.random() * 3 + 0);
-        int randomColumn = (int) (Math.random() * 1 + 0);
+        // Seleccionamos una fila y columna aleatoria
+        int randomRow = (int) (Math.random() * 3);
+        int randomColumn = (int) (Math.random() * 1);
         
-        //En caso de que la sección y columna aleatorias no tengan ninguna baldosa,
-        //este proceso se repetirá hasta que obtenga una baldosa
+        // En caso de que la sección y columna aleatorias no tengan ninguna baldosa,
+        // este proceso se repetirá hasta que obtenga una baldosa
         while(tablero[randomRow][randomColumn] == 0){
-            randomRow = (int) (Math.random() * 3 + 0);
-            randomColumn = (int) (Math.random() * 1 + 0);
-        }
-        
-        tablero[randomRow][randomColumn] = baldosa;
-        
+            randomRow = (int) (Math.random() * 3);
+            randomColumn = (int) (Math.random() * 1);
+        }      
+        tablero[randomRow][randomColumn] = baldosa;        
     }
     
     public void cambiarTodasBaldosas(){
         int[] baldosas = {1, 2, 3, 4, 5, 6, 7, 8, 9 , 10, 11, 12, 13, 14, 15, 16};
-        int randomRow = (int) (Math.random() * 3 + 0);
+        int randomRow = (int) (Math.random() * 3);
         int Column = 1; // Esta es la columna de las baldosas "interiores", primero
         // intentamos añadirla ahi
         
-        //Bucle encargado de cambiar todas las baldosas
-        for (int i = 0; i < cantidadBaldosas; i++){
+        // Bucle encargado de cambiar todas las baldosas
+        for (int i = 0; i < cantidadBaldosas; i++) {
             while(tablero[randomRow][Column] != 0) { // Si en la posicion interior ya se encuentra
             // una baldosa, entonces intentamos con la posicion "exterior"
-            if (tablero[randomRow][0] == 0){
-                Column = 0;    
-            } else { // Si en la posicion "exterior" tambien se encuentra algo, entonces proponemos
+                if (tablero[randomRow][0] == 0) {
+                    Column = 0;    
+                } else { // Si en la posicion "exterior" tambien se encuentra algo, entonces proponemos
                 // otra fila
-                randomRow = (int) (Math.random() * 3 + 0);          
-            } // Solo salimos del while si a las coordenadas donde apuntamos no hay una baldosa, es decir,
-            // sea igual a 0
-            
-            //se selecciona una posición aleatoria de baldosas[]
-            int numeroBaldosa = (int) (Math.random() * 15 + 0); 
-            //Guarda el número de baldosa
-            int baldosaAleatoria = baldosas[numeroBaldosa];
-            
-            //Si la baldosa "Ya fue tomada", repite el proceso hasta tomar una que no se encuentre ocupada
-            if (baldosaAleatoria == 0){
-                numeroBaldosa = (int) (Math.random() * 15 + 0);            
-                baldosaAleatoria = baldosas[numeroBaldosa];
-            }
-            
-            //Añade la respectiva baldosa al tablero
-            tablero[randomRow][Column] = baldosaAleatoria;
-            
-            //La posición tomada de baldosas[], se vuelve 0 para indicar que la posición ya ha sido tomada
-            baldosas[numeroBaldosa] = 0;
+                    randomRow = (int) (Math.random() * 3);          
+                } // Solo salimos del while si a las coordenadas donde apuntamos no hay una baldosa, es decir,
+                // sea igual a 0
+                
+                // Se selecciona una posición aleatoria de baldosas[]
+                int numeroBaldosa = (int) (Math.random() * 15);
+                
+                // Guarda el número de baldosa
+                int baldosaAleatoria = baldosas[numeroBaldosa];
+                
+                // Si la baldosa "Ya fue tomada", repite el proceso hasta tomar una que no se encuentre ocupada,
+                // con esto aseguramos que no haya baldosas repetidas en el primer cambio
+                if (baldosaAleatoria == 0) {
+                    numeroBaldosa = (int) (Math.random() * 15);            
+                    baldosaAleatoria = baldosas[numeroBaldosa];
+                }           
+                // Añade la respectiva baldosa al tablero
+                tablero[randomRow][Column] = baldosaAleatoria;           
+                // La posición tomada de baldosas[], se vuelve 0 para indicar que la posición ya ha sido tomada
+                baldosas[numeroBaldosa] = 0;
             }  
-        }
-
-              
-        
-        this.aumentarBaldosas();
+        }    
+        aumentarBaldosas();
         tablero[randomRow][Column] = (int) (Math.random() * 16 + 1);
     }
     
     public void aumentarPuntaje() {        
-        if(cantidadBaldosas == 3) {
-            puntaje += 5;         
-        } else if (cantidadBaldosas == 4) {
-            puntaje += 10;           
-        } else if (cantidadBaldosas == 5) {
-            puntaje += 20;           
-        } else if (cantidadBaldosas == 6) {
-            puntaje += 40;            
-        } else if (cantidadBaldosas == 7) {
-            puntaje += 75;            
-        } else { // Corresponde al caso de 8 baldosas
-            puntaje += 100;            
-        }
-        
+        switch (cantidadBaldosas) {
+            case 3 -> puntaje += 5;
+            case 4 -> puntaje += 10;
+            case 5 -> puntaje += 20;
+            case 6 -> puntaje += 40;
+            case 7 -> puntaje += 75;
+            default -> // Corresponde al caso de 8 baldosas
+                puntaje += 100;
+        }       
         aumentarAciertos();
     }
     
@@ -187,7 +173,15 @@ public class Ronda {
         aciertos += 1;
     }
     
+    public int getAciertor() {
+        return aciertos;
+    }
+    
     public void disminuirVidas(){
         vidas -= 1;
-    }   
+    }
+    
+    public int getVidas() {
+        return vidas;
+    }
 }
