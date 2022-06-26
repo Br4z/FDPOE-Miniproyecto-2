@@ -15,8 +15,6 @@
 
 package logica;
 
-import java.util.ArrayList;
-
 /**
  *  CLASE:     Ronda
  *  INTENCION: Guardar la informacion que tiene un juego.
@@ -76,7 +74,7 @@ public class Ronda {
         tablero[randomRow][Column] = 0;
     }
     
-    public boolean comprobarBaldosas(){
+    public boolean comprobarBaldosas(boolean botonPresionado){
         int contador = 0;
         int baldosas[] = new int[cantidadBaldosas]; //Guardamos en esta colección las baldosas
         
@@ -88,7 +86,7 @@ public class Ronda {
         
         contador = 0;
         
-        //Aquí comprobaremos si existen dos baldosas "repetidas", y en caso de que lo sean, suma 1 al contador
+        //Aquí comprobamos si existen dos baldosas "repetidas", y en caso de que lo sean, suma 1 al contador
         for (int baldosaComprobar: baldosas){
             for (int otrasBaldosas: baldosas){
                 if (baldosaComprobar == otrasBaldosas){
@@ -98,7 +96,22 @@ public class Ronda {
             
         }
         
-        //Retorna por último si las baldosas se encuentran repetidas o no
+        //Aquí comprobamps si hay dos baldosas repetidas en el tablero o no
+        //Si hay dos baldosas repetidas y el botón se encuentra presionado, solo retorna true
+        if (contador >= 2 && botonPresionado){
+            return true;
+        
+        //Si hay dos baldosas repetidas pero el botón no se encuentra presionado, retorna true y resta una vida
+        } else if (contador >= 2 && !botonPresionado){
+            disminuirVidas();
+            return true;
+        
+        //Si no hay baldosas repetidas, retorna false
+        } else if (contador < 2){
+            return false;
+            
+        }
+        
         return (contador >=2);
     }
     
@@ -120,7 +133,7 @@ public class Ronda {
     
     public void aumentarPuntaje() {        
         if(cantidadBaldosas == 3) {
-            puntaje += 5;            
+            puntaje += 5;         
         } else if (cantidadBaldosas == 4) {
             puntaje += 10;           
         } else if (cantidadBaldosas == 5) {
@@ -131,7 +144,9 @@ public class Ronda {
             puntaje += 75;            
         } else { // Corresponde al caso de 8 baldosas
             puntaje += 100;            
-        }            
+        }
+        
+        aciertos += 1;
     }
     
     public void aumentarBaldosas(){
