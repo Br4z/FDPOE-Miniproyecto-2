@@ -15,6 +15,7 @@
 
 package adosa2;
 
+import logica.Ronda;
 import vista.VentanaInicio;
 
 /**

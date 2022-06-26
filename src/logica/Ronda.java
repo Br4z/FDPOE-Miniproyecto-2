@@ -15,6 +15,8 @@
 
 package logica;
 
+import java.util.ArrayList;
+
 /**
  *  CLASE:     Ronda
  *  INTENCION: Guardar la informacion que tiene un juego.
@@ -34,6 +36,44 @@ public class Ronda {
         for (int i = 0; i < 3; i++) { // Añadimos las tres baldosas con las que simpre comenzamos
             this.addBaldosa();
         }
+    }
+    
+    public void addBaldosa() {           
+        int randomRow = (int) (Math.random() * 3 + 0);
+        int Column = 1; // Esta es la columna de las baldosas "interiores", primero
+        // intentamos añadirla ahi
+
+        while(tablero[randomRow][Column] != 0) { // Si en la posicion interior ya se encuentra
+            // una baldosa, entonces intentamos con la posicion "exterior"
+            if (tablero[randomRow][0] == 0){
+                Column = 0;    
+            } else { // Si en la posicion "exterior" tambien se encuentra algo, entonces proponemos
+                // otra fila
+                randomRow = (int) (Math.random() * 3 + 0);          
+            } // Solo salimos del while si a las coordenadas donde apuntamos no hay una baldosa, es decir,
+            // sea igual a 0
+        }
+        this.aumentarBaldosas();
+        tablero[randomRow][Column] = (int) (Math.random() * 16 + 1);
+    }
+
+    public void removerBaldosa(){
+        int randomRow = (int) (Math.random() * 3 + 0);
+        int Column = 0; // Esta es la columna de las baldosas "exteriores", primero
+        // intentamos quitarla de ahi
+        
+        while(tablero[randomRow][Column] == 0) { // Este while comprueba si en esa coordenada no 
+            // hay baldosa
+            if (tablero[randomRow][1] != 0) { // Si en la "exterior" no hay nada, intentamos con la 
+                // interior
+                Column = 1;              
+            } else {
+                randomRow = (int) (Math.random() * 3 + 0); // Proponemos otra fila, si esa fila no tiene
+                // baldosas
+            }
+        }
+        this.disminuirBaldosas();
+        tablero[randomRow][Column] = 0;
     }
     
     public boolean comprobarBaldosas(){
@@ -58,48 +98,26 @@ public class Ronda {
             
         }
         
-        //Retorna por último si las baldosas se encuentran repetidas
+        //Retorna por último si las baldosas se encuentran repetidas o no
         return (contador >=2);
     }
     
-    public void addBaldosa() {       
-        int randomRow = (int) (Math.random() * 3 + 1);
-        int Column = 1; // Esta es la columna de las baldosas "interiores", primero
-        // intentamos añadirla ahi
-
-        while(tablero[randomRow][Column] != 0) { // Si en la posicion interior ya se encuentra
-            // una baldosa, entonces intentamos con la posicion "exterior"
-            if (tablero[randomRow][0] == 0){
-                Column = 0;    
-            } else { // Si en la posicion "exterior" tambien se encuentra algo, entonces proponemos
-                // otra fila
-                randomRow = (int) (Math.random() * 3 + 1);          
-            } // Solo salimos del while si a las coordenadas donde apuntamos no hay una baldosa, es decir,
-            // sea igual a 0
-        }
-        this.aumentarBaldosas();
-        tablero[randomRow][Column] = (int) (Math.random() * 16 + 1);
-    }
-
-    public void removerBaldosa(){
-        int randomRow = (int) (Math.random() * 3 + 1);
-        int Column = 0; // Esta es la columna de las baldosas "exteriores", primero
-        // intentamos quitarla de ahi
+    public void cambiarBaldosa(int baldosa){
+        //Seleccionamos una sección y una columna aleatorias
+        int randomRow = (int) (Math.random() * 3 + 0);
+        int randomColumn = (int) (Math.random() * 1 + 0);
         
-        while(tablero[randomRow][Column] == 0) { // Este while comprueba si en esa coordenada no 
-            // hay baldosa
-            if (tablero[randomRow][1] != 0) { // Si en la "exterior" no hay nada, intentamos con la 
-                // interior
-                Column = 1;              
-            } else {
-                randomRow = (int) (Math.random() * 3 + 1); // Proponemos otra fila, si esa fila no tiene
-                // baldosas
-            }
+        //En caso de que la sección y columna aleatorias no tengan ninguna baldosa,
+        //este proceso se repetirá hasta que obtenga una baldosa
+        while(tablero[randomRow][randomColumn] == 0){
+            randomRow = (int) (Math.random() * 3 + 0);
+            randomColumn = (int) (Math.random() * 1 + 0);
         }
-        this.disminuirBaldosas();
-        tablero[randomRow][Column] = 0;
+        
+        tablero[randomRow][randomColumn] = baldosa;
+        
     }
-       
+    
     public void aumentarPuntaje() {        
         if(cantidadBaldosas == 3) {
             puntaje += 5;            
