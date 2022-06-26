@@ -32,11 +32,12 @@ public class Ronda {
     
     public Ronda() {
         for (int i = 0; i < 3; i++) { // Añadimos las tres baldosas con las que simpre comenzamos
-            this.addBaldosa();
+            this.aumentarBaldosas();
         }
     }
     
-    public void addBaldosa() {           
+/*    
+    public void addBaldosa() {
         int randomRow = (int) (Math.random() * 3 + 0);
         int Column = 1; // Esta es la columna de las baldosas "interiores", primero
         // intentamos añadirla ahi
@@ -50,10 +51,12 @@ public class Ronda {
                 randomRow = (int) (Math.random() * 3 + 0);          
             } // Solo salimos del while si a las coordenadas donde apuntamos no hay una baldosa, es decir,
             // sea igual a 0
-        }
+        }        
+        
         this.aumentarBaldosas();
         tablero[randomRow][Column] = (int) (Math.random() * 16 + 1);
     }
+*/    
 
     public void removerBaldosa(){
         int randomRow = (int) (Math.random() * 3 + 0);
@@ -129,6 +132,45 @@ public class Ronda {
         
         tablero[randomRow][randomColumn] = baldosa;
         
+    }
+    
+    public void cambiarTodasBaldosas(){
+        int[] baldosas = {1, 2, 3, 4, 5, 6, 7, 8, 9 , 10, 11, 12, 13, 14, 15, 16};
+        int randomRow = (int) (Math.random() * 3 + 0);
+        int Column = 1; // Esta es la columna de las baldosas "interiores", primero
+        // intentamos añadirla ahi
+        
+        //Bucle encargado de cambiar todas las baldosas
+        for (int i = 0; i < cantidadBaldosas; i++){
+            while(tablero[randomRow][Column] != 0) { // Si en la posicion interior ya se encuentra
+            // una baldosa, entonces intentamos con la posicion "exterior"
+            if (tablero[randomRow][0] == 0){
+                Column = 0;    
+            } else { // Si en la posicion "exterior" tambien se encuentra algo, entonces proponemos
+                // otra fila
+                randomRow = (int) (Math.random() * 3 + 0);          
+            } // Solo salimos del while si a las coordenadas donde apuntamos no hay una baldosa, es decir,
+            // sea igual a 0
+            
+            //If encargado de asignar una baldosa única.
+            int numeroBaldosa = (int) (Math.random() * 15 + 0);            
+            int baldosaAleatoria = baldosas[numeroBaldosa];
+            
+            if (baldosaAleatoria == 0){
+                numeroBaldosa = (int) (Math.random() * 15 + 0);            
+                baldosaAleatoria = baldosas[numeroBaldosa];
+            }
+            
+            tablero[randomRow][Column] = baldosaAleatoria;
+            
+            baldosas[numeroBaldosa] = 0;
+            }  
+        }
+
+              
+        
+        this.aumentarBaldosas();
+        tablero[randomRow][Column] = (int) (Math.random() * 16 + 1);
     }
     
     public void aumentarPuntaje() {        
