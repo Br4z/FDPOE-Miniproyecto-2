@@ -31,9 +31,9 @@ import javax.swing.*;
 public class VentanaInstrucciones extends JFrame {
     private Image image;
     private int imageNumber = 1; // Con esto voy a controlar las "diapositivas"
-    private JLabel nextLabel = new JLabel("");
-    private JLabel backLabel = new JLabel("");
-    private JLabel exitLabel = new JLabel("");
+    private JLabel nextLabel = new JLabel();
+    private JLabel backLabel = new JLabel();
+    private JLabel exitLabel = new JLabel();
     
     public VentanaInstrucciones() {
         initializeComponents();        
@@ -51,6 +51,7 @@ public class VentanaInstrucciones extends JFrame {
         Image icon = myScreen.getImage("src/Imagenes/icon.png");
 	setIconImage(icon);
         
+        // Establecemos el fondo
         setContentPane(new Background());
         setLayout(null); // Descativamos la distribucion por defecto
         

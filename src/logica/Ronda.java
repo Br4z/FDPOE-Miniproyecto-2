@@ -21,6 +21,7 @@ package logica;
  *  RELACION:  NINGUNA 
  */
 
+
 public class Ronda {
     // Como todas las rondas empiezan de la misma forma, le damos los atributos con valores
     private int changesNumber  = (int) (Math.random() * 9 + 1); // Numero de cambios para repetir una baldosa
@@ -57,7 +58,7 @@ public class Ronda {
         tablero[randomRow][Column] = 0;
     }
     
-    public boolean checkBaldosas(boolean botonPresionado){
+    public boolean checkBaldosas(boolean pressedButton){
         int repeatedBaldosa = 0; // El 0 significara que no se encontro baldosa repetida
         int counter = 0;
         int[] baldosas = new int[cantidadBaldosas]; // Guardamos en esta colección las baldosas
@@ -83,7 +84,7 @@ public class Ronda {
         // Comprobacion viable para VentanaJuego
         // Aquí comprobamos si hay dos baldosas repetidas en el tablero
         if (repeatedBaldosa != 0) {
-            if(botonPresionado) { // Si hay y presiono el boton
+            if(pressedButton) { // Si hay y presiono el boton
                 return true;
             } else { // Si hay y no presiono el boton
                 disminuirVidas();
@@ -96,7 +97,7 @@ public class Ronda {
     }
     
     public void changeBaldosa() {
-        //Seleccionamos una sección y una columna aleatorias
+        // Seleccionamos una fila y una columna aleatorias
         int randomRow = (int) (Math.random() * 4);
         int randomColumn = (int) (Math.random() * 2);
         
@@ -186,7 +187,11 @@ public class Ronda {
         tablero[randomRow][Column] = (int) (Math.random() * 16 + 1);
     }
     
-    public void aumentarPuntaje() {        
+    public int getScore() {
+        return score;
+    }
+    
+    public void increaseScore() {        
         switch (cantidadBaldosas) {
             case 3 -> score += 5;
             case 4 -> score += 10;
@@ -199,15 +204,15 @@ public class Ronda {
         aumentarAciertos();
     }
     
-    public void aumentarBaldosas(){
+    public void increaseBaldosas(){
         cantidadBaldosas += 1;
     }
     
-    public void disminuirBaldosas(){
+    public void decreaseBaldosas(){
         cantidadBaldosas -= 1;
     }
     
-    public void aumentarAciertos(){
+    public void increaseAciertos(){
         aciertos += 1;
     }
     

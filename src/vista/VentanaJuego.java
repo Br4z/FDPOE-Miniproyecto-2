@@ -15,19 +15,12 @@
 
 package vista;
 
-import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-import java.awt.image.BufferedImage;
-import java.io.*;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import java.awt.event.*;
 import javax.imageio.ImageIO;
+import java.io.File;
+import java.io.IOException;
+import javax.swing.*;
 
 import logica.*;
         
@@ -37,46 +30,41 @@ import logica.*;
  *  RELACION:  NINGUNA 
  */
 
-public class VentanaJuego extends JFrame {
-    //Ronda
-    Ronda ronda;
-    
-    //JLabel
-    private JLabel lblpuntuación;
-    private JLabel[][] lblBaldosas;
-    private JLabel lbl00;
-    private JLabel lbl01;
-    private JLabel lbl10;
-    private JLabel lbl11;
-    private JLabel lbl20;
-    private JLabel lbl21;
-    private JLabel lbl30;
-    private JLabel lbl31;
-    private JLabel lblPuntuacion;
-    private JLabel lblVida1;
-    private JLabel lblVida2;
-    private JLabel lblVida3;
-    private JLabel lblVolumen;
-    
-    //JButton
-    private JButton btnBoton;
 
-    //Timer
-    private Timer timerTiempo;
+public class VentanaJuego extends JFrame {
+    // Declaramos ronda 
+    Ronda ronda = new Ronda();    
+    // Vamos a usar labels para poner las imagenes de las baldosas y para el texto
+    private JLabel[][] lblBaldosas; // Vamos usar una matriz para gestionarlo mejor
+    // Declaramos baldosas
+    private boolean pressedButton = false;
+    private JLabel  lbl00         = new JLabel();
+    private JLabel  lbl01         = new JLabel();
+    private JLabel  lbl10         = new JLabel();
+    private JLabel  lbl11         = new JLabel();
+    private JLabel  lbl20         = new JLabel();
+    private JLabel  lbl21         = new JLabel();
+    private JLabel  lbl30         = new JLabel();
+    private JLabel  lbl31         = new JLabel();
+    private JLabel  lblScoreTxt   = new JLabel("Puntación: 00000");
+    private JLabel  lblVida1;
+    private JLabel  lblVida2;
+    private JLabel  lblVida3;
+    private JLabel  lblBoton      = new JLabel();    
+    private JLabel  lblVolumen    = new JLabel();
+    private boolean volumen       = true; // Este atributo es para llevar el control del volumen
+    private JLabel  lblExit       = new JLabel();
+    
+   
+    private Timer timer;
     int count = 0;
     int delay = 1000;
     
-    //JPanel --> ESTO ES DE PRUEBA
-    private JPanel panel;
-    
-    //Files
-    private File imagenBaldosa;
-    
-    
-    public VentanaJuego() throws IOException {
+      
+    public VentanaJuego() {
         startTimer(1);
         initializeComponents();        
-        setSize(720, 480);
+        setSize(720, 515); // Aqui es diferente el alto porque el la ventan empiza en los bordes, no en la imagen
         setTitle("Ados2a - Juego");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setVisible(true);
@@ -84,29 +72,19 @@ public class VentanaJuego extends JFrame {
         setResizable(false);
     }
     
-    private void initializeComponents() throws IOException {
-        //Establecemos el fondo
+    private void initializeComponents() {
         Toolkit myScreen = Toolkit.getDefaultToolkit(); 
         // Para establecer el icono en la aplicación
-        Image icon = myScreen.getImage("src/Imagenes/icon.png");
+        Image icon = myScreen.getImage("src/imagenes/icon.png");
 	setIconImage(icon);
-        add(new background());
         
-        //Declaramos ronda
-        ronda = new Ronda();
+        // Establecemos el fondo
+        setContentPane(new Background());
+        setLayout(null); // Descativamos la distribucion por defecto 
         
-        //Declaramos baldosas
-        lbl00 = new JLabel();
-        lbl01 = new JLabel();
-        lbl10 = new JLabel();
-        lbl11 = new JLabel();
-        lbl20 = new JLabel();
-        lbl21 = new JLabel();
-        lbl30 = new JLabel();
-        lbl31 = new JLabel();
-        
-        //Añadimos labels de baldosas a la respectiva matriz
-        //0 = alejada del centro, 1 = cercana del centro
+                  
+        // Añadimos labels de baldosas a la respectiva matriz
+        // 0 = alejada del centro (exterior) y 1 = cercana del centro (interior)
         lblBaldosas = new JLabel [4][2];
         lblBaldosas[0][0] = lbl00;
         lblBaldosas[0][1] = lbl01;
@@ -116,90 +94,111 @@ public class VentanaJuego extends JFrame {
         lblBaldosas[2][1] = lbl21;
         lblBaldosas[3][0] = lbl30;
         lblBaldosas[3][1] = lbl31;
-        //Cambiamos las respectivas imágenes de baldosas
-        cambiarImagenes();
         
-        //Declaramos puntuación
-        lblPuntuacion = new JLabel("Puntación: 00000");
-        lblPuntuacion.setFont(new Font("Century Gothic", Font.BOLD, 32));
-        lblPuntuacion.setForeground(Color.GRAY);
+        lblBoton.setBounds(720 - 200, 510 - 150, 100, 100);
+        lblVolumen.setBounds(10, 510 - 100, 50, 50);
+        lblExit.setBounds(720 - 75, 10, 50, 50);
+      
+        ImageIcon botonImageIcon = new ImageIcon("src/imagenes/botones/botones juego/normal.png");
+        Icon botonIcon = new ImageIcon(botonImageIcon.getImage().getScaledInstance(100, 100, Image.SCALE_DEFAULT));
+        lblBoton.setIcon(botonIcon);
         
-        //Declaramos botón
-        btnBoton = new JButton();
+        ImageIcon volumenImageIcon = new ImageIcon("src/imagenes/botones/botones juego/sound_on.png");
+        Icon volumenIcon = new ImageIcon(volumenImageIcon.getImage().getScaledInstance(50, 50, Image.SCALE_DEFAULT));
+        lblVolumen.setIcon(volumenIcon);        
         
-        //Declaramos panel (SOLO SE TIENE PARA PRUEBAS)
-        panel = new JPanel();
-        panel.setLayout(new GridLayout(4,4));
-        panel.add(lblPuntuacion);
-        panel.add(btnBoton);
-        //For encargado de añadir cada una de las baldosas
-        for (int row = 0; row < 4; row++){
-            for (int column = 0; column < 2; column++){
-                panel.add(lblBaldosas[row][column]);
+        ImageIcon exitImageIcon = new ImageIcon("src/imagenes/exit.png");
+        Icon exitIcon = new ImageIcon(exitImageIcon.getImage().getScaledInstance(50, 50, Image.SCALE_DEFAULT));
+        lblExit.setIcon(exitIcon);
+        
+
+        
+        // Por primera vez le ponemos imágenes a las baldosas
+        changeImages();
+        
+        lblScoreTxt.setFont(new Font("Century Gothic", Font.BOLD, 32));
+        lblScoreTxt.setForeground(Color.GRAY);
+                
+        add(lblScoreTxt);
+        add(lblBoton);
+        
+        // Le asignamos las posiciones a las baldosas
+        // Arriba:
+        lblBaldosas[0][0].setBounds(720 / 2 - 45, 15, 90, 90);
+        lblBaldosas[0][1].setBounds(720 / 2 - 45, 105, 90, 90); // 105 = 15 + 90
+        // Derecha:
+        lblBaldosas[1][0].setBounds(720 / 2 + 135, 480 / 2 - 45, 90, 90);
+        lblBaldosas[1][1].setBounds(720 / 2 + 45, 480 / 2 - 45, 90, 90); // 135 = 45 + 90
+        // Abajo:
+        lblBaldosas[2][0].setBounds(720 / 2 - 45, 480 - 105, 90, 90); // 105 = 15 + 90
+        lblBaldosas[2][1].setBounds(720 / 2 - 45, 480 - 195, 90, 90); // 195 = 105 + 90
+        // Izquierda:
+        lblBaldosas[3][0].setBounds(720 / 2 - 135, 480 / 2 - 45, 90, 90); // 135 = 45 + 90
+        lblBaldosas[3][1].setBounds(720 / 2 - 225, 480 / 2 - 45, 90, 90); // 135 = 45 + 90        
+        
+        // Añadimos las baldosas al frame
+        for(JLabel[] baldosas : lblBaldosas) {
+            for(JLabel baldosa: baldosas) {
+                add(baldosa);
             }
         }
+    
+        add(lblBoton);
+        add(lblVolumen);
+        add(lblExit);
         
-        this.add(panel);
-        
-        //ManejadorDeEventos
-
+        lblBoton.addMouseListener(new EventsManager());
+        addKeyListener(new EventsManager()); // Tambien podemos presionar el boton con la barra espaciadora
+        lblVolumen.addMouseListener(new EventsManager());
+        lblExit.addMouseListener(new EventsManager());
     }
     
-    //Método encargado de accionar el contador (Timer)
-    public void startTimer(int countPassed){
-        ActionListener action = new ActionListener(){
-            public void actionPerformed(ActionEvent e){
-                count++;
-                //If encargado de cambiar las baldosas
-                if (count % 1 == 0){
-                    ronda.changeBaldosa();
-                    //Cambiamos las respectivas imágenes de baldosas
-                    cambiarImagenes();
-                }
+    private void makeAChange() {
+        ronda.changeBaldosa();
+    }
+    
+    // Método encargado de accionar el contador (timer)
+    private void startTimer(int countPassed) {
+        ActionListener action = (ActionEvent e) -> {
+            count++;
+            // Condicional encargado de cambiar las baldosas
+            if (count % 1 == 0) {
+                makeAChange();       
+                // Cambiamos las respectivas imágenes de baldosas
+                changeImages();
             }
         };
-        //Establecemos el timer
-        timerTiempo = new Timer(delay, action);
-        timerTiempo.setInitialDelay(0);
-        timerTiempo.start();
+        // Establecemos el timer
+        timer = new Timer(delay, action);
+        timer.setInitialDelay(0);
+        timer.start();
         count = countPassed;
     }
     
-    public void cambiarImagenes(){
+    public void changeImages(){
         int[][] tablero = ronda.getTablero();
-        //Obtenemos ruta absoluta para añadir baldosas
-        String rutaArchivo = new File("").getAbsolutePath();
-        //Concatemos la ruta absoluta de "Miniproyecto - 2" con la ruta de todos los .png a utilizar
-        String baldosaRuta = rutaArchivo.concat("\\src\\imagenes\\baldosas\\");
-        //Este for se encarga de establecer la respectiva imágen de la baldosa
-        //al respectivo label
+        String path = "src/imagenes/baldosas/";
+
         for (int row = 0; row < 4; row++){
             for (int column = 0; column < 2; column++){
-                if (tablero[row][column] != 0){
-                    //Se establece la ruta a la imágen
-                    String rutaImagenBaldosa = baldosaRuta + tablero[row][column] + ".png";
-                    //Se carga la imágen y se añade al respectivo label
-                    imagenBaldosa = new File(rutaImagenBaldosa);
-                    BufferedImage bufferedImagenBaldosa = null;
-                    try {
-                        bufferedImagenBaldosa = ImageIO.read(imagenBaldosa);
-                    } catch (IOException ex) {
-                        Logger.getLogger(VentanaJuego.class.getName()).log(Level.SEVERE, null, ex);
-                    }
-                    ImageIcon iconBaldosa = new ImageIcon(bufferedImagenBaldosa);
-                    lblBaldosas[row][column].setIcon(iconBaldosa);
+                if (true) { //tablero[row][column] != 0
+                    // Se establece la ruta a la imágen
+                    String rutaImagenBaldosa = path + "1.png";//+ tablero[row][column] + ".png"; // Accedemos al numero de la baldosa
+
+                    ImageIcon baldosaImageIcon = new ImageIcon(rutaImagenBaldosa);
+                    Icon BaldosaIcon = new ImageIcon(baldosaImageIcon.getImage().getScaledInstance(90, 90, Image.SCALE_DEFAULT));
+                    lblBaldosas[row][column].setIcon(BaldosaIcon);
                 }
             }
         }
     }
-    
-    
-    class background extends JPanel {
+       
+    private class Background extends JPanel {
         private Image image;
         
-        public background() {
+        public Background() {
             // Aprovechando que declaramos la imagen como atributo podemos hacer esto
-            File myImage = new File("src/Imagenes/background.jpg");
+            File myImage = new File("src/Imagenes/game_background.jpg");
             try {
                 image = ImageIO.read(myImage); // Este método arroja una excepción, entonces tenemos que atraparla
             } catch(IOException e) {
@@ -216,58 +215,98 @@ public class VentanaJuego extends JFrame {
     }
     
  
-    private class ManejadorDeEventos implements ActionListener, MouseListener, KeyListener{
+    private class EventsManager extends MouseAdapter implements KeyListener {
 
-        @Override
-        public void mouseClicked(MouseEvent e) {
-            //throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-        }
-
-        @Override
-        public void mousePressed(MouseEvent e) {
-            //throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-        }
-
-        @Override
-        public void mouseReleased(MouseEvent e) {
-            //throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-        }
-
-        @Override
         public void mouseEntered(MouseEvent e) {
-            //throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-        }
-
-
-        @Override
-        public void mouseExited(MouseEvent e) {
-            //throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-        }
-
-        @Override
-        public void keyTyped(KeyEvent e) {
-            throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-        }
-
-        @Override
-        public void keyPressed(KeyEvent e) {
-            throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-        }
-
-        @Override
-        public void keyReleased(KeyEvent e) {
-            throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-        }
-
-        @Override
-        public void actionPerformed(ActionEvent e) {
+            JLabel elemento = (JLabel) e.getSource(); // Solo estamos escuchando a labels
             
+            if(elemento == lblBoton) {
+                ImageIcon botonImageIcon = new ImageIcon("src/imagenes/botones/botones juego/hover.png");
+                Icon botonIcon = new ImageIcon(botonImageIcon.getImage().getScaledInstance(100, 100, Image.SCALE_DEFAULT));
+                lblBoton.setIcon(botonIcon); 
+            }
         }
         
+        public void mouseExited(MouseEvent e) {
+            JLabel elemento = (JLabel) e.getSource(); // Solo estamos escuchando a labels
+            
+            if(elemento == lblBoton) {
+                ImageIcon botonImageIcon = new ImageIcon("src/imagenes/botones/botones juego/normal.png");
+                Icon botonIcon = new ImageIcon(botonImageIcon.getImage().getScaledInstance(100, 100, Image.SCALE_DEFAULT));
+                lblBoton.setIcon(botonIcon); 
+            }
+        }
         
+        public void mousePressed(MouseEvent e) { // Cuando se oprime el clic del mouse
+            JLabel elemento = (JLabel) e.getSource(); // Solo estamos escuchando a labels
+            
+            if(elemento == lblBoton) {
+                ImageIcon botonImageIcon = new ImageIcon("src/imagenes/botones/botones juego/pressed.png");
+                Icon botonIcon = new ImageIcon(botonImageIcon.getImage().getScaledInstance(100, 100, Image.SCALE_DEFAULT));
+                lblBoton.setIcon(botonIcon); 
+            }            
+        }     
         
+        public void mouseReleased(MouseEvent e) { // Cuando se suelta el clic del mouse
+            JLabel elemento = (JLabel) e.getSource(); // Solo estamos escuchando a labels
+            
+            if(elemento == lblBoton) {
+                ImageIcon botonImageIcon = new ImageIcon("src/imagenes/botones/botones juego/normal.png");
+                Icon botonIcon = new ImageIcon(botonImageIcon.getImage().getScaledInstance(100, 100, Image.SCALE_DEFAULT));
+                lblBoton.setIcon(botonIcon); 
+            }              
+        }    
         
-    }
-    
+        public void mouseClicked(MouseEvent e) { // Cuando se presiona y suelta el clic del mouse
+            JLabel elemento = (JLabel) e.getSource(); // Solo estamos escuchando a labels
+            
+            if(elemento == lblBoton) {
+                
+            } else if(elemento == lblExit) {
+                VentanaInicio window = new VentanaInicio();
+                dispose();
+            } else if(elemento == lblVolumen) {
+                String path = "src/imagenes/botones/botones juego/sound_";
+                String mode;
+                if(volumen) {
+                    volumen = false;
+                    mode = "off.png";
+                } else {
+                    volumen = true;
+                    mode = "on.png";
+                }               
+                ImageIcon volumenImageIcon = new ImageIcon(path + mode);
+                Icon volumenIcon = new ImageIcon(volumenImageIcon.getImage().getScaledInstance(50, 50, Image.SCALE_DEFAULT));
+                lblVolumen.setIcon(volumenIcon);                
+            }           
+        }
+        
+        @Override
+        public void keyPressed(KeyEvent e) { // Cuando se presiona la tecla 
+            int keyCode = e.getKeyCode();
+            
+            if(keyCode == 32) {
+                ImageIcon botonImageIcon = new ImageIcon("src/imagenes/botones/botones juego/pressed.png");
+                Icon botonIcon = new ImageIcon(botonImageIcon.getImage().getScaledInstance(100, 100, Image.SCALE_DEFAULT));
+                lblBoton.setIcon(botonIcon);                 
+            }
+        }
+        
+        @Override
+        public void keyReleased(KeyEvent e) { // Cuando se suelta la tecla
+            int keyCode = e.getKeyCode();
+
+            if(keyCode == 32) {
+                ImageIcon botonImageIcon = new ImageIcon("src/imagenes/botones/botones juego/normal.png");
+                Icon botonIcon = new ImageIcon(botonImageIcon.getImage().getScaledInstance(100, 100, Image.SCALE_DEFAULT));
+                lblBoton.setIcon(botonIcon);                 
+            }            
+        }   
+        
+        @Override
+        public void keyTyped(KeyEvent e) { // Cuando se unde y se suelta la tecla
+            
+        }                  
+    }   
 }
 

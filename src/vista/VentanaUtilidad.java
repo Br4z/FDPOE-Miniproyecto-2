@@ -29,7 +29,7 @@ import javax.swing.*;
  */
 
 public class VentanaUtilidad extends JFrame{
-    private JLabel exitLabel = new JLabel("");
+    private JLabel exitLabel = new JLabel();
         
     public VentanaUtilidad() {
         initializeComponents();        
@@ -47,6 +47,7 @@ public class VentanaUtilidad extends JFrame{
         Image icon = myScreen.getImage("src/Imagenes/icon.png");
 	setIconImage(icon);
         
+        // Establecemos el fondo
         setContentPane(new Background());
         setLayout(null); // Descativamos la distribucion por defecto
         

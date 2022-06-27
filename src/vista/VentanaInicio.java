@@ -19,8 +19,6 @@ import java.awt.*;
 import java.awt.event.*;
 import java.io.File;
 import java.io.IOException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.imageio.ImageIO;
 import javax.swing.*;
 
@@ -30,10 +28,11 @@ import javax.swing.*;
  *  RELACION:  NINGUNA 
  */
 
+
 public class VentanaInicio extends JFrame { 
-    private JLabel howToPlayLabel  = new JLabel("");
-    private JLabel playLabel       = new JLabel("");
-    private JLabel whatIsForLabel  = new JLabel("");
+    private JLabel howToPlayLabel  = new JLabel();
+    private JLabel playLabel       = new JLabel();
+    private JLabel whatIsForLabel  = new JLabel();
         
     public VentanaInicio() {
         initializeComponents();        
@@ -51,6 +50,7 @@ public class VentanaInicio extends JFrame {
         Image icon = myScreen.getImage("src/imagenes/icon.png");        
 	setIconImage(icon);
         
+        // Establecemos el fondo
         setContentPane(new Background());
         setLayout(null); // Descativamos la distribucion por defecto
         
@@ -59,15 +59,15 @@ public class VentanaInicio extends JFrame {
         playLabel.setBounds(284, 240, 150, 100); // 284 = 67 + 150 + 67
         whatIsForLabel.setBounds(501, 240, 150, 100); // 501 = 284 + 150 + 67
         
-        ImageIcon playImageIcon = new ImageIcon("src/imagenes/botones/jugar.png");
+        ImageIcon playImageIcon = new ImageIcon("src/imagenes/botones/botones inicio/jugar.png");
         Icon playIcon = new ImageIcon(playImageIcon.getImage().getScaledInstance(150, 100, Image.SCALE_DEFAULT));
         playLabel.setIcon(playIcon);
       
-        ImageIcon howToPlayImageIcon = new ImageIcon("src/imagenes/botones/como_jugar.png");
+        ImageIcon howToPlayImageIcon = new ImageIcon("src/imagenes/botones/botones inicio/como_jugar.png");
         Icon howToPlayIcon = new ImageIcon(howToPlayImageIcon.getImage().getScaledInstance(150, 100, Image.SCALE_DEFAULT));
         howToPlayLabel.setIcon(howToPlayIcon);
         
-        ImageIcon whatIsForImageIcon = new ImageIcon("src/imagenes/botones/para_que_sirve.png");        
+        ImageIcon whatIsForImageIcon = new ImageIcon("src/imagenes/botones/botones inicio/para_que_sirve.png");        
         Icon whatIsForIcon = new ImageIcon(whatIsForImageIcon.getImage().getScaledInstance(150, 100, Image.SCALE_DEFAULT));
         whatIsForLabel.setIcon(whatIsForIcon);
        
@@ -110,15 +110,15 @@ public class VentanaInicio extends JFrame {
             JLabel elemento = (JLabel) e.getSource(); // Solo estamos escuchando a labels
             
             if(elemento == playLabel) {
-                ImageIcon playImageIcon = new ImageIcon("src/imagenes/botones/jugar_rollover.png");
+                ImageIcon playImageIcon = new ImageIcon("src/imagenes/botones/botones inicio/jugar_rollover.png");
                 Icon playIcon = new ImageIcon(playImageIcon.getImage().getScaledInstance(150, 100, Image.SCALE_DEFAULT));
                 playLabel.setIcon(playIcon);   
             } else if (elemento == whatIsForLabel) {
-                ImageIcon whatIsForImageIcon = new ImageIcon("src/imagenes/botones/para_que_sirve_rollover.png");        
+                ImageIcon whatIsForImageIcon = new ImageIcon("src/imagenes/botones/botones inicio/para_que_sirve_rollover.png");        
                 Icon whatIsForIcon = new ImageIcon(whatIsForImageIcon.getImage().getScaledInstance(150, 100, Image.SCALE_DEFAULT));
                 whatIsForLabel.setIcon(whatIsForIcon);
             } else {
-                ImageIcon howToPlayImageIcon = new ImageIcon("src/imagenes/botones/como_jugar_rollover.png");
+                ImageIcon howToPlayImageIcon = new ImageIcon("src/imagenes/botones/botones inicio/como_jugar_rollover.png");
                 Icon howToPlayIcon = new ImageIcon(howToPlayImageIcon.getImage().getScaledInstance(150, 100, Image.SCALE_DEFAULT));
                 howToPlayLabel.setIcon(howToPlayIcon); 
             }  
@@ -128,15 +128,15 @@ public class VentanaInicio extends JFrame {
             JLabel elemento = (JLabel) e.getSource(); // Solo estamos escuchando a labels
             
             if(elemento == playLabel) {
-                ImageIcon playImageIcon = new ImageIcon("src/imagenes/botones/jugar.png");
+                ImageIcon playImageIcon = new ImageIcon("src/imagenes/botones/botones inicio/jugar.png");
                 Icon playIcon = new ImageIcon(playImageIcon.getImage().getScaledInstance(150, 100, Image.SCALE_DEFAULT));
                 playLabel.setIcon(playIcon); 
             } else if (elemento == whatIsForLabel) {
-                ImageIcon whatIsForImageIcon = new ImageIcon("src/imagenes/botones/para_que_sirve.png");        
+                ImageIcon whatIsForImageIcon = new ImageIcon("src/imagenes/botones/botones inicio/para_que_sirve.png");        
                 Icon whatIsForIcon = new ImageIcon(whatIsForImageIcon.getImage().getScaledInstance(150, 100, Image.SCALE_DEFAULT));
                 whatIsForLabel.setIcon(whatIsForIcon);
             } else { // Caso para el howToPlayButton
-                ImageIcon howToPlayImageIcon = new ImageIcon("src/imagenes/botones/como_jugar.png");
+                ImageIcon howToPlayImageIcon = new ImageIcon("src/imagenes/botones/botones inicio/como_jugar.png");
                 Icon howToPlayIcon = new ImageIcon(howToPlayImageIcon.getImage().getScaledInstance(150, 100, Image.SCALE_DEFAULT));
                 howToPlayLabel.setIcon(howToPlayIcon);                 
             }            
@@ -147,16 +147,12 @@ public class VentanaInicio extends JFrame {
             JLabel elemento = (JLabel) e.getSource(); // Solo estamos escuchando a labels
             
             if(elemento == playLabel) {
-                try {
-                    VentanaJuego window = new VentanaJuego();
-                } catch (IOException ex) {
-                    Logger.getLogger(VentanaInicio.class.getName()).log(Level.SEVERE, null, ex);
-                }
+                VentanaJuego window = new VentanaJuego();
                 dispose();
             } else if (elemento == whatIsForLabel) {
                 VentanaUtilidad window = new VentanaUtilidad();
                 dispose();
-            } else {
+            } else { // Caso de howToPlay
                VentanaInstrucciones window = new VentanaInstrucciones();
                dispose();
             }             
