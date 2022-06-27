@@ -123,24 +123,8 @@ public class VentanaJuego extends JFrame {
         lblBaldosas[2][1] = lbl21;
         lblBaldosas[3][0] = lbl30;
         lblBaldosas[3][1] = lbl31;
-        //Obtenemos el tablero
-        int[][] tablero = ronda.getTablero();
-        //Este for se encarga de establecer la respectiva imágen de la baldosa
-        //al respectivo label
-        for (int row = 0; row < 4; row++){
-            for (int column = 0; column < 2; column++){
-                if (tablero[row][column] != 0){
-                    //Se establece la ruta a la imágen
-                    String rutaImagenBaldosa = baldosaRuta + tablero[row][column] + ".png";
-                    System.out.println(rutaImagenBaldosa);
-                    //Se carga la imágen y se añade al respectivo label
-                    imagenBaldosa = new File(rutaImagenBaldosa);
-                    BufferedImage bufferedImagenBaldosa = ImageIO.read(imagenBaldosa);
-                    ImageIcon iconBaldosa = new ImageIcon(bufferedImagenBaldosa);
-                    lblBaldosas[row][column].setIcon(iconBaldosa);
-                }
-            }
-        }
+        //Cambiamos las respectivas imágenes de baldosas
+        cambiarImagenes();
         
         //Declaramos puntuación
         lblPuntuacion = new JLabel("Puntación: 00000");
@@ -173,36 +157,11 @@ public class VentanaJuego extends JFrame {
         ActionListener action = new ActionListener(){
             public void actionPerformed(ActionEvent e){
                 count++;
-                System.out.println("Tiempo: " + count);
                 //If encargado de cambiar las baldosas
-                if (count % 2 == 0){
+                if (count % 1 == 0){
                     ronda.changeBaldosa();
-                    int[][] tablero = ronda.getTablero();
-                    //Obtenemos ruta absoluta para añadir baldosas
-                    String rutaArchivo = new File("").getAbsolutePath();
-                    //Concatemos la ruta absoluta de "Miniproyecto - 2" con la ruta de todos los .png a utilizar
-                    String baldosaRuta = rutaArchivo.concat("\\src\\imagenes\\baldosas\\");
-                    //Este for se encarga de establecer la respectiva imágen de la baldosa
-                    //al respectivo label
-                    for (int row = 0; row < 4; row++){
-                        for (int column = 0; column < 2; column++){
-                        if (tablero[row][column] != 0){
-                            //Se establece la ruta a la imágen
-                            String rutaImagenBaldosa = baldosaRuta + tablero[row][column] + ".png";
-                            System.out.println(rutaImagenBaldosa);
-                            //Se carga la imágen y se añade al respectivo label
-                            imagenBaldosa = new File(rutaImagenBaldosa);
-                            BufferedImage bufferedImagenBaldosa = null;
-                            try {
-                                bufferedImagenBaldosa = ImageIO.read(imagenBaldosa);
-                            } catch (IOException ex) {
-                                Logger.getLogger(VentanaJuego.class.getName()).log(Level.SEVERE, null, ex);
-                            }
-                            ImageIcon iconBaldosa = new ImageIcon(bufferedImagenBaldosa);
-                            lblBaldosas[row][column].setIcon(iconBaldosa);
-                            }
-                        }
-                    }
+                    //Cambiamos las respectivas imágenes de baldosas
+                    cambiarImagenes();
                 }
             }
         };
@@ -211,6 +170,34 @@ public class VentanaJuego extends JFrame {
         timerTiempo.setInitialDelay(0);
         timerTiempo.start();
         count = countPassed;
+    }
+    
+    public void cambiarImagenes(){
+        int[][] tablero = ronda.getTablero();
+        //Obtenemos ruta absoluta para añadir baldosas
+        String rutaArchivo = new File("").getAbsolutePath();
+        //Concatemos la ruta absoluta de "Miniproyecto - 2" con la ruta de todos los .png a utilizar
+        String baldosaRuta = rutaArchivo.concat("\\src\\imagenes\\baldosas\\");
+        //Este for se encarga de establecer la respectiva imágen de la baldosa
+        //al respectivo label
+        for (int row = 0; row < 4; row++){
+            for (int column = 0; column < 2; column++){
+                if (tablero[row][column] != 0){
+                    //Se establece la ruta a la imágen
+                    String rutaImagenBaldosa = baldosaRuta + tablero[row][column] + ".png";
+                    //Se carga la imágen y se añade al respectivo label
+                    imagenBaldosa = new File(rutaImagenBaldosa);
+                    BufferedImage bufferedImagenBaldosa = null;
+                    try {
+                        bufferedImagenBaldosa = ImageIO.read(imagenBaldosa);
+                    } catch (IOException ex) {
+                        Logger.getLogger(VentanaJuego.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                    ImageIcon iconBaldosa = new ImageIcon(bufferedImagenBaldosa);
+                    lblBaldosas[row][column].setIcon(iconBaldosa);
+                }
+            }
+        }
     }
     
     
