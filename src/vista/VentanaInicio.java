@@ -19,6 +19,8 @@ import java.awt.*;
 import java.awt.event.*;
 import java.io.File;
 import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.imageio.ImageIO;
 import javax.swing.*;
 
@@ -145,7 +147,11 @@ public class VentanaInicio extends JFrame {
             JLabel elemento = (JLabel) e.getSource(); // Solo estamos escuchando a labels
             
             if(elemento == playLabel) {
-                VentanaJuego window = new VentanaJuego();
+                try {
+                    VentanaJuego window = new VentanaJuego();
+                } catch (IOException ex) {
+                    Logger.getLogger(VentanaInicio.class.getName()).log(Level.SEVERE, null, ex);
+                }
                 dispose();
             } else if (elemento == whatIsForLabel) {
                 VentanaUtilidad window = new VentanaUtilidad();

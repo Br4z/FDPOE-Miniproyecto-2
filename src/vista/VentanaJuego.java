@@ -25,6 +25,8 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.image.BufferedImage;
 import java.io.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.imageio.ImageIO;
 
 import logica.*;
@@ -50,19 +52,26 @@ public class VentanaJuego extends JFrame {
     private JLabel lbl21;
     private JLabel lbl30;
     private JLabel lbl31;
-    private JLabel lblBoton;
-    private JLabel lblPuntacion;
+    private JLabel lblPuntuacion;
     private JLabel lblVida1;
     private JLabel lblVida2;
     private JLabel lblVida3;
     private JLabel lblVolumen;
+    
+    //JButton
+    private JButton btnBoton;
 
     //Timer
-    private Timer TimerTiempo;
+    private Timer timerTiempo;
+    int count = 0;
+    int delay = 1000;
+    
+    //JPanel --> ESTO ES DE PRUEBA
+    private JPanel panel;
     
     //Files
     private File imagenBaldosa;
-
+    
     
     public VentanaJuego() throws IOException {
         initializeComponents();        
@@ -82,35 +91,17 @@ public class VentanaJuego extends JFrame {
 	setIconImage(icon);
         add(new background());
         
+        
         //Obtenemos ruta absoluta para añadir baldosas
         String rutaArchivo = new File("").getAbsolutePath();
         
         //Concatemos la ruta absoluta de "Miniproyecto - 2" con la ruta de todos los .png a utilizar
         String baldosaRuta = rutaArchivo.concat("\\src\\imagenes\\baldosas\\");
-        /*
-        String baldosa1Ruta = rutaArchivo.concat("\\src\\imagenes.baldosas\\1.png");
-        String baldosa2Ruta = rutaArchivo.concat("\\src\\imagenes.baldosas\\2.png");
-        String baldosa3Ruta = rutaArchivo.concat("\\src\\imagenes.baldosas\\3.png");
-        String baldosa4Ruta = rutaArchivo.concat("\\src\\imagenes.baldosas\\4.png");
-        String baldosa5Ruta = rutaArchivo.concat("\\src\\imagenes.baldosas\\5.png");
-        String baldosa6Ruta = rutaArchivo.concat("\\src\\imagenes.baldosas\\6.png");
-        String baldosa7Ruta = rutaArchivo.concat("\\src\\imagenes.baldosas\\7.png");
-        String baldosa8Ruta = rutaArchivo.concat("\\src\\imagenes.baldosas\\8.png");
-        String baldosa9Ruta = rutaArchivo.concat("\\src\\imagenes.baldosas\\9.png");
-        String baldosa10Ruta = rutaArchivo.concat("\\src\\imagenes.baldosas\\10.png");
-        String baldosa11Ruta = rutaArchivo.concat("\\src\\imagenes.baldosas\\11.png");
-        String baldosa12Ruta = rutaArchivo.concat("\\src\\imagenes.baldosas\\12.png");
-        String baldosa13Ruta = rutaArchivo.concat("\\src\\imagenes.baldosas\\13.png");
-        String baldosa14Ruta = rutaArchivo.concat("\\src\\imagenes.baldosas\\14.png");
-        String baldosa15Ruta = rutaArchivo.concat("\\src\\imagenes.baldosas\\15.png");
-        String baldosa16Ruta = rutaArchivo.concat("\\src\\imagenes.baldosas\\16.png");
-        */
         
         //Declaramos ronda
         ronda = new Ronda();
         
         //Declaramos Timer
-        
         
         //Declaramos baldosas
         lbl00 = new JLabel();
@@ -134,7 +125,8 @@ public class VentanaJuego extends JFrame {
         lblBaldosas[3][1] = lbl31;
         //Obtenemos el tablero
         int[][] tablero = ronda.getTablero();
-        
+        //Este for se encarga de establecer la respectiva imágen de la baldosa
+        //al respectivo label
         for (int row = 0; row < 4; row++){
             for (int column = 0; column < 2; column++){
                 System.out.println("Aqui tienes: " + tablero[row][column]);
@@ -151,15 +143,75 @@ public class VentanaJuego extends JFrame {
             }
         }
         
+        //Declaramos puntuación
+        lblPuntuacion = new JLabel("Puntación: 00000");
+        lblPuntuacion.setFont(new Font("Century Gothic", Font.BOLD, 32));
+        lblPuntuacion.setForeground(Color.GRAY);
         
+        //Declaramos botón
+        btnBoton = new JButton();
         
+        panel = new JPanel();
+        panel.setLayout(new GridLayout(4,4));
+        panel.add(lblPuntuacion);
+        panel.add(btnBoton);
+        for (int row = 0; row < 4; row++){
+            for (int column = 0; column < 2; column++){
+                panel.add(lblBaldosas[row][column]);
+            }
+        }
         
+        add(panel);
         
+        lblPuntuacion.addMouseListener(new ManejadorDeEventos());
         
-        
-        
-        
+
     }
+    
+    public void startTimer(int countPassed){
+        ActionListener action = new ActionListener(){
+            public void actionPerformed(ActionEvent e){
+                count++;
+                System.out.println("Tiempo: " + count);
+                if (count % 2 == 0){
+                    ronda.changeBaldosa();
+                    int[][] tablero = ronda.getTablero();
+                    //Obtenemos ruta absoluta para añadir baldosas
+        String rutaArchivo = new File("").getAbsolutePath();
+                    //Concatemos la ruta absoluta de "Miniproyecto - 2" con la ruta de todos los .png a utilizar
+        String baldosaRuta = rutaArchivo.concat("\\src\\imagenes\\baldosas\\");
+        //Este for se encarga de establecer la respectiva imágen de la baldosa
+        //al respectivo label
+        for (int row = 0; row < 4; row++){
+            for (int column = 0; column < 2; column++){
+                System.out.println("Aqui tienes: " + tablero[row][column]);
+                if (tablero[row][column] != 0){
+                    //Se establece la ruta a la imágen
+                    String rutaImagenBaldosa = baldosaRuta + tablero[row][column] + ".png";
+                    System.out.println(rutaImagenBaldosa);
+                    //Se carga la imágen y se añade al respectivo label
+                    imagenBaldosa = new File(rutaImagenBaldosa);
+                    BufferedImage bufferedImagenBaldosa = null;
+                    try {
+                        bufferedImagenBaldosa = ImageIO.read(imagenBaldosa);
+                    } catch (IOException ex) {
+                        Logger.getLogger(VentanaJuego.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                    ImageIcon iconBaldosa = new ImageIcon(bufferedImagenBaldosa);
+                    lblBaldosas[row][column].setIcon(iconBaldosa);
+                }
+            }
+        }
+                    
+                }
+            }
+        };
+        timerTiempo = new Timer(delay, action);
+        timerTiempo.setInitialDelay(0);
+        timerTiempo.start();
+        count = countPassed;
+    }
+    
     
     class background extends JPanel {
         private Image image;
@@ -182,31 +234,38 @@ public class VentanaJuego extends JFrame {
         }
     }
     
-    private class ManejadorDeEventos implements MouseListener, KeyListener{
+ 
+    private class ManejadorDeEventos implements ActionListener, MouseListener, KeyListener{
 
         @Override
         public void mouseClicked(MouseEvent e) {
-            throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+            //throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+            JLabel elemento = (JLabel) e.getSource();
+            
+            if (elemento == lblPuntuacion){
+                System.out.println("Hola");
+                startTimer(0);
+            }
         }
 
         @Override
         public void mousePressed(MouseEvent e) {
-            throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+            //throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
         }
 
         @Override
         public void mouseReleased(MouseEvent e) {
-            throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+            //throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
         }
 
         @Override
         public void mouseEntered(MouseEvent e) {
-            throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+            //throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
         }
 
         @Override
         public void mouseExited(MouseEvent e) {
-            throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+            //throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
         }
 
         @Override
@@ -223,6 +282,13 @@ public class VentanaJuego extends JFrame {
         public void keyReleased(KeyEvent e) {
             throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
         }
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            
+        }
+        
+        
         
         
     }

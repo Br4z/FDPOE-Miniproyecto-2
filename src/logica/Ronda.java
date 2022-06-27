@@ -108,13 +108,14 @@ public class Ronda {
 
         reduceChangesNumber();
         
-        int[] baldosasEnTablero = { };
+        int[] baldosasEnTablero = new int[cantidadBaldosas];
+        int contador = 0;
       
         for (int[] row: tablero) {
             for (int baldosa: row) {                
                 if (baldosa != 0){
-                    baldosasEnTablero[baldosasEnTablero.length] = baldosa; // Usamos la misma longitud
-                    // del array como indices
+                    baldosasEnTablero[contador] = baldosa; 
+                    contador++;
                 } 
             }
         }
@@ -177,7 +178,6 @@ public class Ronda {
             }  
             
             // Añade la respectiva baldosa al tablero
-            System.out.println("Baldosa: " + baldosaAleatoria);
             tablero[randomRow][Column] = baldosaAleatoria;           
             // La posición tomada de baldosas[], se vuelve 0 para indicar que la posición ya ha sido tomada
             baldosas[numeroBaldosa] = 0;
