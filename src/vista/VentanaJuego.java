@@ -74,6 +74,7 @@ public class VentanaJuego extends JFrame {
     
     
     public VentanaJuego() throws IOException {
+        startTimer(1);
         initializeComponents();        
         setSize(720, 480);
         setTitle("Ados2a - Juego");
@@ -128,7 +129,6 @@ public class VentanaJuego extends JFrame {
         //al respectivo label
         for (int row = 0; row < 4; row++){
             for (int column = 0; column < 2; column++){
-                System.out.println("Aqui tienes: " + tablero[row][column]);
                 if (tablero[row][column] != 0){
                     //Se establece la ruta a la imágen
                     String rutaImagenBaldosa = baldosaRuta + tablero[row][column] + ".png";
@@ -165,9 +165,6 @@ public class VentanaJuego extends JFrame {
         this.add(panel);
         
         //ManejadorDeEventos
-        lblPuntuacion.addMouseListener(new ManejadorDeEventos());
-        panel.addMouseListener(new ManejadorDeEventos());
-        
 
     }
     
@@ -189,7 +186,6 @@ public class VentanaJuego extends JFrame {
                     //al respectivo label
                     for (int row = 0; row < 4; row++){
                         for (int column = 0; column < 2; column++){
-                        System.out.println("Aqui tienes: " + tablero[row][column]);
                         if (tablero[row][column] != 0){
                             //Se establece la ruta a la imágen
                             String rutaImagenBaldosa = baldosaRuta + tablero[row][column] + ".png";
@@ -259,11 +255,9 @@ public class VentanaJuego extends JFrame {
 
         @Override
         public void mouseEntered(MouseEvent e) {
-            
-            if (e.getSource() == panel){
-                startTimer(0);
-            }
+            //throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
         }
+
 
         @Override
         public void mouseExited(MouseEvent e) {

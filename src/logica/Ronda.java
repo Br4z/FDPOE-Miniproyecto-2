@@ -97,13 +97,13 @@ public class Ronda {
     
     public void changeBaldosa() {
         //Seleccionamos una sección y una columna aleatorias
-        int randomRow = (int) (Math.random() * 3);
-        int randomColumn = (int) (Math.random() * 1);
+        int randomRow = (int) (Math.random() * 4);
+        int randomColumn = (int) (Math.random() * 2);
         
         // Este while es para asegurar encontrar una baldosa
         while(tablero[randomRow][randomColumn] == 0) {
-            randomRow = (int) (Math.random() * 3);
-            randomColumn = (int) (Math.random() * 1);
+            randomRow = (int) (Math.random() * 4);
+            randomColumn = (int) (Math.random() * 2);
         }        
 
         reduceChangesNumber();
@@ -138,6 +138,8 @@ public class Ronda {
                     repeticion = false;
                 }
                 // Mientras no encuentre una baldosa que no se repite sobrescribira lo siguiente:
+                System.out.println(randomRow);
+                System.out.println(randomColumn);
                 tablero[randomRow][randomColumn] = randomBaldosa;
             }                       
         }       
