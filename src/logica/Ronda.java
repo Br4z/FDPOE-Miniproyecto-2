@@ -132,28 +132,14 @@ public class Ronda {
                 
                 for (int baldosa: baldosasEnTablero) {
                     if (randomBaldosa == baldosa){
-                        repeticion = true;
                         break;
                     }
                     repeticion = false;
                 }
-            }            
-            tablero[randomRow][randomColumn] = randomBaldosa;
-        }
-        
-        /*
-        // Seleccionamos una fila y columna aleatoria
-        int randomRow = (int) (Math.random() * 3);
-        int randomColumn = (int) (Math.random() * 1);
-        
-        // En caso de que la sección y columna aleatorias no tengan ninguna baldosa,
-        // este proceso se repetirá hasta que obtenga una baldosa
-        while(tablero[randomRow][randomColumn] == 0){
-            randomRow = (int) (Math.random() * 3);
-            randomColumn = (int) (Math.random() * 1);
-        }      
-        tablero[randomRow][randomColumn] = baldosa;
-       */
+                // Mientras no encuentre una baldosa que no se repite sobrescribira lo siguiente:
+                tablero[randomRow][randomColumn] = randomBaldosa;
+            }                       
+        }       
     }
     
     public void cambiarTodasBaldosas(){
