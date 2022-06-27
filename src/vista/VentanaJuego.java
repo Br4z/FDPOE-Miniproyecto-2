@@ -101,8 +101,6 @@ public class VentanaJuego extends JFrame {
         //Declaramos ronda
         ronda = new Ronda();
         
-        //Declaramos Timer
-        
         //Declaramos baldosas
         lbl00 = new JLabel();
         lbl01 = new JLabel();
@@ -112,6 +110,7 @@ public class VentanaJuego extends JFrame {
         lbl21 = new JLabel();
         lbl30 = new JLabel();
         lbl31 = new JLabel();
+        
         //Añadimos labels de baldosas a la respectiva matriz
         //0 = alejada del centro, 1 = cercana del centro
         lblBaldosas = new JLabel [4][2];
@@ -151,10 +150,12 @@ public class VentanaJuego extends JFrame {
         //Declaramos botón
         btnBoton = new JButton();
         
+        //Declaramos panel (SOLO SE TIENE PARA PRUEBAS)
         panel = new JPanel();
         panel.setLayout(new GridLayout(4,4));
         panel.add(lblPuntuacion);
         panel.add(btnBoton);
+        //For encargado de añadir cada una de las baldosas
         for (int row = 0; row < 4; row++){
             for (int column = 0; column < 2; column++){
                 panel.add(lblBaldosas[row][column]);
@@ -163,49 +164,52 @@ public class VentanaJuego extends JFrame {
         
         add(panel);
         
+        //ManejadorDeEventos
         lblPuntuacion.addMouseListener(new ManejadorDeEventos());
         
 
     }
     
+    //Método encargado de accionar el contador (Timer)
     public void startTimer(int countPassed){
         ActionListener action = new ActionListener(){
             public void actionPerformed(ActionEvent e){
                 count++;
                 System.out.println("Tiempo: " + count);
+                //If encargado de cambiar las baldosas
                 if (count % 2 == 0){
                     ronda.changeBaldosa();
                     int[][] tablero = ronda.getTablero();
                     //Obtenemos ruta absoluta para añadir baldosas
-        String rutaArchivo = new File("").getAbsolutePath();
+                    String rutaArchivo = new File("").getAbsolutePath();
                     //Concatemos la ruta absoluta de "Miniproyecto - 2" con la ruta de todos los .png a utilizar
-        String baldosaRuta = rutaArchivo.concat("\\src\\imagenes\\baldosas\\");
-        //Este for se encarga de establecer la respectiva imágen de la baldosa
-        //al respectivo label
-        for (int row = 0; row < 4; row++){
-            for (int column = 0; column < 2; column++){
-                System.out.println("Aqui tienes: " + tablero[row][column]);
-                if (tablero[row][column] != 0){
-                    //Se establece la ruta a la imágen
-                    String rutaImagenBaldosa = baldosaRuta + tablero[row][column] + ".png";
-                    System.out.println(rutaImagenBaldosa);
-                    //Se carga la imágen y se añade al respectivo label
-                    imagenBaldosa = new File(rutaImagenBaldosa);
-                    BufferedImage bufferedImagenBaldosa = null;
-                    try {
-                        bufferedImagenBaldosa = ImageIO.read(imagenBaldosa);
-                    } catch (IOException ex) {
-                        Logger.getLogger(VentanaJuego.class.getName()).log(Level.SEVERE, null, ex);
+                    String baldosaRuta = rutaArchivo.concat("\\src\\imagenes\\baldosas\\");
+                    //Este for se encarga de establecer la respectiva imágen de la baldosa
+                    //al respectivo label
+                    for (int row = 0; row < 4; row++){
+                        for (int column = 0; column < 2; column++){
+                        System.out.println("Aqui tienes: " + tablero[row][column]);
+                        if (tablero[row][column] != 0){
+                            //Se establece la ruta a la imágen
+                            String rutaImagenBaldosa = baldosaRuta + tablero[row][column] + ".png";
+                            System.out.println(rutaImagenBaldosa);
+                            //Se carga la imágen y se añade al respectivo label
+                            imagenBaldosa = new File(rutaImagenBaldosa);
+                            BufferedImage bufferedImagenBaldosa = null;
+                            try {
+                                bufferedImagenBaldosa = ImageIO.read(imagenBaldosa);
+                            } catch (IOException ex) {
+                                Logger.getLogger(VentanaJuego.class.getName()).log(Level.SEVERE, null, ex);
+                            }
+                            ImageIcon iconBaldosa = new ImageIcon(bufferedImagenBaldosa);
+                            lblBaldosas[row][column].setIcon(iconBaldosa);
+                            }
+                        }
                     }
-                    ImageIcon iconBaldosa = new ImageIcon(bufferedImagenBaldosa);
-                    lblBaldosas[row][column].setIcon(iconBaldosa);
-                }
-            }
-        }
-                    
                 }
             }
         };
+        //Establecemos el timer
         timerTiempo = new Timer(delay, action);
         timerTiempo.setInitialDelay(0);
         timerTiempo.start();
