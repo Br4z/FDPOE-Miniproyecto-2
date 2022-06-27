@@ -29,7 +29,13 @@ import javax.swing.*;
  */
 
 public class VentanaFinal extends JFrame {
-    public VentanaFinal() {
+    private int aciertos;
+    private int score;
+    
+    public VentanaFinal(int aciertos, int score) {
+        this.aciertos = aciertos;
+        this.score = score;
+        
         initializeComponents();        
         setSize(720, 480);
         setTitle("Ados2a - Inicio");
@@ -44,5 +50,22 @@ public class VentanaFinal extends JFrame {
         // Para establecer el icono en la aplicación
         Image icon = myScreen.getImage("src/Imagenes/icon.png");
         setIconImage(icon);
+        
+        // Establecemos el fondo
+        setContentPane(new Background());
+        setLayout(null); // Descativamos la distribucion por defecto         
     }
+    
+    private class Background extends JPanel {
+        private Image image;
+        
+        public Background() {
+            // Aprovechando que declaramos la imagen como atributo podemos hacer esto
+            File myImage = new File("src/Imagenes/final_background.jpg");
+            try {
+                image = ImageIO.read(myImage); // Este método arroja una excepción, entonces tenemos que atraparla
+            } catch(IOException e) {
+                System.out.println("Ha ocurrido un error !");
+            }
+        }    
 }

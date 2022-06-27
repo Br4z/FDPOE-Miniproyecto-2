@@ -216,7 +216,6 @@ public class VentanaJuego extends JFrame {
     
  
     private class EventsManager extends MouseAdapter implements KeyListener {
-
         public void mouseEntered(MouseEvent e) {
             JLabel elemento = (JLabel) e.getSource(); // Solo estamos escuchando a labels
             

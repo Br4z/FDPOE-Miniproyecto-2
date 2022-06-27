@@ -34,7 +34,7 @@ public class Ronda {
     
     public Ronda() {
         for (int i = 0; i < 3; i++) { // Añadimos las tres baldosas con las que simpre comenzamos
-            aumentarBaldosas();
+            increaseBaldosas();
         }
         cambiarTodasBaldosas();
     }
@@ -54,7 +54,7 @@ public class Ronda {
                 // baldosas
             }
         }
-        disminuirBaldosas();
+        decreaseBaldosas();
         tablero[randomRow][Column] = 0;
     }
     
@@ -87,8 +87,8 @@ public class Ronda {
             if(pressedButton) { // Si hay y presiono el boton
                 return true;
             } else { // Si hay y no presiono el boton
-                disminuirVidas();
-                disminuirBaldosas();
+                decreaseVidas();
+                decreaseBaldosas();
                 return true;    
             }
         } else { // Si presiono el boton y no hay baldosas repetidas
@@ -149,8 +149,8 @@ public class Ronda {
         int randomRow = (int) (Math.random() * 3);
         int Column = 1; // Esta es la columna de las baldosas "interiores", primero
         // intentamos añadirla ahi
-        int numeroBaldosa = 0;
-        int baldosaAleatoria = 0;
+        int numeroBaldosa;
+        int baldosaAleatoria;
         
         // Bucle encargado de cambiar todas las baldosas
         for (int i = 0; i < cantidadBaldosas; i++) {
@@ -183,7 +183,7 @@ public class Ronda {
             // La posición tomada de baldosas[], se vuelve 0 para indicar que la posición ya ha sido tomada
             baldosas[numeroBaldosa] = 0;
         }    
-        aumentarBaldosas();
+        increaseBaldosas();
         tablero[randomRow][Column] = (int) (Math.random() * 16 + 1);
     }
     
@@ -201,18 +201,18 @@ public class Ronda {
             default -> // Corresponde al caso de 8 baldosas
                 score += 100;
         }       
-        aumentarAciertos();
+        increaseAciertos();
     }
     
-    public void increaseBaldosas(){
+    public void increaseBaldosas() {
         cantidadBaldosas += 1;
     }
     
-    public void decreaseBaldosas(){
+    public void decreaseBaldosas() { 
         cantidadBaldosas -= 1;
     }
     
-    public void increaseAciertos(){
+    public void increaseAciertos() {
         aciertos += 1;
     }
     
@@ -220,7 +220,7 @@ public class Ronda {
         return aciertos;
     }
     
-    public void disminuirVidas(){
+    public void decreaseVidas(){
         vidas -= 1;
     }
     
