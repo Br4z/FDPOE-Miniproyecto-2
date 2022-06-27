@@ -162,10 +162,11 @@ public class VentanaJuego extends JFrame {
             }
         }
         
-        add(panel);
+        this.add(panel);
         
         //ManejadorDeEventos
         lblPuntuacion.addMouseListener(new ManejadorDeEventos());
+        panel.addMouseListener(new ManejadorDeEventos());
         
 
     }
@@ -244,12 +245,6 @@ public class VentanaJuego extends JFrame {
         @Override
         public void mouseClicked(MouseEvent e) {
             //throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-            JLabel elemento = (JLabel) e.getSource();
-            
-            if (elemento == lblPuntuacion){
-                System.out.println("Hola");
-                startTimer(0);
-            }
         }
 
         @Override
@@ -264,7 +259,10 @@ public class VentanaJuego extends JFrame {
 
         @Override
         public void mouseEntered(MouseEvent e) {
-            //throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+            
+            if (e.getSource() == panel){
+                startTimer(0);
+            }
         }
 
         @Override
