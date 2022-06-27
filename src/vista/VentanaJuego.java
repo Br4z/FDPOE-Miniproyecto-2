@@ -92,13 +92,6 @@ public class VentanaJuego extends JFrame {
 	setIconImage(icon);
         add(new background());
         
-        
-        //Obtenemos ruta absoluta para añadir baldosas
-        String rutaArchivo = new File("").getAbsolutePath();
-        
-        //Concatemos la ruta absoluta de "Miniproyecto - 2" con la ruta de todos los .png a utilizar
-        String baldosaRuta = rutaArchivo.concat("\\src\\imagenes\\baldosas\\");
-        
         //Declaramos ronda
         ronda = new Ronda();
         

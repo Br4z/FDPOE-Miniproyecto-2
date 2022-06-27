@@ -138,8 +138,6 @@ public class Ronda {
                     repeticion = false;
                 }
                 // Mientras no encuentre una baldosa que no se repite sobrescribira lo siguiente:
-                System.out.println(randomRow);
-                System.out.println(randomColumn);
                 tablero[randomRow][randomColumn] = randomBaldosa;
             }                       
         }       
