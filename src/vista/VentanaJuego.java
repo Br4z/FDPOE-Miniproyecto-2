@@ -47,9 +47,9 @@ public class VentanaJuego extends JFrame {
     private JLabel  lbl30         = new JLabel();
     private JLabel  lbl31         = new JLabel();
     private JLabel  lblScoreTxt   = new JLabel("Puntación: 00000");
-    private JLabel  lblVida1;
-    private JLabel  lblVida2;
-    private JLabel  lblVida3;
+    private JLabel  lblVida1      = new JLabel();
+    private JLabel  lblVida2      = new JLabel();
+    private JLabel  lblVida3      = new JLabel();
     private JLabel  lblBoton      = new JLabel();    
     private JLabel  lblVolumen    = new JLabel();
     private boolean volumen       = true; // Este atributo es para llevar el control del volumen
@@ -101,6 +101,9 @@ public class VentanaJuego extends JFrame {
         lblBoton.setBounds(720 - 200, 510 - 150, 100, 100);
         lblVolumen.setBounds(10, 510 - 100, 50, 50);
         lblExit.setBounds(720 - 75, 10, 50, 50);
+        lblVida1.setBounds(0, 0,1000,1000);
+        lblVida2.setBounds(0, 0,1000,1000);
+        setVidas();
       
         ImageIcon botonImageIcon = new ImageIcon("src/imagenes/botones/botones juego/normal.png");
         Icon botonIcon = new ImageIcon(botonImageIcon.getImage().getScaledInstance(100, 100, Image.SCALE_DEFAULT));
@@ -168,6 +171,7 @@ public class VentanaJuego extends JFrame {
                 ronda.removeABaldosa();
                 ronda.cambiarTodasBaldosas();
                 changeImages();
+                setVidas();
                 timerBaldosas.stop();
                 startTimerEspera(0);
             } else {
@@ -216,6 +220,49 @@ public class VentanaJuego extends JFrame {
                 } else if (tablero[row][column] == 0){ //Si la baldosa se encuentra vacía
                     lblBaldosas[row][column].setIcon(null);
                 }
+            }
+        }
+    }
+    
+    //Método encargado de establecer/actualizar vidas
+    public void setVidas(){
+        //Obtenemos las vidas que tiene el jugador
+        int vidasTotal = ronda.getVidas();
+        
+        //Obtenemos las rutas de las imágenes
+        //fullVida
+        ImageIcon fullVidaImageIcon = new ImageIcon("src/imagenes/vidas/con_vida.png");
+        Icon fullVidaIcon = new ImageIcon(fullVidaImageIcon.getImage().getScaledInstance(100, 100, Image.SCALE_DEFAULT));
+        
+        //emptyVida
+        ImageIcon emptyVidaImageIcon = new ImageIcon("src/imagenes/vidas/sin_vida.png");
+        Icon emptyVidaIcon = new ImageIcon(emptyVidaImageIcon.getImage().getScaledInstance(100, 100, Image.SCALE_DEFAULT));
+        
+        switch (vidasTotal) {
+            case 3 -> {
+                System.out.println("Puse vidas ewe");
+                lblVida1.setIcon(fullVidaIcon);
+                lblVida2.setIcon(fullVidaIcon);
+                lblVida3.setIcon(fullVidaIcon);
+            }
+            case 2 -> {
+                lblVida1.setIcon(emptyVidaIcon);
+                lblVida2.setIcon(fullVidaIcon);
+                lblVida3.setIcon(fullVidaIcon);
+            }
+            case 1 -> {
+                lblVida1.setIcon(emptyVidaIcon);
+                lblVida2.setIcon(emptyVidaIcon);
+                lblVida3.setIcon(fullVidaIcon);
+            }
+            case 0 -> {
+                lblVida1.setIcon(emptyVidaIcon);
+                lblVida2.setIcon(emptyVidaIcon);
+                lblVida3.setIcon(emptyVidaIcon);
+                VentanaFinal window = new VentanaFinal(ronda.getAciertos(), ronda.getScore());
+                dispose();
+            }
+            default -> {
             }
         }
     }
@@ -332,6 +379,7 @@ public class VentanaJuego extends JFrame {
                     }
                     ronda.cambiarTodasBaldosas();
                     changeImages();
+                    setVidas();
                     
                 } else {
                     ronda.removeABaldosa();
@@ -382,6 +430,7 @@ public class VentanaJuego extends JFrame {
                     }
                     ronda.cambiarTodasBaldosas();
                     changeImages();
+                    setVidas();
                     
                 } else {
                     System.out.println("lol");

@@ -281,6 +281,10 @@ public class Ronda {
     public int[][] getTablero() {
         return tablero;
     }
+
+    public int getAciertos() {
+        return aciertos;
+    }
     
     //ESTE ES DE PRUEBA, BORRAR PARA EL FINAL
     public void mostrarTablero(){
