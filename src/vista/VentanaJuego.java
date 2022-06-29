@@ -97,6 +97,7 @@ public class VentanaJuego extends JFrame {
         lblBaldosas[3][0] = lbl30;
         lblBaldosas[3][1] = lbl31;
         
+        lblScoreTxt.setBounds(0,-30,300,100);
         lblBoton.setBounds(720 - 200, 510 - 150, 100, 100);
         lblVolumen.setBounds(10, 510 - 100, 50, 50);
         lblExit.setBounds(720 - 75, 10, 50, 50);
@@ -197,6 +198,7 @@ public class VentanaJuego extends JFrame {
         countEspera = countPassed;
     }
     
+    //Método encargado de cambiar las imágenes
     public void changeImages(){
         int[][] tablero = ronda.getTablero();
         String path = "src/imagenes/baldosas/";
@@ -216,6 +218,36 @@ public class VentanaJuego extends JFrame {
                 }
             }
         }
+    }
+    
+    //Método encargado de establecer el puntaje
+    public void setScore(){
+        String score = String.valueOf(ronda.getScore());
+        int length = score.length();
+        
+        //Switch encargado de añadirle los "ceros" restantes al puntaje y así ponerlos en
+        //el lblScoreText
+        switch (length) {
+            case 1 ->                 {
+                    String zeros = "000";
+                    score = zeros + score;
+                    lblScoreTxt.setText("Puntuación: " + score);
+                }
+            case 2 ->                 {
+                    String zeros = "00";
+                    score = zeros + score;
+                    lblScoreTxt.setText("Puntuación: " + score);
+                }
+            case 3 ->                 {
+                    String zeros = "0";
+                    score = zeros + score;
+                    lblScoreTxt.setText("Puntuación: " + score);
+                }
+            case 4 -> lblScoreTxt.setText("Puntuación: " + score);
+            default -> {
+            }
+        }
+        
     }
        
     private class Background extends JPanel {
@@ -293,6 +325,8 @@ public class VentanaJuego extends JFrame {
                 //Verifica
                 boolean correctOportunity = ronda.checkBaldosas(true);
                 if (correctOportunity){
+                    ronda.increaseScore();
+                    setScore();
                     if(ronda.getCantidadBaldosas() <= 7){
                         ronda.increaseBaldosas();
                     }
@@ -341,6 +375,8 @@ public class VentanaJuego extends JFrame {
                 //Verifica
                 boolean correctOportunity = ronda.checkBaldosas(true);
                 if (correctOportunity){
+                    ronda.increaseScore();
+                    setScore();
                     if(ronda.getCantidadBaldosas() <= 7){
                         ronda.increaseBaldosas();
                     }
