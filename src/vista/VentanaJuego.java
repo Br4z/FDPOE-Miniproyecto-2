@@ -348,6 +348,7 @@ public class VentanaJuego extends JFrame {
                     changeImages();
                     
                 } else {
+                    System.out.println("lol");
                     ronda.removeABaldosa();
                     ronda.cambiarTodasBaldosas();
                     changeImages();

@@ -101,22 +101,20 @@ public class Ronda {
                 }
                 return true;    
             }
-        } else { // Si presiono el boton y no hay baldosas repetidas
-            return false;
+        } else { //Si no hay baldosas repetidas
+            if (pressedButton){ //Si no hay, y presionó el botón
+                decreaseVidas();
+                if (cantidadBaldosas > 3){
+                    decreaseBaldosas();
+                }
+                return false;
+            } else { //Si no hay, y no presionó el botón
+                return false;
+            }
         }                      
     }
     
     public void changeBaldosa() {
-        // Seleccionamos una fila y una columna aleatorias
-        int randomRow = (int) (Math.random() * 4 + 0);
-        int randomColumn = (int) (Math.random() * 2 + 0);
-        
-        // Este while es para asegurar encontrar una baldosa
-        while(tablero[randomRow][randomColumn] == 0) {
-            randomRow = (int) (Math.random() * 4 + 0);
-            randomColumn = (int) (Math.random() * 2 + 0);
-        }        
-
         reduceChangesNumber();
         
         int[] baldosasEnTablero = new int[cantidadBaldosas];
@@ -131,13 +129,35 @@ public class Ronda {
             }
         }
         
-        if (changesNumber == 0) { // Cuando ponemos una repetida
+        if (changesNumber == 0) { // Aquí pondremos una baldosa que se repita
             int posicionAleatoria = (int) (Math.random() * (cantidadBaldosas) + 0); // Restamos 1, porque
             // empezamos en una lista empezamos a contar desde el cero
             int randomBaldosa = baldosasEnTablero[posicionAleatoria];
+            
+            //Verificamos que la baldosa repetida no la vaya a poner en el mismo lugar de la baldosa origen
+            // Seleccionamos una fila y una columna aleatorias
+            int randomRow = (int) (Math.random() * 4 + 0);
+            int randomColumn = (int) (Math.random() * 2 + 0);
+        
+            // Este while es para asegurar encontrar una baldosa
+            while(tablero[randomRow][randomColumn] == 0 || tablero[randomRow][randomColumn] == randomBaldosa) {
+                randomRow = (int) (Math.random() * 4 + 0);
+                randomColumn = (int) (Math.random() * 2 + 0);
+            }        
+            
             tablero[randomRow][randomColumn] = randomBaldosa;
             System.out.println("Baldosa aleatoria!!!");
-        } else { // Cuando no ponemos una repetida           
+            
+        } else { // Cuando no ponemos una repetida   
+            int randomRow = (int) (Math.random() * 4 + 0);
+            int randomColumn = (int) (Math.random() * 2 + 0);
+        
+            // Este while es para asegurar encontrar una baldosa
+            while(tablero[randomRow][randomColumn] == 0) {
+                randomRow = (int) (Math.random() * 4 + 0);
+                randomColumn = (int) (Math.random() * 2 + 0);
+            }
+            
             boolean repeticion = true;
             while(repeticion) {
                 int randomBaldosa = (int) (Math.random() * 16 + 1);
@@ -149,6 +169,7 @@ public class Ronda {
                     repeticion = false;
                 }
                 // Mientras no encuentre una baldosa que no se repite sobrescribira lo siguiente:
+                
                 tablero[randomRow][randomColumn] = randomBaldosa;
             }                       
         }       
