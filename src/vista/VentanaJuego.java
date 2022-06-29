@@ -101,8 +101,9 @@ public class VentanaJuego extends JFrame {
         lblBoton.setBounds(720 - 200, 510 - 150, 100, 100);
         lblVolumen.setBounds(10, 510 - 100, 50, 50);
         lblExit.setBounds(720 - 75, 10, 50, 50);
-        lblVida1.setBounds(0, 0,1000,1000);
-        lblVida2.setBounds(0, 0,1000,1000);
+        lblVida1.setBounds(0, 100, 100, 100);
+        lblVida2.setBounds(0, 200, 100, 100);
+        lblVida3.setBounds(0, 300, 100, 100);
         setVidas();
       
         ImageIcon botonImageIcon = new ImageIcon("src/imagenes/botones/botones juego/normal.png");
