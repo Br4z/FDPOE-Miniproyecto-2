@@ -68,4 +68,5 @@ public class VentanaFinal extends JFrame {
                 System.out.println("Ha ocurrido un error !");
             }
         }    
+    }
 }
