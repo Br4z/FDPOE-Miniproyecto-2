@@ -191,7 +191,6 @@ public class VentanaJuego extends JFrame {
                 ((Timer)e.getSource()).stop();
             }
         };
-        //lblBoton.removeMouseListener(new EventsManager());
         timerEspera = new Timer(delay, action);
         timerEspera.setInitialDelay(0);
         timerEspera.start();
@@ -246,7 +245,7 @@ public class VentanaJuego extends JFrame {
         public void mouseEntered(MouseEvent e) {
             JLabel elemento = (JLabel) e.getSource(); // Solo estamos escuchando a labels
             
-            if(elemento == lblBoton) {
+            if(elemento == lblBoton && timerBaldosas.isRunning()) {
                 ImageIcon botonImageIcon = new ImageIcon("src/imagenes/botones/botones juego/hover.png");
                 Icon botonIcon = new ImageIcon(botonImageIcon.getImage().getScaledInstance(100, 100, Image.SCALE_DEFAULT));
                 lblBoton.setIcon(botonIcon); 
@@ -256,7 +255,7 @@ public class VentanaJuego extends JFrame {
         public void mouseExited(MouseEvent e) {
             JLabel elemento = (JLabel) e.getSource(); // Solo estamos escuchando a labels
             
-            if(elemento == lblBoton) {
+            if(elemento == lblBoton && timerBaldosas.isRunning()) {
                 ImageIcon botonImageIcon = new ImageIcon("src/imagenes/botones/botones juego/normal.png");
                 Icon botonIcon = new ImageIcon(botonImageIcon.getImage().getScaledInstance(100, 100, Image.SCALE_DEFAULT));
                 lblBoton.setIcon(botonIcon); 
@@ -266,7 +265,7 @@ public class VentanaJuego extends JFrame {
         public void mousePressed(MouseEvent e) { // Cuando se oprime el clic del mouse
             JLabel elemento = (JLabel) e.getSource(); // Solo estamos escuchando a labels
             
-            if(elemento == lblBoton) {
+            if(elemento == lblBoton && timerBaldosas.isRunning()) {
                 ImageIcon botonImageIcon = new ImageIcon("src/imagenes/botones/botones juego/pressed.png");
                 Icon botonIcon = new ImageIcon(botonImageIcon.getImage().getScaledInstance(100, 100, Image.SCALE_DEFAULT));
                 lblBoton.setIcon(botonIcon); 
@@ -276,7 +275,7 @@ public class VentanaJuego extends JFrame {
         public void mouseReleased(MouseEvent e) { // Cuando se suelta el clic del mouse
             JLabel elemento = (JLabel) e.getSource(); // Solo estamos escuchando a labels
             
-            if(elemento == lblBoton) {
+            if(elemento == lblBoton && timerBaldosas.isRunning()) {
                 ImageIcon botonImageIcon = new ImageIcon("src/imagenes/botones/botones juego/normal.png");
                 Icon botonIcon = new ImageIcon(botonImageIcon.getImage().getScaledInstance(100, 100, Image.SCALE_DEFAULT));
                 lblBoton.setIcon(botonIcon); 
@@ -286,7 +285,7 @@ public class VentanaJuego extends JFrame {
         public void mouseClicked(MouseEvent e) { // Cuando se presiona y suelta el clic del mouse
             JLabel elemento = (JLabel) e.getSource(); // Solo estamos escuchando a labels
             
-            if(elemento == lblBoton) {
+            if(elemento == lblBoton && timerBaldosas.isRunning()) {
                 //Detiene el tiempo por un momento
                 timerBaldosas.stop();
                 startTimerEspera(0);
@@ -330,7 +329,7 @@ public class VentanaJuego extends JFrame {
         public void keyPressed(KeyEvent e) { // Cuando se presiona la tecla 
             int keyCode = e.getKeyCode();
             
-            if(keyCode == 32) {
+            if(keyCode == 32 && timerBaldosas.isRunning()) {
                 ImageIcon botonImageIcon = new ImageIcon("src/imagenes/botones/botones juego/pressed.png");
                 Icon botonIcon = new ImageIcon(botonImageIcon.getImage().getScaledInstance(100, 100, Image.SCALE_DEFAULT));
                 lblBoton.setIcon(botonIcon);  
@@ -342,9 +341,18 @@ public class VentanaJuego extends JFrame {
                 //Verifica
                 boolean correctOportunity = ronda.checkBaldosas(true);
                 if (correctOportunity){
-                    ronda.increaseBaldosas();
+                    if(ronda.getCantidadBaldosas() <= 7){
+                        ronda.increaseBaldosas();
+                    }
                     ronda.cambiarTodasBaldosas();
                     changeImages();
+                    
+                } else {
+                    ronda.removeABaldosa();
+                    ronda.cambiarTodasBaldosas();
+                    changeImages();
+                    timerBaldosas.stop();
+                    startTimerEspera(0);
                 }
                 
                 
@@ -355,7 +363,7 @@ public class VentanaJuego extends JFrame {
         public void keyReleased(KeyEvent e) { // Cuando se suelta la tecla
             int keyCode = e.getKeyCode();
 
-            if(keyCode == 32) {
+            if(keyCode == 32 && timerBaldosas.isRunning()) {
                 ImageIcon botonImageIcon = new ImageIcon("src/imagenes/botones/botones juego/normal.png");
                 Icon botonIcon = new ImageIcon(botonImageIcon.getImage().getScaledInstance(100, 100, Image.SCALE_DEFAULT));
                 lblBoton.setIcon(botonIcon);                 
