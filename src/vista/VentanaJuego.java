@@ -164,12 +164,16 @@ public class VentanaJuego extends JFrame {
         ActionListener action = (ActionEvent e) -> {
             boolean missedOportunity = ronda.checkBaldosas(false);
             if (missedOportunity){
+                ronda.removeABaldosa();
+                ronda.cambiarTodasBaldosas();
+                changeImages();
                 timerBaldosas.stop();
                 startTimerEspera(0);
+            } else {
+                makeAChange();
+                changeImages();
+                countBaldosas++;
             }
-            makeAChange();
-            changeImages();
-            countBaldosas++;
         };
         // Establecemos el timer
         timerBaldosas = new Timer(delay, action);
@@ -187,6 +191,7 @@ public class VentanaJuego extends JFrame {
                 ((Timer)e.getSource()).stop();
             }
         };
+        //lblBoton.removeMouseListener(new EventsManager());
         timerEspera = new Timer(delay, action);
         timerEspera.setInitialDelay(0);
         timerEspera.start();
@@ -289,9 +294,18 @@ public class VentanaJuego extends JFrame {
                 //Verifica
                 boolean correctOportunity = ronda.checkBaldosas(true);
                 if (correctOportunity){
-                    ronda.increaseBaldosas();
+                    if(ronda.getCantidadBaldosas() <= 7){
+                        ronda.increaseBaldosas();
+                    }
                     ronda.cambiarTodasBaldosas();
                     changeImages();
+                    
+                } else {
+                    ronda.removeABaldosa();
+                    ronda.cambiarTodasBaldosas();
+                    changeImages();
+                    timerBaldosas.stop();
+                    startTimerEspera(0);
                 }
             } else if(elemento == lblExit) {
                 VentanaInicio window = new VentanaInicio();

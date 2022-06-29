@@ -40,7 +40,7 @@ public class Ronda {
     }
        
     public void removeABaldosa() { // Cuando perdemos removemos una baldosa
-        int randomRow = (int) (Math.random() * 3);
+        int randomRow = (int) (Math.random() * 4 + 0);
         int Column = 0; // Esta es la columna de las baldosas "exteriores", primero
         // intentamos quitarla de ahi
         
@@ -50,17 +50,18 @@ public class Ronda {
                 // interior
                 Column = 1;              
             } else {
-                randomRow = (int) (Math.random() * 3); // Proponemos otra fila, si esa fila no tiene
+                randomRow = (int) (Math.random() * 4 + 0); // Proponemos otra fila, si esa fila no tiene
                 // baldosas
+                Column = 0;
             }
         }
-        decreaseBaldosas();
         tablero[randomRow][Column] = 0;
     }
     
     public boolean checkBaldosas(boolean pressedButton){
         int repeatedBaldosa = 0; // El 0 significara que no se encontro baldosa repetida
         int counter = 0;
+        System.out.println();
         int[] baldosas = new int[cantidadBaldosas]; // Guardamos en esta colección las baldosas
         
         for (int[] row: tablero) { // Recorremos filas
@@ -131,13 +132,13 @@ public class Ronda {
         }
         
         if (changesNumber == 0) { // Cuando ponemos una repetida
-            int posicionAleatoria = (int) (Math.random() * (cantidadBaldosas - 1)); // Restamos 1, porque
+            int posicionAleatoria = (int) (Math.random() * (cantidadBaldosas) + 0); // Restamos 1, porque
             // empezamos en una lista empezamos a contar desde el cero
             int randomBaldosa = baldosasEnTablero[posicionAleatoria];
             tablero[randomRow][randomColumn] = randomBaldosa;
+            System.out.println("Baldosa aleatoria!!!");
         } else { // Cuando no ponemos una repetida           
-            boolean repeticion = true;           
-            
+            boolean repeticion = true;
             while(repeticion) {
                 int randomBaldosa = (int) (Math.random() * 16 + 1);
                 
@@ -154,6 +155,7 @@ public class Ronda {
     }
     
     public void cambiarTodasBaldosas(){
+        setChangesNumber();
         for (int m = 0; m < 4; m++){
             for (int n = 0; n < 2; n++){
                 tablero[m][n] = 0;
@@ -181,7 +183,7 @@ public class Ronda {
             }
                             
             // Se selecciona una posición aleatoria de baldosas[]
-            numeroBaldosa = (int) (Math.random() * 16 + 0);
+            numeroBaldosa = (int) (Math.random() * 15 + 1);
             
             // Guarda el número de baldosa
             baldosaAleatoria = baldosas[numeroBaldosa];
@@ -189,7 +191,7 @@ public class Ronda {
             // Si la baldosa "Ya fue tomada", repite el proceso hasta tomar una que no se encuentre ocupada,
             // con esto aseguramos que no haya baldosas repetidas en el primer cambio
             while(baldosaAleatoria == 0){
-                numeroBaldosa = (int) (Math.random() * 16 + 0);            
+                numeroBaldosa = (int) (Math.random() * 15 + 1);            
                 baldosaAleatoria = baldosas[numeroBaldosa];
             }
             
@@ -225,6 +227,10 @@ public class Ronda {
     
     public void decreaseBaldosas() { 
         cantidadBaldosas -= 1;
+    }
+
+    public int getCantidadBaldosas() {
+        return cantidadBaldosas;
     }
     
     public void increaseAciertos() {
