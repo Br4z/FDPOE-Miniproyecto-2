@@ -64,31 +64,39 @@ public class Ronda {
         int[] baldosas = new int[cantidadBaldosas]; // Guardamos en esta colección las baldosas
         
         for (int[] row: tablero) { // Recorremos filas
-            for (int j = 0; j < 1; j++) { // Recorremos columnas
-                int baldosa = row[j];
-                baldosas[counter] = baldosa; // Estamos pasando una matriz 2D a una 1D
-                counter++;
+            for (int baldosa: row){ // Recorremos columnas
+                if (baldosa != 0){
+                    baldosas[counter] = baldosa; // Estamos pasando una matriz 2D a una 1D
+                    counter++;
+                }
             }
-        }        
+        }
          
         // Aquí comprobamos si existen dos baldosas "repetidas", y en caso de que lo sean, suma 1 al contador
         for (int i = 0; i < baldosas.length; i++) {
-            for (int j = i + 1; j < baldosas.length; j++) {
-                if (baldosas[j] == baldosas[i]) {
-                    repeatedBaldosa = baldosas[j];
-                    break; // En nuestra logica solo es posible una baldosa repetida, porque se 
-                    // agregan de una en una
+            repeatedBaldosa = 0;
+            for (int j = 0; j < baldosas.length; j++) {
+                if (baldosas[i] == baldosas[j]) {
+                    repeatedBaldosa++;
                 }
-            }           
+                if (repeatedBaldosa >= 2){
+                    break;
+                }
+            }
+            if (repeatedBaldosa >= 2){
+                break;
+            }
         }
         // Comprobacion viable para VentanaJuego
         // Aquí comprobamos si hay dos baldosas repetidas en el tablero
-        if (repeatedBaldosa != 0) {
+        if (repeatedBaldosa >= 2) {
             if(pressedButton) { // Si hay y presiono el boton
                 return true;
             } else { // Si hay y no presiono el boton
                 decreaseVidas();
-                decreaseBaldosas();
+                if (cantidadBaldosas > 3){
+                    decreaseBaldosas();
+                }
                 return true;    
             }
         } else { // Si presiono el boton y no hay baldosas repetidas
@@ -183,8 +191,8 @@ public class Ronda {
             // La posición tomada de baldosas[], se vuelve 0 para indicar que la posición ya ha sido tomada
             baldosas[numeroBaldosa] = 0;
         }    
-        increaseBaldosas();
-        tablero[randomRow][Column] = (int) (Math.random() * 16 + 1);
+        //increaseBaldosas();
+        //tablero[randomRow][Column] = (int) (Math.random() * 16 + 1);
     }
     
     public int getScore() {

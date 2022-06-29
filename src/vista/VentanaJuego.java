@@ -56,13 +56,15 @@ public class VentanaJuego extends JFrame {
     private JLabel  lblExit       = new JLabel();
     
    
-    private Timer timer;
-    int count = 0;
+    private Timer timerBaldosas;
+    int countBaldosas = 0;
     int delay = 1000;
+    private Timer timerEspera;
+    int countEspera = 0;
     
       
     public VentanaJuego() {
-        startTimer(1);
+        startTimerBaldosas(1);
         initializeComponents();        
         setSize(720, 515); // Aqui es diferente el alto porque el la ventan empiza en los bordes, no en la imagen
         setTitle("Ados2a - Juego");
@@ -157,22 +159,53 @@ public class VentanaJuego extends JFrame {
         ronda.changeBaldosa();
     }
     
-    // Método encargado de accionar el contador (timer)
-    private void startTimer(int countPassed) {
+    // Método encargado de accionar el contador (timerBaldosas)
+    private void startTimerBaldosas(int countPassed) {
         ActionListener action = (ActionEvent e) -> {
-            count++;
+            makeAChange();
+            changeImages();
+            boolean missedOportunity = ronda.checkBaldosas(false);
+            System.out.println(missedOportunity);
+            if (missedOportunity){
+                ((Timer)e.getSource()).stop();
+            }
+            countBaldosas++;
             // Condicional encargado de cambiar las baldosas
-            if (count % 1 == 0) {
+            /*
+            if (countBaldosas % 1 == 0) {
+                boolean missedOportunity = ronda.checkBaldosas(false);
+                System.out.println(missedOportunity);
+                if (missedOportunity){
+                    ((Timer)e.getSource()).stop();
+                    startTimerEspera(0);
+                } else {
+                    
+                }
                 makeAChange();       
                 // Cambiamos las respectivas imágenes de baldosas
                 changeImages();
             }
+            */
         };
         // Establecemos el timer
-        timer = new Timer(delay, action);
-        timer.setInitialDelay(0);
-        timer.start();
-        count = countPassed;
+        timerBaldosas = new Timer(delay, action);
+        timerBaldosas.setInitialDelay(0);
+        timerBaldosas.start();
+        countBaldosas = countPassed;
+    }
+    
+    
+    private void startTimerEspera(int countPassed){
+        ActionListener action = (ActionEvent e) -> {
+            countEspera++;
+            if (countEspera == 5){
+                //timerBaldosas.start();
+            }
+        };
+        timerEspera = new Timer(delay, action);
+        timerEspera.setInitialDelay(0);
+        timerBaldosas.start();
+        countEspera = countPassed;
     }
     
     public void changeImages(){
@@ -183,7 +216,7 @@ public class VentanaJuego extends JFrame {
             for (int column = 0; column < 2; column++){
                 if (true) { //tablero[row][column] != 0
                     // Se establece la ruta a la imágen
-                    String rutaImagenBaldosa = path + "1.png";//+ tablero[row][column] + ".png"; // Accedemos al numero de la baldosa
+                    String rutaImagenBaldosa = path + tablero[row][column] + ".png";//+ tablero[row][column] + ".png"; // Accedemos al numero de la baldosa
 
                     ImageIcon baldosaImageIcon = new ImageIcon(rutaImagenBaldosa);
                     Icon BaldosaIcon = new ImageIcon(baldosaImageIcon.getImage().getScaledInstance(90, 90, Image.SCALE_DEFAULT));
