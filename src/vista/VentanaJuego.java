@@ -64,8 +64,8 @@ public class VentanaJuego extends JFrame {
     
       
     public VentanaJuego() {
-        startTimerBaldosas(0);
         initializeComponents();        
+        startTimerBaldosas(0);
         setSize(720, 515); // Aqui es diferente el alto porque el la ventan empiza en los bordes, no en la imagen
         setTitle("Ados2a - Juego");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -149,7 +149,10 @@ public class VentanaJuego extends JFrame {
                 add(baldosa);
             }
         }
-    
+        
+        add(lblVida1);
+        add(lblVida2);
+        add(lblVida3);
         add(lblBoton);
         add(lblVolumen);
         add(lblExit);
@@ -169,13 +172,10 @@ public class VentanaJuego extends JFrame {
         ActionListener action = (ActionEvent e) -> {
             boolean missedOportunity = ronda.checkBaldosas(false);
             if (missedOportunity){
-                ronda.removeABaldosa();
-                ronda.cambiarTodasBaldosas();
-                changeImages();
-                setVidas();
                 timerBaldosas.stop();
                 startTimerEspera(0);
             } else {
+                System.out.println("Entré al timer");
                 makeAChange();
                 changeImages();
                 countBaldosas++;
@@ -192,9 +192,15 @@ public class VentanaJuego extends JFrame {
     private void startTimerEspera(int countPassed){
         ActionListener action = (ActionEvent e) -> {
             countEspera++;
-            if (countEspera > 3){
-                timerBaldosas.start();
+            if (countEspera == 3){
+                ronda.removeABaldosa();
+                System.out.println("Se cambiaron todas las baldosas");
+                ronda.cambiarTodasBaldosas();
+                changeImages();
+                setVidas();
+            } else if (countEspera == 4){
                 ((Timer)e.getSource()).stop();
+                timerBaldosas.start();
             }
         };
         timerEspera = new Timer(delay, action);
@@ -241,7 +247,6 @@ public class VentanaJuego extends JFrame {
         
         switch (vidasTotal) {
             case 3 -> {
-                System.out.println("Puse vidas ewe");
                 lblVida1.setIcon(fullVidaIcon);
                 lblVida2.setIcon(fullVidaIcon);
                 lblVida3.setIcon(fullVidaIcon);
@@ -261,6 +266,8 @@ public class VentanaJuego extends JFrame {
                 lblVida2.setIcon(emptyVidaIcon);
                 lblVida3.setIcon(emptyVidaIcon);
                 VentanaFinal window = new VentanaFinal(ronda.getAciertos(), ronda.getScore());
+                timerBaldosas.stop();
+                timerEspera.stop();
                 dispose();
             }
             default -> {
@@ -378,13 +385,11 @@ public class VentanaJuego extends JFrame {
                     if(ronda.getCantidadBaldosas() <= 7){
                         ronda.increaseBaldosas();
                     }
-                    ronda.cambiarTodasBaldosas();
                     changeImages();
                     setVidas();
                     
                 } else {
                     ronda.removeABaldosa();
-                    ronda.cambiarTodasBaldosas();
                     changeImages();
                     timerBaldosas.stop();
                     startTimerEspera(0);
@@ -429,14 +434,12 @@ public class VentanaJuego extends JFrame {
                     if(ronda.getCantidadBaldosas() <= 7){
                         ronda.increaseBaldosas();
                     }
-                    ronda.cambiarTodasBaldosas();
                     changeImages();
                     setVidas();
                     
                 } else {
                     System.out.println("lol");
                     ronda.removeABaldosa();
-                    ronda.cambiarTodasBaldosas();
                     changeImages();
                     timerBaldosas.stop();
                     startTimerEspera(0);

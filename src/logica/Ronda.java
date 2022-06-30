@@ -24,7 +24,7 @@ package logica;
 
 public class Ronda {
     // Como todas las rondas empiezan de la misma forma, le damos los atributos con valores
-    private int changesNumber  = (int) (Math.random() * 9 + 1); // Numero de cambios para repetir una baldosa
+    private int changesNumber  = (int) (1+ (Math.random() * 10)); // Numero de cambios para repetir una baldosa
     private int vidas            = 3;
     private int score            = 0;
     private int aciertos         = 0;
@@ -61,7 +61,6 @@ public class Ronda {
     public boolean checkBaldosas(boolean pressedButton){
         int repeatedBaldosa = 0; // El 0 significara que no se encontro baldosa repetida
         int counter = 0;
-        System.out.println();
         int[] baldosas = new int[cantidadBaldosas]; // Guardamos en esta colección las baldosas
         
         for (int[] row: tablero) { // Recorremos filas
@@ -94,7 +93,6 @@ public class Ronda {
             if(pressedButton) { // Si hay y presiono el boton
                 return true;
             } else { // Si hay y no presiono el boton
-                System.out.println("Ups, decreaseBaldosas");
                 decreaseVidas();
                 if (cantidadBaldosas > 3){
                     decreaseBaldosas();
@@ -182,6 +180,7 @@ public class Ronda {
                 tablero[m][n] = 0;
             }
         }
+        
         int[] baldosas = {1, 2, 3, 4, 5, 6, 7, 8, 9 , 10, 11, 12, 13, 14, 15, 16};
         int randomRow = (int) (Math.random() * 4 + 0);
         int Column = 1; // Esta es la columna de las baldosas "interiores", primero
@@ -221,8 +220,8 @@ public class Ronda {
             // La posición tomada de baldosas[], se vuelve 0 para indicar que la posición ya ha sido tomada
             baldosas[numeroBaldosa] = 0;
         }    
-        //increaseBaldosas();
-        //tablero[randomRow][Column] = (int) (Math.random() * 16 + 1);
+        
+        //mostrarTablero();
     }
     
     public int getScore() {
@@ -271,7 +270,7 @@ public class Ronda {
     }
     
     public void setChangesNumber(){
-       changesNumber = (int) (Math.random()* 9 + 1); 
+       changesNumber = (int) (1 + (Math.random() * 10)); 
     }
     
     public void reduceChangesNumber(){
