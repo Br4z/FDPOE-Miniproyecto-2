@@ -15,6 +15,8 @@
 
 package logica;
 
+import java.util.Arrays;
+
 /**
  *  CLASE:     Ronda
  *  INTENCION: Guardar la informacion que tiene un juego.
@@ -24,7 +26,9 @@ package logica;
 
 public class Ronda {
     // Como todas las rondas empiezan de la misma forma, le damos los atributos con valores
-    private int changesNumber  = (int) (1+ (Math.random() * 10)); // Numero de cambios para repetir una baldosa
+    private int changesNumber; // Numero de cambios para repetir una baldosa
+    private int[] changedBaldosa = {-1, -1}; // Para simplificar otros metodos (especificamente en la busqueda), vamos
+    // a establecerlo como atributo
     private int vidas            = 3;
     private int score            = 0;
     private int aciertos         = 0;
@@ -36,11 +40,11 @@ public class Ronda {
         for (int i = 0; i < 3; i++) { // Añadimos las tres baldosas con las que simpre comenzamos
             increaseBaldosas();
         }
-        cambiarTodasBaldosas();
+        changeAllBaldosas();
     }
        
-    public void removeABaldosa() { // Cuando perdemos removemos una baldosa
-        int randomRow = (int) (Math.random() * 4 + 0);
+    public void removeABaldosa() { // Metodo para remover una baldosa (se ejecuta cuando perdemos)
+        int randomRow = (int) (Math.random() * 4);
         int Column = 0; // Esta es la columna de las baldosas "exteriores", primero
         // intentamos quitarla de ahi
         
@@ -50,142 +54,122 @@ public class Ronda {
                 // interior
                 Column = 1;              
             } else {
-                randomRow = (int) (Math.random() * 4 + 0); // Proponemos otra fila, si esa fila no tiene
+                randomRow = (int) (Math.random() * 4); // Proponemos otra fila, si esa fila no tiene
                 // baldosas
                 Column = 0;
             }
         }
+        
+        // Cuando perdemos se "reinicia" el tablero, asi que lo tenemos que hacer
+        // tambien con la baldosa que habiamos cambiado
         tablero[randomRow][Column] = 0;
     }
     
     public boolean checkBaldosas(boolean pressedButton){
-        int repeatedBaldosa = 0; // El 0 significara que no se encontro baldosa repetida
-        int counter = 0;
-        int[] baldosas = new int[cantidadBaldosas]; // Guardamos en esta colección las baldosas
-        
-        for (int[] row: tablero) { // Recorremos filas
-            for (int baldosa: row){ // Recorremos columnas
-                if (baldosa != 0){
-                    baldosas[counter] = baldosa; // Estamos pasando una matriz 2D a una 1D
-                    counter++;
-                }
-            }
-        }
-         
-        // Aquí comprobamos si existen dos baldosas "repetidas", y en caso de que lo sean, suma 1 al contador
-        for (int i = 0; i < baldosas.length; i++) {
-            repeatedBaldosa = 0;
-            for (int j = 0; j < baldosas.length; j++) {
-                if (baldosas[i] == baldosas[j]) {
-                    repeatedBaldosa++;
-                }
-                if (repeatedBaldosa >= 2){
-                    break;
-                }
-            }
-            if (repeatedBaldosa >= 2){
-                break;
-            }
-        }
+        boolean repeatedBaldosa = changesNumber == 0; // En nuestro planteamiento solo hay una baldosa
+        // repetica si el numero de cambios es 0
+ 
+        System.out.println("Cambios para una baldosa repetida " + changesNumber);
         // Comprobacion viable para VentanaJuego
         // Aquí comprobamos si hay dos baldosas repetidas en el tablero
-        if (repeatedBaldosa >= 2) {
+        if(repeatedBaldosa) {
             if(pressedButton) { // Si hay y presiono el boton
+                increaseAciertos();
                 return true;
             } else { // Si hay y no presiono el boton
                 decreaseVidas();
-                if (cantidadBaldosas > 3){
+                if(cantidadBaldosas > 3) {
                     decreaseBaldosas();
                 }
                 return true;    
             }
-        } else { //Si no hay baldosas repetidas
-            if (pressedButton){ //Si no hay, y presionó el botón
+        } else { // Si no hay baldosas repetidas
+            if(pressedButton){ // Si no hay, y presionó el botón
                 decreaseVidas();
-                if (cantidadBaldosas > 3){
+                if(cantidadBaldosas > 3){
                     decreaseBaldosas();
                 }
                 return false;
-            } else { //Si no hay, y no presionó el botón
+            } else { // Si no hay, y no presionó el botón
                 return false;
             }
         }                      
     }
     
-    public void changeBaldosa() {
+    public void changeABaldosa() { // Este es el metodo que cambia una sola baldosa, se ejecuta
+        // constantemente junto con el timer
         reduceChangesNumber();
         
-        int[] baldosasEnTablero = new int[cantidadBaldosas];
-        int contador = 0;
-      
-        for (int[] row: tablero) {
-            for (int baldosa: row) {                
-                if (baldosa != 0){
-                    baldosasEnTablero[contador] = baldosa; 
-                    contador++;
-                } 
-            }
-        }
+        int[] baldosasEnTablero = getArrayBaldosas();
+        System.out.println(Arrays.toString(baldosasEnTablero));
         
-        if (changesNumber == 0) { // Aquí pondremos una baldosa que se repita
-            int posicionAleatoria = (int) (Math.random() * (cantidadBaldosas) + 0); // Restamos 1, porque
-            // empezamos en una lista empezamos a contar desde el cero
+        if(changesNumber == 0) { // Aquí repetiremos una baldosa
+            int posicionAleatoria = (int) (Math.random() * cantidadBaldosas);
             int randomBaldosa = baldosasEnTablero[posicionAleatoria];
             
-            //Verificamos que la baldosa repetida no la vaya a poner en el mismo lugar de la baldosa origen
+            
             // Seleccionamos una fila y una columna aleatorias
-            int randomRow = (int) (Math.random() * 4 + 0);
-            int randomColumn = (int) (Math.random() * 2 + 0);
+            int randomRow = (int) (Math.random() * 4);
+            int randomColumn = (int) (Math.random() * 2);
         
-            // Este while es para asegurar encontrar una baldosa
+            // Este while es para asegurar encontrar una baldosa (y que no sea la misma que ya se encuentra ahi)
             while(tablero[randomRow][randomColumn] == 0 || tablero[randomRow][randomColumn] == randomBaldosa) {
-                randomRow = (int) (Math.random() * 4 + 0);
-                randomColumn = (int) (Math.random() * 2 + 0);
+                randomRow = (int) (Math.random() * 4);
+                randomColumn = (int) (Math.random() * 2);
             }        
             
             tablero[randomRow][randomColumn] = randomBaldosa;
-            System.out.println("Baldosa aleatoria!!!");
-            
+            changedBaldosa[0] = randomRow;
+            changedBaldosa[1] = randomColumn;            
         } else { // Cuando no ponemos una repetida   
-            int randomRow = (int) (Math.random() * 4 + 0);
-            int randomColumn = (int) (Math.random() * 2 + 0);
+            int randomRow = (int) (Math.random() * 4);
+            int randomColumn = (int) (Math.random() * 2);
         
             // Este while es para asegurar encontrar una baldosa
             while(tablero[randomRow][randomColumn] == 0) {
-                randomRow = (int) (Math.random() * 4 + 0);
-                randomColumn = (int) (Math.random() * 2 + 0);
+                randomRow = (int) (Math.random() * 4);
+                randomColumn = (int) (Math.random() * 2);
             }
             
             boolean repeticion = true;
+            // Este otro while es para asegurarnos de no escoger una baldosa que ya se encuentra
             while(repeticion) {
-                int randomBaldosa = (int) (Math.random() * 16 + 1);
+                int randomBaldosa = (int) (Math.random() * 16 + 1); // Enumeramos las baldosas del 1 al 16
                 
-                for (int baldosa: baldosasEnTablero) {
-                    if (randomBaldosa == baldosa){
+                for(int baldosa: baldosasEnTablero) {
+                    if (randomBaldosa != baldosa) { 
+                        repeticion = false;
+                    } else {
+                        repeticion = true; // Si llega a encontrar alguno iguano igual hacemos que el
+                        // while siga
                         break;
-                    }
-                    repeticion = false;
+                    }              
                 }
                 // Mientras no encuentre una baldosa que no se repite sobrescribira lo siguiente:
-                
+                changedBaldosa[0] = randomRow;
+                changedBaldosa[1] = randomColumn;
                 tablero[randomRow][randomColumn] = randomBaldosa;
-            }                       
+            }
+            
         }       
     }
     
-    public void cambiarTodasBaldosas(){
-        setChangesNumber();
-        for (int m = 0; m < 4; m++){
-            for (int n = 0; n < 2; n++){
-                tablero[m][n] = 0;
+    public void changeAllBaldosas() { // Metodo para cambiar todas las baldosas entre 
+        setChangesNumber(); // Establecemos el numero de cambio necesario para que aparezca una baldosa
+        // repetida
+        // Limpiamos el tablero
+        for (int i = 0; i < 4; i++){
+            for (int j = 0; j < 2; j++) {
+                tablero[i][j] = 0;
             }
         }
         
         int[] baldosas = {1, 2, 3, 4, 5, 6, 7, 8, 9 , 10, 11, 12, 13, 14, 15, 16};
-        int randomRow = (int) (Math.random() * 4 + 0);
+        int randomRow = (int) (Math.random() * 4);
         int Column = 1; // Esta es la columna de las baldosas "interiores", primero
         // intentamos añadirla ahi
-        int numeroBaldosa;
+        
+        int randonNumber;
         int baldosaAleatoria;
         
         // Bucle encargado de cambiar todas las baldosas
@@ -196,32 +180,29 @@ public class Ronda {
                     Column = 0;    
                 } else { // Si en la posicion "exterior" tambien se encuentra algo, entonces proponemos
                 // otra fila
-                    randomRow = (int) (Math.random() * 4 + 0);
+                    randomRow = (int) (Math.random() * 4);
                     Column = 1;
                 } // Solo salimos del while si a las coordenadas donde apuntamos no hay una baldosa, es decir,
                 // sea igual a 0         
             }
                             
-            // Se selecciona una posición aleatoria de baldosas[]
-            numeroBaldosa = (int) (Math.random() * 15 + 1);
+            // Se selecciona una posición aleatoria de baldosas
+            randonNumber = (int) (Math.random() * 15 + 1);
             
             // Guarda el número de baldosa
-            baldosaAleatoria = baldosas[numeroBaldosa];
+            baldosaAleatoria = baldosas[randonNumber];
                 
             // Si la baldosa "Ya fue tomada", repite el proceso hasta tomar una que no se encuentre ocupada,
             // con esto aseguramos que no haya baldosas repetidas en el primer cambio
-            while(baldosaAleatoria == 0){
-                numeroBaldosa = (int) (Math.random() * 15 + 1);            
-                baldosaAleatoria = baldosas[numeroBaldosa];
-            }
-            
+            while(baldosaAleatoria == 0) {
+                randonNumber = (int) (Math.random() * 15 + 1);            
+                baldosaAleatoria = baldosas[randonNumber];
+            }        
             // Añade la respectiva baldosa al tablero
             tablero[randomRow][Column] = baldosaAleatoria;
-            // La posición tomada de baldosas[], se vuelve 0 para indicar que la posición ya ha sido tomada
-            baldosas[numeroBaldosa] = 0;
-        }    
-        
-        //mostrarTablero();
+            // Como la tomamos, en baldosas la ponemos en 0
+            baldosas[randonNumber] = 0;
+        }           
     }
     
     public int getScore() {
@@ -270,7 +251,7 @@ public class Ronda {
     }
     
     public void setChangesNumber(){
-       changesNumber = (int) (1 + (Math.random() * 10)); 
+       changesNumber = (int) (Math.random() * 10 + 1); 
     }
     
     public void reduceChangesNumber(){
@@ -285,13 +266,23 @@ public class Ronda {
         return aciertos;
     }
     
-    //ESTE ES DE PRUEBA, BORRAR PARA EL FINAL
-    public void mostrarTablero(){
-        for (int m = 0; m < 4; m++){
-            for (int n = 0; n < 2; n++){
-                //tablero[m][n] = 0;
-                System.out.println("Tablero: [" + m + "][" + n + "] = " + tablero[m][n]);
+    public int[] getChangedBaldosa() {
+        return changedBaldosa;
+    }
+    
+    
+    public int[] getArrayBaldosas() {
+        int[] baldosas = new int[cantidadBaldosas];
+        int contador = 0;
+        
+        for(int[] row:tablero) {
+            for(int baldosa:row) {
+                if(baldosa != 0) {
+                    baldosas[contador] = baldosa;
+                    contador++;
+                }
             }
         }
+        return baldosas;
     }
 }

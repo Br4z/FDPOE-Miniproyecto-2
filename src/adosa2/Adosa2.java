@@ -15,9 +15,8 @@
 
 package adosa2;
 
-import logica.Ronda;
-import vista.VentanaInicio;
-import vista.VentanaJuego;
+import vista.*;
+
 
 /**
  *  CLASE:     Adosa2 
@@ -25,9 +24,11 @@ import vista.VentanaJuego;
  *  RELACION:  NINGUNA 
  */
 
+
 public class Adosa2 {
     public static void main(String[] args) {
         VentanaInicio ventanaInicio = new VentanaInicio();
         //VentanaJuego ventanaJuego = new VentanaJuego();
+        //VentanaFinal ventanaFinal = new VentanaFinal(500, 600);
     }    
 }

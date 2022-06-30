@@ -28,6 +28,7 @@ import javax.swing.*;
  *  RELACION:  NINGUNA 
  */
 
+
 public class VentanaUtilidad extends JFrame{
     private JLabel exitLabel = new JLabel();
         

@@ -21,6 +21,7 @@ import java.io.File;
 import java.io.IOException;
 import javax.imageio.ImageIO;
 import javax.swing.*;
+import logica.myLibrary;
 
 /**
  *  CLASE:     VentanaInicio     
@@ -59,17 +60,11 @@ public class VentanaInicio extends JFrame {
         playLabel.setBounds(284, 240, 150, 100); // 284 = 67 + 150 + 67
         whatIsForLabel.setBounds(501, 240, 150, 100); // 501 = 284 + 150 + 67
         
-        ImageIcon playImageIcon = new ImageIcon("src/imagenes/botones/botones inicio/jugar.png");
-        Icon playIcon = new ImageIcon(playImageIcon.getImage().getScaledInstance(150, 100, Image.SCALE_DEFAULT));
-        playLabel.setIcon(playIcon);
-      
-        ImageIcon howToPlayImageIcon = new ImageIcon("src/imagenes/botones/botones inicio/como_jugar.png");
-        Icon howToPlayIcon = new ImageIcon(howToPlayImageIcon.getImage().getScaledInstance(150, 100, Image.SCALE_DEFAULT));
-        howToPlayLabel.setIcon(howToPlayIcon);
+        myLibrary.addIcon(howToPlayLabel, "botones/botones inicio/como_jugar.png", 150, 100);
         
-        ImageIcon whatIsForImageIcon = new ImageIcon("src/imagenes/botones/botones inicio/para_que_sirve.png");        
-        Icon whatIsForIcon = new ImageIcon(whatIsForImageIcon.getImage().getScaledInstance(150, 100, Image.SCALE_DEFAULT));
-        whatIsForLabel.setIcon(whatIsForIcon);
+        myLibrary.addIcon(playLabel, "botones/botones inicio/jugar.png", 150, 100);
+                  
+        myLibrary.addIcon(whatIsForLabel, "botones/botones inicio/para_que_sirve.png", 150, 100);
        
         add(playLabel);
         add(howToPlayLabel);
@@ -109,36 +104,24 @@ public class VentanaInicio extends JFrame {
         public void mouseEntered(MouseEvent e) {
             JLabel elemento = (JLabel) e.getSource(); // Solo estamos escuchando a labels
             
-            if(elemento == playLabel) {
-                ImageIcon playImageIcon = new ImageIcon("src/imagenes/botones/botones inicio/jugar_rollover.png");
-                Icon playIcon = new ImageIcon(playImageIcon.getImage().getScaledInstance(150, 100, Image.SCALE_DEFAULT));
-                playLabel.setIcon(playIcon);   
-            } else if (elemento == whatIsForLabel) {
-                ImageIcon whatIsForImageIcon = new ImageIcon("src/imagenes/botones/botones inicio/para_que_sirve_rollover.png");        
-                Icon whatIsForIcon = new ImageIcon(whatIsForImageIcon.getImage().getScaledInstance(150, 100, Image.SCALE_DEFAULT));
-                whatIsForLabel.setIcon(whatIsForIcon);
+            if(elemento == howToPlayLabel) {
+                myLibrary.addIcon(howToPlayLabel, "botones/botones inicio/como_jugar_hover.png", 150, 100);                
+            } else if (elemento == playLabel) {                
+                myLibrary.addIcon(playLabel, "botones/botones inicio/jugar_hover.png", 150, 100);
             } else {
-                ImageIcon howToPlayImageIcon = new ImageIcon("src/imagenes/botones/botones inicio/como_jugar_rollover.png");
-                Icon howToPlayIcon = new ImageIcon(howToPlayImageIcon.getImage().getScaledInstance(150, 100, Image.SCALE_DEFAULT));
-                howToPlayLabel.setIcon(howToPlayIcon); 
+                myLibrary.addIcon(whatIsForLabel, "botones/botones inicio/para_que_sirve_hover.png", 150, 100);
             }  
         }
         
         public void mouseExited(MouseEvent e) {
             JLabel elemento = (JLabel) e.getSource(); // Solo estamos escuchando a labels
             
-            if(elemento == playLabel) {
-                ImageIcon playImageIcon = new ImageIcon("src/imagenes/botones/botones inicio/jugar.png");
-                Icon playIcon = new ImageIcon(playImageIcon.getImage().getScaledInstance(150, 100, Image.SCALE_DEFAULT));
-                playLabel.setIcon(playIcon); 
-            } else if (elemento == whatIsForLabel) {
-                ImageIcon whatIsForImageIcon = new ImageIcon("src/imagenes/botones/botones inicio/para_que_sirve.png");        
-                Icon whatIsForIcon = new ImageIcon(whatIsForImageIcon.getImage().getScaledInstance(150, 100, Image.SCALE_DEFAULT));
-                whatIsForLabel.setIcon(whatIsForIcon);
+            if(elemento == howToPlayLabel) {             
+                myLibrary.addIcon(howToPlayLabel, "botones/botones inicio/como_jugar.png", 150, 100);
+            } else if (elemento == playLabel) {
+                myLibrary.addIcon(playLabel, "botones/botones inicio/jugar.png", 150, 100);
             } else { // Caso para el howToPlayButton
-                ImageIcon howToPlayImageIcon = new ImageIcon("src/imagenes/botones/botones inicio/como_jugar.png");
-                Icon howToPlayIcon = new ImageIcon(howToPlayImageIcon.getImage().getScaledInstance(150, 100, Image.SCALE_DEFAULT));
-                howToPlayLabel.setIcon(howToPlayIcon);                 
+                myLibrary.addIcon(whatIsForLabel, "botones/botones inicio/para_que_sirve.png", 150, 100);
             }            
         }
         

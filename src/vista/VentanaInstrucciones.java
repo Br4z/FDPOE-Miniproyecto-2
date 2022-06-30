@@ -21,6 +21,7 @@ import java.io.File;
 import java.io.IOException;
 import javax.imageio.ImageIO;
 import javax.swing.*;
+import logica.myLibrary;
 
 /**
  *  CLASE:     VentanaInstrucciones
@@ -37,12 +38,12 @@ public class VentanaInstrucciones extends JFrame {
     
     public VentanaInstrucciones() {
         initializeComponents();        
-        setSize(720, 480);
+        setSize(720, 515); // Aqui es diferente el alto porque el la ventan empiza en los bordes, no en la imagen
         setTitle("Ados2a - Instrucciones");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setVisible(true);
         setLocationRelativeTo(null); // Posición de la ventana en el centro
-        setResizable(true);
+        setResizable(false);
     }
     
     private void initializeComponents() {
@@ -60,17 +61,11 @@ public class VentanaInstrucciones extends JFrame {
         backLabel.setBounds(0, 200 - 50, 100, 100);
         exitLabel.setBounds(720 - 75, 10, 50, 50);
         
-        ImageIcon nextImageIcon = new ImageIcon("src/imagenes/arrow_right.png");
-        Icon nextIcon = new ImageIcon(nextImageIcon.getImage().getScaledInstance(100, 100, Image.SCALE_DEFAULT));
-        nextLabel.setIcon(nextIcon);
+        myLibrary.addIcon(nextLabel, "arrow_right.png", 100, 100);
         
-        ImageIcon backImageIcon = new ImageIcon("src/imagenes/arrow_left.png");
-        Icon backIcon = new ImageIcon(backImageIcon.getImage().getScaledInstance(100, 100, Image.SCALE_DEFAULT));
-        backLabel.setIcon(backIcon);
+        myLibrary.addIcon(backLabel, "arrow_left.png", 100, 100);
         
-        ImageIcon exitImageIcon = new ImageIcon("src/imagenes/exit.png");
-        Icon exitIcon = new ImageIcon(exitImageIcon.getImage().getScaledInstance(50, 50, Image.SCALE_DEFAULT));
-        exitLabel.setIcon(exitIcon);
+        myLibrary.addIcon(exitLabel, "exit.png", 50, 50);
         
         // Empezamos en la primer diapositiva, entonces la flecha derecha va a estar deshabilitada
         backLabel.setEnabled(false);
@@ -82,13 +77,13 @@ public class VentanaInstrucciones extends JFrame {
         
         nextLabel.addMouseListener(new MyMouseListener());
         backLabel.addMouseListener(new MyMouseListener());
-        exitLabel.addMouseListener(new MyMouseListener());
+        exitLabel.addMouseListener(new MyMouseListener());      
     }
-    
+        
     private class Background extends JPanel {       
         public Background() {
             // Aprovechando que declaramos la imagen como atributo podemos hacer esto
-            File myImage = new File("src/Imagenes/background.jpg");
+            File myImage = new File("src/imagenes/instrucciones/1.jpg");
             try {
                 image = ImageIO.read(myImage); // Este método arroja una excepción, entonces tenemos que atraparla
             } catch(IOException e) {
@@ -106,9 +101,10 @@ public class VentanaInstrucciones extends JFrame {
     private class MyMouseListener extends MouseAdapter {
         public void mouseClicked(MouseEvent e) {
             JLabel elemento = (JLabel) e.getSource(); // Solo estamos escuchando a labels            
-            File myImage = new File("src/Imagenes/background.jpg"); // Tenemos que inicializarla
+            File myImage = new File("src/imagenes/instrucciones/1.jpg"); // Tenemos que inicializarla
             
             if(elemento == nextLabel) {
+                
                 switch (imageNumber) {
                     case 1 -> {
                         backLabel.setEnabled(true);
@@ -121,8 +117,9 @@ public class VentanaInstrucciones extends JFrame {
                     default -> {
                     }                        
                 }
-                myImage = new File("src/imagenes/instrucciones/" + imageNumber + 1 + ".jpg");
-            } else if(elemento == backLabel){ // Corresponde al caso del backLabel
+                myImage = new File("src/imagenes/instrucciones/" + (imageNumber + 1) + ".jpg");
+                imageNumber++; // Avanzamos una "diapositiva"
+            } else if(elemento == backLabel) { // Corresponde al caso del backLabel
                 if(imageNumber == 2) {
                     backLabel.setEnabled(false);
                     backLabel.setVisible(false);                    
@@ -131,6 +128,7 @@ public class VentanaInstrucciones extends JFrame {
                     nextLabel.setVisible(true); 
                 }
                 myImage = new File("src/imagenes/instrucciones/" + (imageNumber - 1) + ".jpg");
+                imageNumber--; // Retrocedemos una "diapositiva"
             } else { // Caso del exit
                 VentanaInicio window = new VentanaInicio();
                 dispose();
@@ -140,6 +138,7 @@ public class VentanaInstrucciones extends JFrame {
             } catch(IOException exception) {
                 System.out.println("Ha ocurrido un error !");
             }
+            repaint(); // Volvemos a "pintar" la imagen         
         }
     }    
 }
