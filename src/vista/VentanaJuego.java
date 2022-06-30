@@ -21,6 +21,7 @@ import javax.imageio.ImageIO;
 import java.io.File;
 import java.io.IOException;
 import javax.swing.*;
+import javax.swing.border.Border;
 
 import logica.*;
         
@@ -172,10 +173,11 @@ public class VentanaJuego extends JFrame {
         ActionListener action = (ActionEvent e) -> {
             boolean missedOportunity = ronda.checkBaldosas(false);
             if (missedOportunity){
+                //Se establecen los bordes de rojo
+                setBordersRed();
                 timerBaldosas.stop();
                 startTimerEspera(0);
             } else {
-                System.out.println("Entré al timer");
                 makeAChange();
                 changeImages();
                 countBaldosas++;
@@ -193,6 +195,7 @@ public class VentanaJuego extends JFrame {
         ActionListener action = (ActionEvent e) -> {
             countEspera++;
             if (countEspera == 3){
+                setBordersNull();
                 ronda.removeABaldosa();
                 System.out.println("Se cambiaron todas las baldosas");
                 ronda.cambiarTodasBaldosas();
@@ -304,6 +307,72 @@ public class VentanaJuego extends JFrame {
         }
         
     }
+    
+    //Método encargado de establecer los bordes en rojo
+    public void setBordersRed(){
+        Border border = BorderFactory.createLineBorder(Color.RED, 5);
+        for (int row = 0; row < 4; row++){
+            for (int column = 0; column < 2; column++){
+                if (ronda.getTablero()[row][column] != 0){
+                    lblBaldosas[row][column].setBorder(border);   
+                }
+            }
+        }
+    }
+    
+    //Método encargado de establecer los bordes sin ningún color
+    public void setBordersNull(){
+        for (int row = 0; row < 4; row++){
+            for (int column = 0; column < 2; column++){
+                if (ronda.getTablero()[row][column] != 0){
+                    lblBaldosas[row][column].setBorder(null);   
+                }
+            }
+        }
+    }
+    
+    public void setBordersGreen(){
+        int counter = 0;
+        int[][] tablero = ronda.getTablero();
+        int row1 = 0;
+        int row2 = 0;
+        int column1 = 0;
+        int column2 = 0;
+        
+        for (int[] baldosas : tablero){
+            for (int baldosa : baldosas){
+                if (counter != 2){
+                    row1 = 0;
+                    row2 = 0;
+                    counter = 0;
+                }
+                    for (int row = 0; row < 4; row++){
+                        for (int column = 0; column < 2; column++){
+                            if ((tablero[row][column] == baldosa) && (baldosa!= 0) && (counter != 2)){
+                                counter++;
+                                if (counter == 1){
+                                    row1 = row;
+                                    column1 = column;
+                                } else if (counter == 2){
+                                    row2 = row;
+                                    column2 = column;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        
+        ronda.mostrarTablero();
+        System.out.println("1");
+        System.out.println("row: " + row1 + "- column: " + column1);
+        System.out.println("2");
+        System.out.println("row: " + row2 + "- column: " + column2);
+        
+        Border border = BorderFactory.createLineBorder(Color.GREEN, 5);
+        lblBaldosas[row1][column1].setBorder(border);
+        lblBaldosas[row2][column2].setBorder(border);
+    }
        
     private class Background extends JPanel {
         private Image image;
@@ -387,12 +456,11 @@ public class VentanaJuego extends JFrame {
                     }
                     changeImages();
                     setVidas();
+                    setBordersGreen();
                     
                 } else {
-                    ronda.removeABaldosa();
+                    setBordersRed();
                     changeImages();
-                    timerBaldosas.stop();
-                    startTimerEspera(0);
                 }
             } else if(elemento == lblExit) {
                 VentanaInicio window = new VentanaInicio();
@@ -436,10 +504,11 @@ public class VentanaJuego extends JFrame {
                     }
                     changeImages();
                     setVidas();
+                    setBordersGreen();
                     
                 } else {
-                    System.out.println("lol");
-                    ronda.removeABaldosa();
+                    //Se establecen los bordes de rojo
+                    setBordersRed();
                     changeImages();
                     timerBaldosas.stop();
                     startTimerEspera(0);
