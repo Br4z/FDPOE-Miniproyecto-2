@@ -202,7 +202,7 @@ public class VentanaJuego extends JFrame {
     private void putImages(){
         int[][] tablero = ronda.getTablero();
 
-        for (int i = 0; i < 4; i++){ // Filas
+        for (int i = 0; i < 4; i++) { // Filas
             for (int j = 0; j < 2; j++) { // Columnas
                 if (tablero[i][j] != 0) {
                     // Se establece la ruta a la imágen
@@ -347,7 +347,7 @@ public class VentanaJuego extends JFrame {
         
         public Background() {
             // Aprovechando que declaramos la imagen como atributo podemos hacer esto
-            File myImage = new File("src/Imagenes/game_background.jpg");
+            File myImage = new File("src/imagenes/game_background.jpg");
             try {
                 image = ImageIO.read(myImage); // Este método arroja una excepción, entonces tenemos que atraparla
             } catch(IOException e) {
@@ -409,12 +409,8 @@ public class VentanaJuego extends JFrame {
                 // Verifica en que situacion se presiono el boton
                 boolean correctOportunity = ronda.checkBaldosas(true);
                 if(correctOportunity) {
-                    ronda.increaseScore();
-                    setScore();
-                    
-                    if(ronda.getCantidadBaldosas() <= 7) {
-                        ronda.increaseBaldosas();
-                    }
+                    // Actualizamos toda la informacion
+                    setScore();                   
                     putImages();
                     setVidas();
                     setBordersGreen();                   
@@ -443,30 +439,14 @@ public class VentanaJuego extends JFrame {
             int keyCode = e.getKeyCode();
             
             if(keyCode == 32 && timerBaldosas.isRunning()) {
-                myLibrary.addIcon(lblBoton, "botones/botones juego/pressed.png", 100, 100);                                               
-            }
-        }
-        
-        @Override
-        public void keyReleased(KeyEvent e) { // Cuando se suelta la tecla
-            int keyCode = e.getKeyCode();
-
-            if(keyCode == 32 && timerBaldosas.isRunning()) {
-                myLibrary.addIcon(lblBoton, "botones/botones juego/normal.png", 100, 100);
-            }            
-        }   
-        
-        @Override
-        public void keyTyped(KeyEvent e) { // Cuando se unde y se suelta la tecla
-            int keyCode = e.getKeyCode();
-            System.out.println(keyCode);
-            if(keyCode == 32 && timerBaldosas.isRunning()) {
-                System.out.println("xd");
+                myLibrary.addIcon(lblBoton, "botones/botones juego/pressed.png", 100, 100); 
+                
                 // "Pausa" el juego
                 timerBaldosas.stop();
                 startTimerEspera(0);
                 
-                // Verifica
+                // La verificacion se hace aqui porque en keyTyped no podemos extraer el keyCode (cuando
+                // se suelta la tecla no hay codigo que comprobar)
                 boolean correctOportunity = ronda.checkBaldosas(true);
                 if (correctOportunity) {
                     ronda.increaseScore();
@@ -484,9 +464,23 @@ public class VentanaJuego extends JFrame {
                     putImages();
                     timerBaldosas.stop();
                     startTimerEspera(0);
-                }
+                }                                
             }
-        }                  
+        }
+        
+        @Override
+        public void keyReleased(KeyEvent e) { // Cuando se suelta la tecla
+            int keyCode = e.getKeyCode();
+
+            if(keyCode == 32 && timerBaldosas.isRunning()) {
+                myLibrary.addIcon(lblBoton, "botones/botones juego/normal.png", 100, 100);
+            }            
+        }                             
+
+        @Override
+        public void keyTyped(KeyEvent e) {
+            
+        }
     }   
 }
 

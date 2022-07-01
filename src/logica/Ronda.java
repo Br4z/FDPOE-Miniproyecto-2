@@ -43,7 +43,7 @@ public class Ronda {
         changeAllBaldosas();
     }
           
-    public boolean checkBaldosas(boolean pressedButton){
+    public boolean checkBaldosas(boolean isButtonPressed){
         boolean repeatedBaldosa = changesNumber == 0; // En nuestro planteamiento solo hay una baldosa
         // repetica si el numero de cambios es 0
  
@@ -51,8 +51,13 @@ public class Ronda {
         // Comprobacion viable para VentanaJuego
         // Aquí comprobamos si hay dos baldosas repetidas en el tablero
         if(repeatedBaldosa) {
-            if(pressedButton) { // Si hay y presiono el boton
+            if(isButtonPressed) { // Si hay y presiono el boton
+                // Como acerto incrementamos la puntuacion y el numero de aciertos
+                increaseScore(); 
                 increaseAciertos();
+                if(cantidadBaldosas <= 7) { // Si esta en 7 el ultimo incremento debe ser a 8
+                    increaseBaldosas();
+                }                
                 return true;
             } else { // Si hay y no presiono el boton
                 decreaseVidas();
@@ -62,7 +67,7 @@ public class Ronda {
                 return true;    
             }
         } else { // Si no hay baldosas repetidas
-            if(pressedButton){ // Si no hay, y presionó el botón
+            if(isButtonPressed){ // Si no hay, y presionó el botón
                 decreaseVidas();
                 if(cantidadBaldosas > 3){
                     decreaseBaldosas();
@@ -216,7 +221,7 @@ public class Ronda {
         aciertos += 1;
     }
     
-    public int getAciertor() {
+    public int getAciertos() {
         return aciertos;
     }
     
@@ -229,7 +234,7 @@ public class Ronda {
     }
     
     public void setChangesNumber(){
-       changesNumber = (int) (Math.random() * 10 + 1); 
+       changesNumber = (int) (Math.random() * 10); 
     }
     
     public void reduceChangesNumber(){
@@ -240,15 +245,10 @@ public class Ronda {
         return tablero;
     }
 
-    public int getAciertos() {
-        return aciertos;
-    }
-    
     public int[] getChangedBaldosa() {
         return changedBaldosa;
     }
-    
-    
+       
     public int[] getArrayBaldosas() {
         int[] baldosas = new int[cantidadBaldosas];
         int contador = 0;
