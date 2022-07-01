@@ -56,7 +56,8 @@ public class VentanaJuego extends JFrame {
     private JLabel  lblExit       = new JLabel();
     // Declaramos los timers
     private Timer timerBaldosas;
-    private int delay = 1000;
+    private int delay = 1700;
+    private int delayEspera = 1000;
     private Timer timerEspera;
     private int countEspera = 0;
     
@@ -164,6 +165,16 @@ public class VentanaJuego extends JFrame {
                 setBordersRed();
                 timerBaldosas.stop();
                 startTimerEspera(0);
+                switch (ronda.getCantidadBaldosas()) {
+                    case 3 -> timerBaldosas.setDelay(1500);
+                    case 4 -> timerBaldosas.setDelay(1300);
+                    case 5 -> timerBaldosas.setDelay(1100);
+                    case 6 -> timerBaldosas.setDelay(1000);
+                    case 7 -> timerBaldosas.setDelay(900);
+                    case 8 -> timerBaldosas.setDelay(800);
+                    default -> {
+                    }
+                }
             } else {
                 ronda.changeABaldosa();
                 setBordersBlue(ronda.getChangedBaldosa());
@@ -192,7 +203,7 @@ public class VentanaJuego extends JFrame {
                 timerBaldosas.start();
             }
         };
-        timerEspera = new Timer(delay, action); // Aqui al accion tambien se ejecuta cada segundo
+        timerEspera = new Timer(delayEspera, action); // Aqui al accion tambien se ejecuta cada segundo
         timerEspera.setInitialDelay(0);
         timerEspera.start();
         countEspera = countPassed;
@@ -413,7 +424,18 @@ public class VentanaJuego extends JFrame {
                     setScore();                   
                     putImages();
                     setVidas();
-                    setBordersGreen();                   
+                    setBordersGreen();
+                    
+                    switch (ronda.getCantidadBaldosas()) {
+                        case 3 -> timerBaldosas.setDelay(1500);
+                        case 4 -> timerBaldosas.setDelay(1300);
+                        case 5 -> timerBaldosas.setDelay(1100);
+                        case 6 -> timerBaldosas.setDelay(1000);
+                        case 7 -> timerBaldosas.setDelay(900);
+                        case 8 -> timerBaldosas.setDelay(800);
+                        default -> {
+                        }
+                    }
                 } else {
                     setBordersRed();
                     putImages();
@@ -457,6 +479,17 @@ public class VentanaJuego extends JFrame {
                     putImages();
                     setVidas();
                     setBordersGreen();
+                    
+                    switch (ronda.getCantidadBaldosas()) {
+                        case 3 -> timerBaldosas.setDelay(1500);
+                        case 4 -> timerBaldosas.setDelay(1300);
+                        case 5 -> timerBaldosas.setDelay(1100);
+                        case 6 -> timerBaldosas.setDelay(1000);
+                        case 7 -> timerBaldosas.setDelay(900);
+                        case 8 -> timerBaldosas.setDelay(800);
+                        default -> {
+                        }
+                    }
                     
                 } else {
                     // Se establecen los bordes de rojo
