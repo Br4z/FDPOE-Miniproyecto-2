@@ -408,17 +408,16 @@ public class VentanaJuego extends JFrame {
                 
                 // Verifica en que situacion se presiono el boton
                 boolean correctOportunity = ronda.checkBaldosas(true);
-                if (correctOportunity){
+                if(correctOportunity) {
                     ronda.increaseScore();
                     setScore();
                     
-                    if(ronda.getCantidadBaldosas() <= 7){
+                    if(ronda.getCantidadBaldosas() <= 7) {
                         ronda.increaseBaldosas();
                     }
                     putImages();
                     setVidas();
-                    setBordersGreen();
-                    
+                    setBordersGreen();                   
                 } else {
                     setBordersRed();
                     putImages();
@@ -444,8 +443,25 @@ public class VentanaJuego extends JFrame {
             int keyCode = e.getKeyCode();
             
             if(keyCode == 32 && timerBaldosas.isRunning()) {
-                myLibrary.addIcon(lblBoton, "botones/botones juego/pressed.png", 100, 100); 
-                
+                myLibrary.addIcon(lblBoton, "botones/botones juego/pressed.png", 100, 100);                                               
+            }
+        }
+        
+        @Override
+        public void keyReleased(KeyEvent e) { // Cuando se suelta la tecla
+            int keyCode = e.getKeyCode();
+
+            if(keyCode == 32 && timerBaldosas.isRunning()) {
+                myLibrary.addIcon(lblBoton, "botones/botones juego/normal.png", 100, 100);
+            }            
+        }   
+        
+        @Override
+        public void keyTyped(KeyEvent e) { // Cuando se unde y se suelta la tecla
+            int keyCode = e.getKeyCode();
+            System.out.println(keyCode);
+            if(keyCode == 32 && timerBaldosas.isRunning()) {
+                System.out.println("xd");
                 // "Pausa" el juego
                 timerBaldosas.stop();
                 startTimerEspera(0);
@@ -468,22 +484,8 @@ public class VentanaJuego extends JFrame {
                     putImages();
                     timerBaldosas.stop();
                     startTimerEspera(0);
-                }                                
+                }
             }
-        }
-        
-        @Override
-        public void keyReleased(KeyEvent e) { // Cuando se suelta la tecla
-            int keyCode = e.getKeyCode();
-
-            if(keyCode == 32 && timerBaldosas.isRunning()) {
-                myLibrary.addIcon(lblBoton, "botones/botones juego/normal.png", 100, 100);
-            }            
-        }   
-        
-        @Override
-        public void keyTyped(KeyEvent e) { // Cuando se unde y se suelta la tecla
-            
         }                  
     }   
 }
