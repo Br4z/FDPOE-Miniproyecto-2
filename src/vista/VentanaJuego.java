@@ -15,6 +15,7 @@
 
 package vista;
 
+import java.applet.AudioClip;
 import java.awt.*;
 import java.awt.event.*;
 import javax.imageio.ImageIO;
@@ -82,7 +83,6 @@ public class VentanaJuego extends JFrame {
         // Establecemos el fondo
         setContentPane(new Background());
         setLayout(null); // Descativamos la distribucion por defecto 
-        
                   
         // Añadimos labels de baldosas a la respectiva matriz
         // 0 = alejada del centro (exterior) y 1 = cercana del centro (interior)
@@ -154,6 +154,13 @@ public class VentanaJuego extends JFrame {
         lblVolumen.addMouseListener(new EventsManager());
         lblExit.addMouseListener(new EventsManager());
     }
+    
+    private void playASound(String sound) {
+        String path = "src/sonidos/" + sound + ".wav";
+        
+        SClip source = new SClip(path);
+        source.play();        
+    }
        
     // Método encargado de accionar el contador (timerBaldosas)
     private void startTimerBaldosas() {
@@ -161,11 +168,15 @@ public class VentanaJuego extends JFrame {
             boolean missedOportunity = ronda.checkBaldosas(false);
             setBordersNull(); // Para quitar los border azules
             if (missedOportunity) {
+                if(volumen) {
+                    playASound("failure");
+                }
                 // Se establecen los bordes de rojo
                 setBordersRed();
                 timerBaldosas.stop();
                 startTimerEspera(0);
-                switch (ronda.getCantidadBaldosas()) {
+                switch (ronda.getCantidadBaldosas()) { // La velocidad depende de cuantas baldosas
+                    // hayan en pantalla (tablero)
                     case 3 -> timerBaldosas.setDelay(1500);
                     case 4 -> timerBaldosas.setDelay(1300);
                     case 5 -> timerBaldosas.setDelay(1100);
@@ -176,6 +187,9 @@ public class VentanaJuego extends JFrame {
                     }
                 }
             } else {
+                if(volumen) {
+                    playASound("baldosa_change");
+                }
                 ronda.changeABaldosa();
                 setBordersBlue(ronda.getChangedBaldosa());
                 putImages();              
@@ -259,10 +273,13 @@ public class VentanaJuego extends JFrame {
                 lblVida3.setIcon(fullVidaIcon);
             }
             case 0 -> {
+                if(volumen) {
+                    playASound("game_over");
+                }
                 lblVida1.setIcon(emptyVidaIcon);
                 lblVida2.setIcon(emptyVidaIcon);
                 lblVida3.setIcon(emptyVidaIcon);
-            VentanaFinal ventanaFinal = new VentanaFinal(ronda.getAciertos(), ronda.getScore());
+                VentanaFinal ventanaFinal = new VentanaFinal(ronda.getAciertos(), ronda.getScore());
                 timerBaldosas.stop();
                 timerEspera.stop();
                 dispose();
@@ -420,6 +437,9 @@ public class VentanaJuego extends JFrame {
                 // Verifica en que situacion se presiono el boton
                 boolean correctOportunity = ronda.checkBaldosas(true);
                 if(correctOportunity) {
+                    if(volumen) { // Sonido cuando acierta
+                        playASound("hit");
+                    }
                     // Actualizamos toda la informacion
                     setScore();                   
                     putImages();
@@ -437,10 +457,15 @@ public class VentanaJuego extends JFrame {
                         }
                     }
                 } else {
+                    if(volumen) {
+                        playASound("failure2");
+                    }
                     setBordersRed();
                     putImages();
                 }
             } else if(elemento == lblExit) {
+                timerBaldosas.stop();
+                timerEspera.stop();
                 VentanaInicio window = new VentanaInicio();
                 dispose();
             } else if(elemento == lblVolumen) {

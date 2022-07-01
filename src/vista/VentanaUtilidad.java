@@ -31,7 +31,7 @@ import logica.myLibrary;
 
 
 public class VentanaUtilidad extends JFrame{
-    private JLabel exitLabel = new JLabel();
+    private JLabel lblExit = new JLabel();
         
     public VentanaUtilidad() {
         initializeComponents();        
@@ -53,13 +53,13 @@ public class VentanaUtilidad extends JFrame{
         setContentPane(new Background());
         setLayout(null); // Descativamos la distribucion por defecto
         
-        exitLabel.setBounds(720 - 75, 10, 50, 50);
+        lblExit.setBounds(720 - 75, 10, 50, 50);
         
-        myLibrary.addIcon(exitLabel, "exit.png", 50, 50);
+        myLibrary.addIcon(lblExit, "exit.png", 50, 50);
         
-        add(exitLabel);
+        add(lblExit);
         
-        exitLabel.addMouseListener(new MyMouseListener());
+        lblExit.addMouseListener(new MyMouseListener());
     }
     
     private class Background extends JPanel {
@@ -84,7 +84,7 @@ public class VentanaUtilidad extends JFrame{
     }
     
     private class MyMouseListener extends MouseAdapter {
-        public void mouseClicked(MouseEvent e) { // Como el exitLabel es lo unico que esta escuchado,
+        public void mouseClicked(MouseEvent e) { // Como el lblExit es lo unico que esta escuchado,
             // no son necesarios condicionales
             VentanaInicio window = new VentanaInicio();
             dispose();            

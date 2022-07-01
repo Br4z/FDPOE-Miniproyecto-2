@@ -31,9 +31,9 @@ import logica.myLibrary;
 
 
 public class VentanaInicio extends JFrame { 
-    private JLabel howToPlayLabel  = new JLabel();
-    private JLabel playLabel       = new JLabel();
-    private JLabel whatIsForLabel  = new JLabel();
+    private JLabel lblHowToPlay  = new JLabel();
+    private JLabel lblPlay       = new JLabel();
+    private JLabel lblWhatIsFor  = new JLabel();
         
     public VentanaInicio() {
         initializeComponents();        
@@ -56,23 +56,23 @@ public class VentanaInicio extends JFrame {
         setLayout(null); // Descativamos la distribucion por defecto
         
         // Con un espacio entre botones de 67 pixeles:
-        howToPlayLabel.setBounds(67, 240, 150, 100);
-        playLabel.setBounds(284, 240, 150, 100); // 284 = 67 + 150 + 67
-        whatIsForLabel.setBounds(501, 240, 150, 100); // 501 = 284 + 150 + 67
+        lblHowToPlay.setBounds(67, 240, 150, 100);
+        lblPlay.setBounds(284, 240, 150, 100); // 284 = 67 + 150 + 67
+        lblWhatIsFor.setBounds(501, 240, 150, 100); // 501 = 284 + 150 + 67
         
-        myLibrary.addIcon(howToPlayLabel, "botones/botones inicio/como_jugar.png", 150, 100);
+        myLibrary.addIcon(lblHowToPlay, "botones/botones inicio/como_jugar.png", 150, 100);
         
-        myLibrary.addIcon(playLabel, "botones/botones inicio/jugar.png", 150, 100);
+        myLibrary.addIcon(lblPlay, "botones/botones inicio/jugar.png", 150, 100);
                   
-        myLibrary.addIcon(whatIsForLabel, "botones/botones inicio/para_que_sirve.png", 150, 100);
+        myLibrary.addIcon(lblWhatIsFor, "botones/botones inicio/para_que_sirve.png", 150, 100);
        
-        add(playLabel);
-        add(howToPlayLabel);
-        add(whatIsForLabel);
+        add(lblPlay);
+        add(lblHowToPlay);
+        add(lblWhatIsFor);
         
-        playLabel.addMouseListener(new MyMouseListener());
-        howToPlayLabel.addMouseListener(new MyMouseListener());
-        whatIsForLabel.addMouseListener(new MyMouseListener());
+        lblPlay.addMouseListener(new MyMouseListener());
+        lblHowToPlay.addMouseListener(new MyMouseListener());
+        lblWhatIsFor.addMouseListener(new MyMouseListener());
     }
     
     private class Background extends JPanel {
@@ -104,24 +104,24 @@ public class VentanaInicio extends JFrame {
         public void mouseEntered(MouseEvent e) {
             JLabel elemento = (JLabel) e.getSource(); // Solo estamos escuchando a labels
             
-            if(elemento == howToPlayLabel) {
-                myLibrary.addIcon(howToPlayLabel, "botones/botones inicio/como_jugar_hover.png", 150, 100);                
-            } else if (elemento == playLabel) {                
-                myLibrary.addIcon(playLabel, "botones/botones inicio/jugar_hover.png", 150, 100);
+            if(elemento == lblHowToPlay) {
+                myLibrary.addIcon(lblHowToPlay, "botones/botones inicio/como_jugar_hover.png", 150, 100);                
+            } else if (elemento == lblPlay) {                
+                myLibrary.addIcon(lblPlay, "botones/botones inicio/jugar_hover.png", 150, 100);
             } else {
-                myLibrary.addIcon(whatIsForLabel, "botones/botones inicio/para_que_sirve_hover.png", 150, 100);
+                myLibrary.addIcon(lblWhatIsFor, "botones/botones inicio/para_que_sirve_hover.png", 150, 100);
             }  
         }
         
         public void mouseExited(MouseEvent e) {
             JLabel elemento = (JLabel) e.getSource(); // Solo estamos escuchando a labels
             
-            if(elemento == howToPlayLabel) {             
-                myLibrary.addIcon(howToPlayLabel, "botones/botones inicio/como_jugar.png", 150, 100);
-            } else if (elemento == playLabel) {
-                myLibrary.addIcon(playLabel, "botones/botones inicio/jugar.png", 150, 100);
+            if(elemento == lblHowToPlay) {             
+                myLibrary.addIcon(lblHowToPlay, "botones/botones inicio/como_jugar.png", 150, 100);
+            } else if (elemento == lblPlay) {
+                myLibrary.addIcon(lblPlay, "botones/botones inicio/jugar.png", 150, 100);
             } else { // Caso para el howToPlayButton
-                myLibrary.addIcon(whatIsForLabel, "botones/botones inicio/para_que_sirve.png", 150, 100);
+                myLibrary.addIcon(lblWhatIsFor, "botones/botones inicio/para_que_sirve.png", 150, 100);
             }            
         }
         
@@ -129,10 +129,10 @@ public class VentanaInicio extends JFrame {
             // presiono el boton cuando haga click en el
             JLabel elemento = (JLabel) e.getSource(); // Solo estamos escuchando a labels
             
-            if(elemento == playLabel) {
+            if(elemento == lblPlay) {
                 VentanaJuego window = new VentanaJuego();
                 dispose();
-            } else if (elemento == whatIsForLabel) {
+            } else if (elemento == lblWhatIsFor) {
                 VentanaUtilidad window = new VentanaUtilidad();
                 dispose();
             } else { // Caso de howToPlay

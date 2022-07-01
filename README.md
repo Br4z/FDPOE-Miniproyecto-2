@@ -14,18 +14,8 @@ El enunciado del proyecto se encuentra en el [PDF](src/Minproyecto%20-%202.pdf).
 
 ## Diagrama de clases
 
-![Diagrama de clases]()
+![Diagrama de clases](src/Diagrama%20clases.png)
 
 # Mockups
 
-## Ventana configuración
-
-![Diagrama de clases]()
-
-## Ventana juego
-
-![Diagrama de clases]()
-
-## Ventana resultados
-
-![Diagrama de clases]()
+![Mockups](src/Mockups.jpg)

@@ -32,7 +32,6 @@ public class Ronda {
     private int vidas            = 3;
     private int score            = 0;
     private int aciertos         = 0;
-    private int velocidadActual  = 1;
     private int cantidadBaldosas = 0;
     private int[][] tablero      = new int [4][2]; // Declare una matriz con 4 filas y 2 columnas
     

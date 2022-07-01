@@ -32,9 +32,9 @@ import logica.myLibrary;
 public class VentanaInstrucciones extends JFrame {
     private Image image;
     private int imageNumber = 1; // Con esto voy a controlar las "diapositivas"
-    private JLabel nextLabel = new JLabel();
-    private JLabel backLabel = new JLabel();
-    private JLabel exitLabel = new JLabel();
+    private JLabel lblNext = new JLabel();
+    private JLabel lblBack = new JLabel();
+    private JLabel lblExit = new JLabel();
     
     public VentanaInstrucciones() {
         initializeComponents();        
@@ -57,27 +57,27 @@ public class VentanaInstrucciones extends JFrame {
         setLayout(null); // Descativamos la distribucion por defecto
         
         // A 200 pixeles de borde superior y a 30 pixeles del borde izquierdo
-        nextLabel.setBounds(720 - 125, 200 - 50, 100, 100); // La imagen ya cuenta con pixeles "vacios"
-        backLabel.setBounds(0, 200 - 50, 100, 100);
-        exitLabel.setBounds(720 - 75, 10, 50, 50);
+        lblNext.setBounds(720 - 125, 200 - 50, 100, 100); // La imagen ya cuenta con pixeles "vacios"
+        lblBack.setBounds(0, 200 - 50, 100, 100);
+        lblExit.setBounds(720 - 75, 10, 50, 50);
         
-        myLibrary.addIcon(nextLabel, "arrow_right.png", 100, 100);
+        myLibrary.addIcon(lblNext, "arrow_right.png", 100, 100);
         
-        myLibrary.addIcon(backLabel, "arrow_left.png", 100, 100);
+        myLibrary.addIcon(lblBack, "arrow_left.png", 100, 100);
         
-        myLibrary.addIcon(exitLabel, "exit.png", 50, 50);
+        myLibrary.addIcon(lblExit, "exit.png", 50, 50);
         
         // Empezamos en la primer diapositiva, entonces la flecha derecha va a estar deshabilitada
-        backLabel.setEnabled(false);
-        backLabel.setVisible(false);
+        lblBack.setEnabled(false);
+        lblBack.setVisible(false);
         
-        add(nextLabel);
-        add(backLabel);
-        add(exitLabel);
+        add(lblNext);
+        add(lblBack);
+        add(lblExit);
         
-        nextLabel.addMouseListener(new MyMouseListener());
-        backLabel.addMouseListener(new MyMouseListener());
-        exitLabel.addMouseListener(new MyMouseListener());      
+        lblNext.addMouseListener(new MyMouseListener());
+        lblBack.addMouseListener(new MyMouseListener());
+        lblExit.addMouseListener(new MyMouseListener());      
     }
         
     private class Background extends JPanel {       
@@ -103,29 +103,29 @@ public class VentanaInstrucciones extends JFrame {
             JLabel elemento = (JLabel) e.getSource(); // Solo estamos escuchando a labels            
             File myImage = new File("src/imagenes/instrucciones/1.jpg"); // Tenemos que inicializarla
             
-            if(elemento == nextLabel) {
+            if(elemento == lblNext) {
                 
                 switch (imageNumber) {
                     case 1 -> {
-                        backLabel.setEnabled(true);
-                        backLabel.setVisible(true);
+                        lblBack.setEnabled(true);
+                        lblBack.setVisible(true);
                     }
                     case 3 -> {                
-                        nextLabel.setEnabled(false);
-                        nextLabel.setVisible(false);
+                        lblNext.setEnabled(false);
+                        lblNext.setVisible(false);
                     }
                     default -> {
                     }                        
                 }
                 myImage = new File("src/imagenes/instrucciones/" + (imageNumber + 1) + ".jpg");
                 imageNumber++; // Avanzamos una "diapositiva"
-            } else if(elemento == backLabel) { // Corresponde al caso del backLabel
+            } else if(elemento == lblBack) { // Corresponde al caso del lblBack
                 if(imageNumber == 2) {
-                    backLabel.setEnabled(false);
-                    backLabel.setVisible(false);                    
+                    lblBack.setEnabled(false);
+                    lblBack.setVisible(false);                    
                 } else if (imageNumber == 4) {
-                    nextLabel.setEnabled(true);
-                    nextLabel.setVisible(true); 
+                    lblNext.setEnabled(true);
+                    lblNext.setVisible(true); 
                 }
                 myImage = new File("src/imagenes/instrucciones/" + (imageNumber - 1) + ".jpg");
                 imageNumber--; // Retrocedemos una "diapositiva"
