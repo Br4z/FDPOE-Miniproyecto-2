@@ -35,7 +35,7 @@ public class VentanaUtilidad extends JFrame{
         
     public VentanaUtilidad() {
         initializeComponents();        
-        setSize(720, 515); // Aqui es diferente el alto porque el la ventan empiza en los bordes, no en la imagen
+        setSize(720, 515); // Aquí es diferente el alto porque el la ventana empieza en los bordes, no en la imagen
         setTitle("Ados2a - Utilidad");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setVisible(true);
@@ -51,7 +51,7 @@ public class VentanaUtilidad extends JFrame{
         
         // Establecemos el fondo
         setContentPane(new Background());
-        setLayout(null); // Descativamos la distribucion por defecto
+        setLayout(null); // Desactivamos la distribución por defecto
         
         lblExit.setBounds(720 - 75, 10, 50, 50);
         
@@ -84,7 +84,7 @@ public class VentanaUtilidad extends JFrame{
     }
     
     private class MyMouseListener extends MouseAdapter {
-        public void mouseClicked(MouseEvent e) { // Como el lblExit es lo unico que esta escuchado,
+        public void mouseClicked(MouseEvent e) { // Como el lblExit es lo único que esta escuchado,
             // no son necesarios condicionales
             VentanaInicio window = new VentanaInicio();
             dispose();            

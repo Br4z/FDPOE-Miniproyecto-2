@@ -25,7 +25,7 @@ import logica.myLibrary;
 
 /**
  *  CLASE:     VentanaInstrucciones
- *  INTENCION: Ser la ventana donde estan las intrucciones del juego.
+ *  INTENCION: Ser la ventana donde están las instrucciones del juego.
  *  RELACION:  NINGUNA 
  */
 
@@ -54,10 +54,10 @@ public class VentanaInstrucciones extends JFrame {
         
         // Establecemos el fondo
         setContentPane(new Background());
-        setLayout(null); // Descativamos la distribucion por defecto
+        setLayout(null); // Desactivamos la distribución por defecto
         
         // A 200 pixeles de borde superior y a 30 pixeles del borde izquierdo
-        lblNext.setBounds(720 - 125, 200 - 50, 100, 100); // La imagen ya cuenta con pixeles "vacios"
+        lblNext.setBounds(720 - 125, 200 - 50, 100, 100); // La imagen ya cuenta con pixeles "vacíos"
         lblBack.setBounds(0, 200 - 50, 100, 100);
         lblExit.setBounds(720 - 75, 10, 50, 50);
         

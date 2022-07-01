@@ -19,7 +19,7 @@ import java.util.Arrays;
 
 /**
  *  CLASE:     Ronda
- *  INTENCION: Guardar la informacion que tiene un juego.
+ *  INTENCION: Guardar la información que tiene un juego.
  *  RELACION:  NINGUNA 
  */
 
@@ -27,7 +27,7 @@ import java.util.Arrays;
 public class Ronda {
     // Como todas las rondas empiezan de la misma forma, le damos los atributos con valores
     private int changesNumber; // Numero de cambios para repetir una baldosa
-    private int[] changedBaldosa = {-1, -1}; // Para simplificar otros metodos (especificamente en la busqueda), vamos
+    private int[] changedBaldosa = {-1, -1}; // Para simplificar otros métodos (específicamente en la búsqueda), vamos
     // a establecerlo como atributo
     private int vidas            = 3;
     private int score            = 0;
@@ -36,29 +36,29 @@ public class Ronda {
     private int[][] tablero      = new int [4][2]; // Declare una matriz con 4 filas y 2 columnas
     
     public Ronda() {
-        for (int i = 0; i < 3; i++) { // Añadimos las tres baldosas con las que simpre comenzamos
+        for (int i = 0; i < 3; i++) { // Añadimos las tres baldosas con las que siempre comenzamos
             increaseBaldosas();
         }
         changeAllBaldosas();
     }
-          
+    
     public boolean checkBaldosas(boolean isButtonPressed){
         boolean repeatedBaldosa = changesNumber == 0; // En nuestro planteamiento solo hay una baldosa
-        // repetica si el numero de cambios es 0
- 
+        // repetida si el numero de cambios es 0
+
         System.out.println("Cambios para una baldosa repetida " + changesNumber);
-        // Comprobacion viable para VentanaJuego
+
         // Aquí comprobamos si hay dos baldosas repetidas en el tablero
         if(repeatedBaldosa) {
-            if(isButtonPressed) { // Si hay y presiono el boton
-                // Como acerto incrementamos la puntuacion y el numero de aciertos
+            if(isButtonPressed) { // Si hay y presiono el botón
+                // Como acertó incrementamos la puntuación y el numero de aciertos
                 increaseScore(); 
                 increaseAciertos();
                 if(cantidadBaldosas <= 7) { // Si esta en 7 el ultimo incremento debe ser a 8
                     increaseBaldosas();
                 }                
                 return true;
-            } else { // Si hay y no presiono el boton
+            } else { // Si hay y no presiono el botón
                 decreaseVidas();
                 if(cantidadBaldosas > 3) {
                     decreaseBaldosas();
@@ -78,7 +78,7 @@ public class Ronda {
         }                      
     }
     
-    public void changeABaldosa() { // Este es el metodo que cambia una sola baldosa, se ejecuta
+    public void changeABaldosa() { // Este es el método que cambia una sola baldosa, se ejecuta
         // constantemente junto con el timer
         reduceChangesNumber();
         
@@ -122,12 +122,12 @@ public class Ronda {
                     if (randomBaldosa != baldosa) { 
                         repeticion = false;
                     } else {
-                        repeticion = true; // Si llega a encontrar alguno iguano igual hacemos que el
+                        repeticion = true; // Si llega a encontrar alguno igual hacemos que el
                         // while siga
                         break;
                     }              
                 }
-                // Mientras no encuentre una baldosa que no se repite sobrescribira lo siguiente:
+                // Mientras no encuentre una baldosa que no se repite sobrescribirá lo siguiente:
                 changedBaldosa[0] = randomRow;
                 changedBaldosa[1] = randomColumn;
                 tablero[randomRow][randomColumn] = randomBaldosa;
@@ -136,7 +136,7 @@ public class Ronda {
         }       
     }
     
-    public void changeAllBaldosas() { // Metodo para cambiar todas las baldosas entre 
+    public void changeAllBaldosas() { // Método para cambiar todas las baldosas entre 
         setChangesNumber(); // Establecemos el numero de cambio necesario para que aparezca una baldosa
         // repetida
         // Limpiamos el tablero
@@ -156,11 +156,11 @@ public class Ronda {
         
         // Bucle encargado de cambiar todas las baldosas
         for (int i = 0; i < cantidadBaldosas; i++) {
-            while(tablero[randomRow][Column] != 0) { // Si en la posicion interior ya se encuentra
-            // una baldosa, entonces intentamos con la posicion "exterior"
+            while(tablero[randomRow][Column] != 0) { // Si en la posición interior ya se encuentra
+            // una baldosa, entonces intentamos con la posición "exterior"
                 if (tablero[randomRow][0] == 0) {
                     Column = 0;    
-                } else { // Si en la posicion "exterior" tambien se encuentra algo, entonces proponemos
+                } else { // Si en la posición "exterior" también se encuentra algo, entonces proponemos
                 // otra fila
                     randomRow = (int) (Math.random() * 4);
                     Column = 1;
@@ -233,7 +233,7 @@ public class Ronda {
     }
     
     public void setChangesNumber(){
-       changesNumber = (int) (Math.random() * 10); 
+       changesNumber = (int) (Math.random() * 9 + 1); 
     }
     
     public void reduceChangesNumber(){

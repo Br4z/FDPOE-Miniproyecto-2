@@ -21,7 +21,7 @@ import javax.swing.*;
 
 /**
  *  CLASE:     Function
- *  INTENCION: Reutilizar codigo de una manera mas eficiente
+ *  INTENCION: Reutilizar código de una manera mas eficiente
  *  RELACION:  NINGUNA 
  */
 

@@ -53,7 +53,7 @@ public class VentanaInicio extends JFrame {
         
         // Establecemos el fondo
         setContentPane(new Background());
-        setLayout(null); // Descativamos la distribucion por defecto
+        setLayout(null); // Desactivamos la distribución por defecto
         
         // Con un espacio entre botones de 67 pixeles:
         lblHowToPlay.setBounds(67, 240, 150, 100);
@@ -63,9 +63,9 @@ public class VentanaInicio extends JFrame {
         myLibrary.addIcon(lblHowToPlay, "botones/botones inicio/como_jugar.png", 150, 100);
         
         myLibrary.addIcon(lblPlay, "botones/botones inicio/jugar.png", 150, 100);
-                  
+        
         myLibrary.addIcon(lblWhatIsFor, "botones/botones inicio/para_que_sirve.png", 150, 100);
-       
+        
         add(lblPlay);
         add(lblHowToPlay);
         add(lblWhatIsFor);
@@ -126,7 +126,7 @@ public class VentanaInicio extends JFrame {
         }
         
         public void mouseClicked(MouseEvent e) { // Ya que usamos el listener del mouse, sabremos que
-            // presiono el boton cuando haga click en el
+            // presiono el botón cuando haga click en el
             JLabel elemento = (JLabel) e.getSource(); // Solo estamos escuchando a labels
             
             if(elemento == lblPlay) {
@@ -136,8 +136,8 @@ public class VentanaInicio extends JFrame {
                 VentanaUtilidad window = new VentanaUtilidad();
                 dispose();
             } else { // Caso de howToPlay
-               VentanaInstrucciones window = new VentanaInstrucciones();
-               dispose();
+                VentanaInstrucciones window = new VentanaInstrucciones();
+                dispose();
             }             
         }
     }

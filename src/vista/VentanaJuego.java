@@ -36,7 +36,7 @@ import logica.*;
 public class VentanaJuego extends JFrame {
     // Declaramos ronda 
     Ronda ronda = new Ronda();    
-    // Vamos a usar labels para poner las imagenes de las baldosas y para el texto
+    // Vamos a usar labels para poner las imágenes de las baldosas y para el texto
     private JLabel[][] lblBaldosas; // Vamos usar una matriz para gestionarlo mejor
     // Declaramos baldosas
     private JLabel  lbl00         = new JLabel();
@@ -62,11 +62,11 @@ public class VentanaJuego extends JFrame {
     private Timer timerEspera;
     private int countEspera = 0;
     
-      
+    
     public VentanaJuego() {
         initializeComponents();        
         startTimerBaldosas();
-        setSize(720, 515); // Aqui es diferente el alto porque el la ventan empiza en los bordes, no en la imagen
+        setSize(720, 515); // Aquí es diferente el alto porque el la ventana empieza en los bordes, no en la imagen
         setTitle("Ados2a - Juego");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setVisible(true);
@@ -82,8 +82,8 @@ public class VentanaJuego extends JFrame {
         
         // Establecemos el fondo
         setContentPane(new Background());
-        setLayout(null); // Descativamos la distribucion por defecto 
-                  
+        setLayout(null); // Desactivamos la distribución por defecto 
+        
         // Añadimos labels de baldosas a la respectiva matriz
         // 0 = alejada del centro (exterior) y 1 = cercana del centro (interior)
         lblBaldosas = new JLabel [4][2];
@@ -111,13 +111,13 @@ public class VentanaJuego extends JFrame {
         myLibrary.addIcon(lblVolumen, "botones/botones juego/sound_on.png", 50, 50);
         
         myLibrary.addIcon(lblExit, "exit.png", 50, 50);
-                 
+        
         // Por primera vez le ponemos imágenes a las baldosas
         putImages();
         
         lblScoreTxt.setFont(new Font("Century Gothic", Font.BOLD, 32));
         lblScoreTxt.setForeground(Color.GRAY);
-                
+        
         add(lblScoreTxt);
         add(lblBoton);
         
@@ -150,7 +150,7 @@ public class VentanaJuego extends JFrame {
         add(lblExit);
         
         lblBoton.addMouseListener(new EventsManager());
-        addKeyListener(new EventsManager()); // Tambien podemos presionar el boton con la barra espaciadora
+        addKeyListener(new EventsManager()); // También podemos presionar el botón con la barra espaciadora
         lblVolumen.addMouseListener(new EventsManager());
         lblExit.addMouseListener(new EventsManager());
     }
@@ -161,7 +161,7 @@ public class VentanaJuego extends JFrame {
         SClip source = new SClip(path);
         source.play();        
     }
-       
+    
     // Método encargado de accionar el contador (timerBaldosas)
     private void startTimerBaldosas() {
         ActionListener action = (ActionEvent e) -> {
@@ -196,7 +196,7 @@ public class VentanaJuego extends JFrame {
             }
         };
         // Establecemos el timer
-        timerBaldosas = new Timer(delay, action); // Habiamos establecido el delay en 1 segundo
+        timerBaldosas = new Timer(delay, action); // Habíamos establecido el delay en 1 segundo
         timerBaldosas.setInitialDelay(0);
         timerBaldosas.start();
     }
@@ -217,7 +217,7 @@ public class VentanaJuego extends JFrame {
                 timerBaldosas.start();
             }
         };
-        timerEspera = new Timer(delayEspera, action); // Aqui al accion tambien se ejecuta cada segundo
+        timerEspera = new Timer(delayEspera, action); // Aquí la acción también se ejecuta cada segundo
         timerEspera.setInitialDelay(0);
         timerEspera.start();
         countEspera = countPassed;
@@ -230,7 +230,7 @@ public class VentanaJuego extends JFrame {
         for (int i = 0; i < 4; i++) { // Filas
             for (int j = 0; j < 2; j++) { // Columnas
                 if (tablero[i][j] != 0) {
-                    // Se establece la ruta a la imágen
+                    // Se establece la ruta a la imagen
                     String pathBaldosaImage = "baldosas/"+ tablero[i][j] + ".png";
 
                     myLibrary.addIcon(lblBaldosas[i][j], pathBaldosaImage, 90, 90);
@@ -320,7 +320,7 @@ public class VentanaJuego extends JFrame {
         
     }
     
-    private void setBordersBlue(int[] changedBaldosa) { // Metodo para resaltar que baldosa esta cambiando
+    private void setBordersBlue(int[] changedBaldosa) { // Método para resaltar que baldosa esta cambiando
         Border border = BorderFactory.createLineBorder(Color.BLUE, 5);       
         int row = changedBaldosa[0];
         int column = changedBaldosa[1];
@@ -352,13 +352,13 @@ public class VentanaJuego extends JFrame {
         }
     }
     
-    private void setBordersGreen() { // Este metodo solo lo invocamos si estamos seguros de que hay dos
+    private void setBordersGreen() { // Este método solo lo invocamos si estamos seguros de que hay dos
         // baldosas repetidas
         Border border = BorderFactory.createLineBorder(Color.GREEN, 5);
         
         int[][] tablero = ronda.getTablero();
-        int[] repeatedBaldosa = ronda.getChangedBaldosa(); // Como llamamos al metodo cuando el usuario
-        // presiona el boton y hay una baldosa repetida, esta correspondera a la ultima cambiada
+        int[] repeatedBaldosa = ronda.getChangedBaldosa(); // Como llamamos al método cuando el usuario
+        // presiona el boton y hay una baldosa repetida, esta corresponderá a la ultima cambiada
         int repeatedBaldosanumber = tablero[repeatedBaldosa[0]][repeatedBaldosa[1]];
         
         for(int i = 0; i < 4; i++) {
@@ -369,7 +369,7 @@ public class VentanaJuego extends JFrame {
             }
         }               
     }
-       
+    
     private class Background extends JPanel {
         private Image image;
         
@@ -391,7 +391,7 @@ public class VentanaJuego extends JFrame {
         }
     }
     
- 
+
     private class EventsManager extends MouseAdapter implements KeyListener {
         
         public void mouseEntered(MouseEvent e) {
@@ -434,13 +434,13 @@ public class VentanaJuego extends JFrame {
                 timerBaldosas.stop();
                 startTimerEspera(0);
                 
-                // Verifica en que situacion se presiono el boton
+                // Verifica en que situación se presiono el botón
                 boolean correctOportunity = ronda.checkBaldosas(true);
                 if(correctOportunity) {
                     if(volumen) { // Sonido cuando acierta
                         playASound("hit");
                     }
-                    // Actualizamos toda la informacion
+                    // Actualizamos toda la información
                     setScore();                   
                     putImages();
                     setVidas();
@@ -492,8 +492,8 @@ public class VentanaJuego extends JFrame {
                 timerBaldosas.stop();
                 startTimerEspera(0);
                 
-                // La verificacion se hace aqui porque en keyTyped no podemos extraer el keyCode (cuando
-                // se suelta la tecla no hay codigo que comprobar)
+                // La verificación se hace aquí porque en keyTyped no podemos extraer el keyCode (cuando
+                // se suelta la tecla no hay código que comprobar)
                 boolean correctOportunity = ronda.checkBaldosas(true);
                 if (correctOportunity) {
                     ronda.increaseScore();

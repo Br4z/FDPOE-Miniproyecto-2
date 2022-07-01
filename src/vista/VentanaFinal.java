@@ -25,7 +25,7 @@ import logica.myLibrary;
 
 /**
  *  CLASE:     VentanaFinal
- *  INTENCION: Ser la ventana donde se presentan las estadistica del jugador en una "partida".
+ *  INTENCION: Ser la ventana donde se presentan las estadística del jugador en una "partida".
  *  RELACION:  NINGUNA 
  */
 
@@ -33,7 +33,7 @@ import logica.myLibrary;
 public class VentanaFinal extends JFrame {
     private JLabel lblAciertos;
     private JLabel lblScore;
-    private JLabel lblFailures  = new JLabel("3"); // Si la ventana se muestra es porque perdio las tres vidas
+    private JLabel lblFailures  = new JLabel("3"); // Si la ventana se muestra es porque perdió las tres vidas
     private JLabel lblPlayAgain = new JLabel("");
     private JLabel lblClose     = new JLabel("");
     
@@ -68,7 +68,7 @@ public class VentanaFinal extends JFrame {
         myLibrary.addIcon(lblPlayAgain, "botones/botones final/volver_a_jugar.png", 150, 100);
         
         myLibrary.addIcon(lblClose, "botones/botones final/salir.png", 150, 100);
-           
+        
         add(lblAciertos);
         add(lblScore);
         add(lblFailures);
@@ -132,14 +132,14 @@ public class VentanaFinal extends JFrame {
         }
         
         public void mouseClicked(MouseEvent e) { // Ya que usamos el listener del mouse, sabremos que
-            // presiono el boton cuando haga click en el
+            // presiono el botón cuando haga click en el
             JLabel elemento = (JLabel) e.getSource(); // Solo estamos escuchando a labels
             
             if(elemento == lblPlayAgain) {
                 VentanaJuego window = new VentanaJuego();
                 dispose();
             } else { // Caso de lblClose
-               dispose();
+                dispose();
             }             
         }
     }    
