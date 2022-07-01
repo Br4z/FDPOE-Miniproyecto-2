@@ -183,7 +183,6 @@ public class VentanaJuego extends JFrame {
             
             if (countEspera == 3) {
                 setBordersNull();
-                //ronda.removeABaldosa();
                 // Reiniciamos el tablero
                 ronda.changeAllBaldosas();
                 putImages(); 
@@ -211,7 +210,7 @@ public class VentanaJuego extends JFrame {
 
                     myLibrary.addIcon(lblBaldosas[i][j], pathBaldosaImage, 90, 90);
                     
-                } else if (tablero[i][j] == 0){ // Si no hay baldosa
+                } else if (tablero[i][j] == 0) { // Si no hay baldosa
                     lblBaldosas[i][j].setIcon(null);
                 }
             }
@@ -287,7 +286,7 @@ public class VentanaJuego extends JFrame {
                 }
             case 4 -> lblScoreTxt.setText("Puntuación: " + score);
             default -> {
-                System.out.println("El puntaje ha superado las 4 cifras 0_0");
+                System.out.println("Tu puntaje ha superado las 4 cifras 0_0");
             }
         }
         
@@ -327,46 +326,20 @@ public class VentanaJuego extends JFrame {
     
     private void setBordersGreen() { // Este metodo solo lo invocamos si estamos seguros de que hay dos
         // baldosas repetidas
-        int counter = 0;
-        int[][] tablero = ronda.getTablero();
-        int row1 = 0;
-        int row2 = 0;
-        int column1 = 0;
-        int column2 = 0;
+        Border border = BorderFactory.createLineBorder(Color.GREEN, 5);
         
-        for (int[] baldosas : tablero){
-            for (int baldosa : baldosas){
-                if (counter != 2){
-                    row1 = 0;
-                    row2 = 0;
-                    counter = 0;
-                }
-                    for (int row = 0; row < 4; row++){
-                        for (int column = 0; column < 2; column++){
-                            if ((tablero[row][column] == baldosa) && (baldosa!= 0) && (counter != 2)){
-                                counter++;
-                                if (counter == 1){
-                                    row1 = row;
-                                    column1 = column;
-                                } else if (counter == 2){
-                                    row2 = row;
-                                    column2 = column;
-                            }
-                        }
-                    }
+        int[][] tablero = ronda.getTablero();
+        int[] repeatedBaldosa = ronda.getChangedBaldosa(); // Como llamamos al metodo cuando el usuario
+        // presiona el boton y hay una baldosa repetida, esta correspondera a la ultima cambiada
+        int repeatedBaldosanumber = tablero[repeatedBaldosa[0]][repeatedBaldosa[1]];
+        
+        for(int i = 0; i < 4; i++) {
+            for(int j = 0; j < 2; j++) {
+                if(tablero[i][j] == repeatedBaldosanumber) {
+                    lblBaldosas[i][j].setBorder(border);
                 }
             }
-        }
-        
-        
-        System.out.println("1");
-        System.out.println("row: " + row1 + "- column: " + column1);
-        System.out.println("2");
-        System.out.println("row: " + row2 + "- column: " + column2);
-        
-        Border border = BorderFactory.createLineBorder(Color.GREEN, 5);
-        lblBaldosas[row1][column1].setBorder(border);
-        lblBaldosas[row2][column2].setBorder(border);
+        }               
     }
        
     private class Background extends JPanel {
@@ -438,6 +411,7 @@ public class VentanaJuego extends JFrame {
                 if (correctOportunity){
                     ronda.increaseScore();
                     setScore();
+                    
                     if(ronda.getCantidadBaldosas() <= 7){
                         ronda.increaseBaldosas();
                     }

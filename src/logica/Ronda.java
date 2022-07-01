@@ -42,29 +42,7 @@ public class Ronda {
         }
         changeAllBaldosas();
     }
-       
-    public void removeABaldosa() { // Metodo para remover una baldosa (se ejecuta cuando perdemos)
-        int randomRow = (int) (Math.random() * 4);
-        int Column = 0; // Esta es la columna de las baldosas "exteriores", primero
-        // intentamos quitarla de ahi
-        
-        while(tablero[randomRow][Column] == 0) { // Este while comprueba si en esa coordenada no 
-            // hay baldosa
-            if (tablero[randomRow][1] != 0) { // Si en la "exterior" no hay nada, intentamos con la 
-                // interior
-                Column = 1;              
-            } else {
-                randomRow = (int) (Math.random() * 4); // Proponemos otra fila, si esa fila no tiene
-                // baldosas
-                Column = 0;
-            }
-        }
-        
-        // Cuando perdemos se "reinicia" el tablero, asi que lo tenemos que hacer
-        // tambien con la baldosa que habiamos cambiado
-        tablero[randomRow][Column] = 0;
-    }
-    
+          
     public boolean checkBaldosas(boolean pressedButton){
         boolean repeatedBaldosa = changesNumber == 0; // En nuestro planteamiento solo hay una baldosa
         // repetica si el numero de cambios es 0

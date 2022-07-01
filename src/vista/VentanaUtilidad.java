@@ -21,6 +21,7 @@ import java.io.File;
 import java.io.IOException;
 import javax.imageio.ImageIO;
 import javax.swing.*;
+import logica.myLibrary;
 
 /**
  *  CLASE:     VentanaUtilidad
@@ -34,7 +35,7 @@ public class VentanaUtilidad extends JFrame{
         
     public VentanaUtilidad() {
         initializeComponents();        
-        setSize(720, 480);
+        setSize(720, 515); // Aqui es diferente el alto porque el la ventan empiza en los bordes, no en la imagen
         setTitle("Ados2a - Utilidad");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setVisible(true);
@@ -54,9 +55,7 @@ public class VentanaUtilidad extends JFrame{
         
         exitLabel.setBounds(720 - 75, 10, 50, 50);
         
-        ImageIcon exitImageIcon = new ImageIcon("src/imagenes/exit.png");
-        Icon exitIcon = new ImageIcon(exitImageIcon.getImage().getScaledInstance(50, 50, Image.SCALE_DEFAULT));
-        exitLabel.setIcon(exitIcon);
+        myLibrary.addIcon(exitLabel, "exit.png", 50, 50);
         
         add(exitLabel);
         
@@ -68,7 +67,7 @@ public class VentanaUtilidad extends JFrame{
         
         public Background() {
             // Aprovechando que declaramos la imagen como atributo podemos hacer esto
-            File myImage = new File("src/Imagenes/background.jpg");
+            File myImage = new File("src/imagenes/utilidad_background.jpg");
             try {
                 image = ImageIO.read(myImage); // Este método arroja una excepción, entonces tenemos que atraparla
             } catch(IOException e) {
